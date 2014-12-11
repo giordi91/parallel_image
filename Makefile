@@ -1,4 +1,4 @@
-OS = NOT_SET
+#CURR_OS = NOT_SET
 DIST = NOT_SET
 
 ##########################################
@@ -6,8 +6,9 @@ DIST = NOT_SET
 ##########################################
 
 #checking linux 
+
 ifeq ($(OSTYPE), linux)
-OS = linux
+CURR_OS = linux
 TEMP_ID = $(shell cat /etc/*-release)
 #checking which linux distro
 ifneq (, $(findstring CentOS, $(TEMP_ID)))
@@ -21,8 +22,8 @@ endif
 else
 
 #checking windows
-ifeq ($(OSTYPE), Windows)
-OS = Windows
+ifeq ($(OS), Windows_NT)
+CURR_OS = Windows
 endif
 
 endif
@@ -44,16 +45,15 @@ run:
 	$(BUILD_PATH)/$(TARGET) 
 
 clean:
-	rm -f $(BUILD_PATH)/*.o $(BUILD_PATH)/$(TARGET)
+	rm -f $(BUILD_PATH)/*.o $(BUILD_PATH)/$(TARGET)*
 
 
 #############################################
 # Verbose OS
 #############################################
 .verbose:
-	@echo 
 	@echo Build Started ....
 	@echo -----Environment-------
-	@echo Operating System: $(OS)
+	@echo Operating System: $(CURR_OS)
 	@echo Operating System Distribution: $(DIST)
 	@echo -----------------------

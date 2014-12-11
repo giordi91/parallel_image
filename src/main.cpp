@@ -22,7 +22,7 @@ int main( int argc, char* argv[])
         int year = 1991;
 
         ofstream outfile;
-        outfile.open("/user_data/WORK_IN_PROGRESS/parallel_image/data/binary_test.bin", 
+        outfile.open("../data/binary_test.bin", 
                     ofstream::binary | ofstream::out);
         outfile.write(reinterpret_cast<const char *>(&day), sizeof(day));
         outfile.write(reinterpret_cast<const char *>(&month), sizeof(month));
@@ -40,7 +40,7 @@ int main( int argc, char* argv[])
         int year = 0;
 
         ifstream inFile;
-        inFile.open("/user_data/WORK_IN_PROGRESS/parallel_image/data/binary_test.bin", 
+        inFile.open("../data/binary_test.bin", 
                     ifstream::binary | ifstream::in);
 
         inFile.read((char*)&day,sizeof(day));
