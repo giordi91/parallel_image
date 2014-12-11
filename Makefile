@@ -35,7 +35,7 @@ BUILD_PATH = ./build
 SRC_PATH= ./src
 INCLUDE_PATH = ./include
 
-all: main.cpp
+all: .verbose main.cpp 
 	$(CXX) $(CXXFLAGS) -L . -I $(INCLUDE_PATH)  $(SRC_PATH)/main.cpp -o $(BUILD_PATH)/$(TARGET) 
 
 main.cpp:
@@ -53,6 +53,7 @@ clean:
 .verbose:
 	@echo 
 	@echo Build Started ....
-	@echo -----Enviroment-------
-	@echo Operating System Distribution: $(OS)
-	@echo Operating System: $(DIST)
+	@echo -----Environment-------
+	@echo Operating System: $(OS)
+	@echo Operating System Distribution: $(DIST)
+	@echo -----------------------

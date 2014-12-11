@@ -1,15 +1,59 @@
 #include <iostream>
-
+#include <fstream>
+#include <cstring>
 using namespace std;
 
 int main( int argc, char* argv[])
 {
 	cout << "There are " << argc << " arguments:" << endl;
  
-    // Loop through each argument and print its number and value
+    //Loop through each argument and print its number and value
     for (int nArg=0; nArg < argc; nArg++)
         cout << nArg << " " << argv[nArg] << endl;
- 
+    if (argc != 2)
+    {
+        return 0;
+
+    }
+    if (strcmp(argv[1],"save")== 0)
+    {
+        int day = 24;
+        int month =5;
+        int year = 1991;
+
+        ofstream outfile;
+        outfile.open("/user_data/WORK_IN_PROGRESS/parallel_image/data/binary_test.bin", 
+                    ofstream::binary | ofstream::out);
+        outfile.write(reinterpret_cast<const char *>(&day), sizeof(day));
+        outfile.write(reinterpret_cast<const char *>(&month), sizeof(month));
+        outfile.write(reinterpret_cast<const char *>(&year), sizeof(year));
+        outfile.close();
+        cout<<"Saving binary file"<<endl;
+        cout<<"sizeof int "<<sizeof(day)<<endl;
+    }
+
+    else if (strcmp(argv[1],"load") == 0)
+    {
+        //in 
+        int day = 0;
+        int month =0;
+        int year = 0;
+
+        ifstream inFile;
+        inFile.open("/user_data/WORK_IN_PROGRESS/parallel_image/data/binary_test.bin", 
+                    ifstream::binary | ifstream::in);
+
+        inFile.read((char*)&day,sizeof(day));
+        inFile.read((char*)&month,sizeof(month));
+        inFile.read((char*)&year,sizeof(year));
+
+        inFile.close();
+
+        cout<<"day is:"<<day<<endl;
+        cout<<"month is:"<<month<<endl;
+        cout<<"year is:"<<year<<endl;
+    }
+
     return 0;
 
 }
