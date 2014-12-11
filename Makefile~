@@ -1,33 +1,3 @@
-OS = NOT_SET
-DIST = NOT_SET
-
-##########################################
-#Checking for OS
-##########################################
-
-#checking linux 
-ifeq ($(OSTYPE), linux)
-OS = linux
-TEMP_ID = $(shell cat /etc/*-release)
-#checking which linux distro
-ifneq (, $(findstring CentOS, $(TEMP_ID)))
-	DIST = CentOS
-endif
-
-ifneq (, $(findstring Ubuntu, $(TEMP_ID)))
-	DIST = Ubuntu
-endif
-
-else
-
-#checking windows
-ifeq ($(OSTYPE), Windows)
-OS = Windows
-endif
-
-endif
-
-
 CXX = g++
 CXXFLAGS = -ansi -pedantic -Wall -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings
 TARGET = parallel_image
