@@ -29,7 +29,7 @@ endif
 
 
 CXX = g++
-CXXFLAGS = -ansi -pedantic -Wall -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings
+CXXFLAGS = -ansi -pedantic -Wall -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -std=c++0x
 TARGET = parallel_image
 BUILD_PATH = ./build
 SRC_PATH= ./src
