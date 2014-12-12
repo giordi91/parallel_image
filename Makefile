@@ -36,10 +36,11 @@ BUILD_PATH = ./build
 SRC_PATH= ./src
 INCLUDE_PATH = ./include
 
-all: .verbose main.cpp 
-	$(CXX) $(CXXFLAGS) -L . -I $(INCLUDE_PATH)  $(SRC_PATH)/main.cpp -o $(BUILD_PATH)/$(TARGET) 
+all: .verbose main.cpp bitmap.cpp
+	$(CXX) $(CXXFLAGS) -L . -I $(INCLUDE_PATH)  $(SRC_PATH)/main.cpp $(SRC_PATH)/bitmap.cpp -o $(BUILD_PATH)/$(TARGET) 
 
 main.cpp:
+bitmap.cpp:
 
 run:
 	$(BUILD_PATH)/$(TARGET) 
