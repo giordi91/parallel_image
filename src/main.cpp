@@ -7,9 +7,9 @@ using namespace std;
 
 int main( int argc, char* argv[])
 {
-	
+	cout<<"initializing ..."<<endl;
     Bitmap testbmp;
-    testbmp.open("/user_data/WORK_IN_PROGRESS/parallel_image/data/jessy.bmp");
+    testbmp.open("/home/giordi/WORK_IN_PROGRESS/parallel_image/data/tile.bmp");
     return 0;
 
 }
