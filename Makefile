@@ -32,27 +32,33 @@ endif
 CXX = g++
 CXXFLAGS = -ansi -pedantic -Wall -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -std=c++0x
 TARGET = parallel_image
-BUILD_PATH = ./build
-SRC_PATH= ./src
-INCLUDE_PATH = ./include
+BUILD_PATH = build
+INCLUDE_PATH = include
+SRC_PATH= src
 
-all: .verbose main.cpp bitmap.cpp
-	$(CXX) $(CXXFLAGS) -L . -I $(INCLUDE_PATH)  $(SRC_PATH)/main.cpp $(SRC_PATH)/bitmap.cpp -o $(BUILD_PATH)/$(TARGET) 
+vpath %.cpp src
 
-main.cpp:
-bitmap.cpp:
+
+
+all: main.o bitmap.o
+	$(CXX) -L .  $? -o $(BUILD_PATH)/$(TARGET) 
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -I $(INCLUDE_PATH) -c $<
 
 run:
 	$(BUILD_PATH)/$(TARGET) 
 
 clean:
-	rm -f $(BUILD_PATH)/*.o $(BUILD_PATH)/$(TARGET)*
+	rm -f $(BUILD_PATH)/*.o $(BUILD_PATH)/$(TARGET)* *.o
 
 
 #############################################
 # Verbose OS
 #############################################
-.verbose:
+.PHONY: verbose
+	
+verbose:
 	@echo Build Started ....
 	@echo -----Environment-------
 	@echo Operating System: $(CURR_OS)
