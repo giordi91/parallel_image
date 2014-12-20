@@ -44,6 +44,8 @@ public:
 
     const BITMAPFILEHEADER* getFileHeader();
     const BITMAPINFOHEADER* getInfoHeader();
+    uint8_t * getRawData();
+    void setRawData(uint8_t * buffer);
 
 private:
 

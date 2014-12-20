@@ -40,7 +40,7 @@ vpath %.cpp src
 
 
 
-all: main.o bitmap.o
+all: main.o bitmap.o bw_filter.o
 	$(CXX) -L .  $? -o $(BUILD_PATH)/$(TARGET) 
 
 %.o: %.cpp

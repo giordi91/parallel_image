@@ -7,31 +7,22 @@ using namespace std;
 
 Bitmap::Bitmap()
 {
-    cout<<"constructor bitches"<<endl;
 
 }
 
 
 Bitmap::~Bitmap()
 {
-
-    cout <<"destructor bitchessssss"<<endl;
     delete [] m_padded_buffer_data;
     delete [] m_buffer_data;
-    
-
-
-
 }
 
 void Bitmap::open(const char* path)
 {
     ifstream f(path,ifstream::binary | ifstream::in);
 
-    cout<<"opening the file..."<<endl;
     if(!f.good())
     {
-        cout<<"path not valid"<<endl;
         return;
     }
     else
@@ -51,7 +42,7 @@ void Bitmap::open(const char* path)
     //compute the size of the pixel data
     int buff_size = m_bitmap_file_header.bfSize -  
                                 m_bitmap_file_header.bfOffBits;
-    
+
     //allocating padded buffer data
     m_padded_buffer_data = new uint8_t[buff_size];
     //reading padded data
@@ -72,7 +63,6 @@ void Bitmap::open(const char* path)
 
 void Bitmap::save(const char* path)
 {
-    std::cout<<"saving the file"<<std::endl;
     //creating the needed stream
     ofstream f(path,ofstream::binary | ofstream::out);
 
@@ -169,4 +159,17 @@ void Bitmap::RGBtoPadded(const uint8_t * source,
             target[newpos + 1] = source[bufpos + 1]; // g stays
             target[newpos + 2] = source[bufpos];     // swap b and r
         }
+}
+
+
+uint8_t* Bitmap::getRawData()
+{
+    return m_buffer_data;
+
+}
+
+
+void Bitmap::setRawData(uint8_t * buffer)
+{
+    m_buffer_data= buffer;
 }
