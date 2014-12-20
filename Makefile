@@ -1,4 +1,4 @@
-#CURR_OS = NOT_SET
+CURR_OS = NOT_SET
 DIST = NOT_SET
 
 ##########################################
@@ -46,7 +46,7 @@ all: main.o bitmap.o
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -I $(INCLUDE_PATH) -c $<
 
-run:
+run: clean all
 	$(BUILD_PATH)/$(TARGET) 
 
 clean:
@@ -59,6 +59,7 @@ clean:
 .PHONY: verbose
 	
 verbose:
+	@echo $(OSTYPE)
 	@echo Build Started ....
 	@echo -----Environment-------
 	@echo Operating System: $(CURR_OS)
