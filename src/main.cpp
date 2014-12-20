@@ -9,11 +9,8 @@ int main( int argc, char* argv[])
 {
 	cout<<"initializing ..."<<endl;
     Bitmap testbmp;
-    testbmp.open("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/tile.bmp");
-
-	const BITMAPINFOHEADER *header = testbmp.getInfoHeader();
-	std::cout<<"getting width from pointer "<<header->biWidth<<endl;
-
+    testbmp.open("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessy.bmp");
+    testbmp.save("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessySaved.bmp");
     return 0;
 
 }

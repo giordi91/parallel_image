@@ -39,59 +39,64 @@ void Bitmap::open(const char* path)
         cout<<"file is valid! woot"<<endl;
     }
 
-    
+    //read in the header file header    
     f.read((char*)&m_bitmap_file_header, sizeof(BITMAPFILEHEADER));
-    std::cout<<"type :"<<(m_bitmap_file_header.bfType ==  0x4D42)<<endl;
-    std::cout<<"info header size"<< m_bitmap_file_header.bfSize<<endl;
-    std::cout<<"offset :"<<m_bitmap_file_header.bfOffBits<<endl;
 
-    //.seekg(m_bitmap_file_header.bfOffBits, ios::beg);
-
+    //read in the image header
     f.read((char*)&m_bitmap_info_header, sizeof(m_bitmap_info_header));
-    std::cout<<m_bitmap_info_header.biHeight<<endl;
 
+    //setting pointer to beginning of the pixel data
     f.seekg(m_bitmap_file_header.bfOffBits, ios::beg);
+
+    //compute the size of the pixel data
     int buff_size = m_bitmap_file_header.bfSize -  
                                 m_bitmap_file_header.bfOffBits;
-    cout <<m_bitmap_info_header.biSizeImage<<endl;
-
-    m_padded_buffer_data = new uint8_t[buff_size];
     
+    //allocating padded buffer data
+    m_padded_buffer_data = new uint8_t[buff_size];
+    //reading padded data
+    f.read((char*)m_padded_buffer_data,buff_size);
+    f.close();
 
-    f.read((char*)m_padded_buffer_data, m_bitmap_info_header.biSizeImage);
-
+    //intializing internal data to work with the functions
     m_width = m_bitmap_info_header.biWidth;
     m_height = m_bitmap_info_header.biHeight;
 
+    //allocating buffer data
     m_buffer_data = new uint8_t[m_width*m_height*3];
 
+    //converting the padded and reversed data to basic rgb data
+    paddedToRGB(m_padded_buffer_data, m_buffer_data);
+
+}
+
+void Bitmap::save(const char* path)
+{
+    std::cout<<"saving the file"<<std::endl;
+    //creating the needed stream
+    ofstream f(path,ofstream::binary | ofstream::out);
+
+    //writing the headers informations of the bmp
+    f.write((char*)&m_bitmap_file_header, sizeof(BITMAPFILEHEADER));
+    f.write((char*)&m_bitmap_info_header, sizeof(BITMAPINFOHEADER));
+    
+    //computing the padding of the scanline
     int padding = 0;
     int scanlinebytes = m_width * 3;
-    while ( ( scanlinebytes + padding ) % 4 != 0 )
+    while ( ( scanlinebytes + padding ) % 4 != 0 ) 
         padding++;
-
     int psw = scanlinebytes + padding;
 
-    std::cout<<padding<<endl;
+    //converting rgb data into padded data ready to be saved
+    paddedToRGB(m_buffer_data, m_padded_buffer_data);
 
-    long bufpos = 0;   
-    long newpos = 0;
-    for ( int y = 0; y < m_height; y++ )
-        for ( int x = 0; x < 3 * m_width; x+=3 )
-        {
-            newpos = y * 3 * m_width + x;     
-            bufpos = ( m_height - y - 1 ) * psw + x;
+    //go to the offset of the BMP
+    f.seekp(m_bitmap_file_header.bfOffBits, ofstream::beg);
+    //write the data
+    f.write((char*)m_padded_buffer_data, m_height*psw);
+    //close the file
+    f.close();
 
-            m_buffer_data[newpos] = m_padded_buffer_data[bufpos + 2];       
-            m_buffer_data[newpos + 1] = m_padded_buffer_data[bufpos+1]; 
-            m_buffer_data[newpos + 2] = m_padded_buffer_data[bufpos];     
-        }
-
-    // std::cout<<int(m_buffer_data[0])<<" "<<int(m_buffer_data[1])<<" "<<int(m_buffer_data[2])<<" "<<endl;
-    // std::cout<<int(m_buffer_data[3])<<" "<<int(m_buffer_data[4])<<" "<<int(m_buffer_data[5])<<" "<<endl;
-    // std::cout<<int(m_buffer_data[6])<<" "<<int(m_buffer_data[7])<<" "<<int(m_buffer_data[8])<<" "<<endl;
-    // std::cout<<int(m_buffer_data[9])<<" "<<int(m_buffer_data[10])<<" "<<int(m_buffer_data[11])<<" "<<endl;
-    
 }
 
 int Bitmap::width()
@@ -104,24 +109,64 @@ int Bitmap::height()
     return m_height;
 }
 
-// char Bitmap::type()
-// 
-//     return m_bmp_type;
-// }
-
-int Bitmap::size()
-{
-    return m_byte_size;
-}
-
 const BITMAPFILEHEADER* Bitmap::getFileHeader()
 {
     return &m_bitmap_file_header;
-
 }
 
 const BITMAPINFOHEADER* Bitmap::getInfoHeader()
 {
     return &m_bitmap_info_header;
+}
 
+void Bitmap::paddedToRGB(const uint8_t * source,
+                     uint8_t* target)
+{
+        //computing padding
+    int padding = 0;
+    int scanlinebytes = m_width * 3;
+    while ( ( scanlinebytes + padding ) % 4 != 0 )
+        padding++;
+
+    int psw = scanlinebytes + padding;
+
+    //converting raw buffer data to a rgb array
+    long bufpos = 0;   
+    long newpos = 0;
+    for ( int y = 0; y < m_height; y++ )
+        for ( int x = 0; x < 3 * m_width; x+=3 )
+        {
+            newpos = y * 3 * m_width + x;     
+            bufpos = ( m_height - y - 1 ) * psw + x;
+
+            target[newpos] = source[bufpos + 2];       
+            target[newpos + 1] = source[bufpos+1]; 
+            target[newpos + 2] = source[bufpos];               
+        }
+
+
+
+}
+
+void Bitmap::RGBtoPadded(const uint8_t * source,
+                     uint8_t* target)
+{
+
+    int padding = 0;
+    int scanlinebytes = m_width * 3;
+    while ( ( scanlinebytes + padding ) % 4 != 0 ) 
+        padding++;
+    int psw = scanlinebytes + padding;
+
+    long bufpos = 0;   
+    long newpos = 0;
+    for ( int y = 0; y < m_height; y++ )
+        for ( int x = 0; x < 3 * m_width; x+=3 )
+        {
+            bufpos = y * 3 * m_width + x;     // position in original buffer
+            newpos = ( m_height - y - 1 ) * psw + x; // position in padded buffer
+            target[newpos] = source[bufpos+2];       // swap r and b
+            target[newpos + 1] = source[bufpos + 1]; // g stays
+            target[newpos + 2] = source[bufpos];     // swap b and r
+        }
 }

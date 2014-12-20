@@ -38,17 +38,25 @@ public:
     Bitmap();
     ~Bitmap();
     void open( const char* path);
+    void save( const char* path);
     int width();
     int height();
-    string type();
-    int size();
+
     const BITMAPFILEHEADER* getFileHeader();
     const BITMAPINFOHEADER* getInfoHeader();
 
 private:
+
+    void paddedToRGB(const uint8_t * source,
+                     uint8_t* target);
+
+    void RGBtoPadded(const uint8_t * target,
+                     uint8_t* source);
+
+private:
 	int m_width;
 	int m_height;
-	string m_bmp_type;
+	
 	int m_byte_size;
     BITMAPFILEHEADER m_bitmap_file_header;
     BITMAPINFOHEADER m_bitmap_info_header;
