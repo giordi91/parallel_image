@@ -17,17 +17,17 @@ typedef struct __attribute__((__packed__))
 
 typedef struct __attribute__((__packed__))
 {
-    int     biSize;            // size of the structure
-    int     biWidth;           // image width
-    int     biHeight;          // image height
-    int16_t      biPlanes;          // bitplanes
-    int16_t      biBitCount;         // resolution 
-    int32_t      biCompression;     // compression
-    int32_t      biSizeImage;       // size of the image
-    int     biXPelsPerMeter;   // pixels per meter X
-    int     biYPelsPerMeter;   // pixels per meter Y
-    int32_t      biClrUsed;         // colors used
-    int32_t      biClrImportant;    // important colors
+    int         biSize;            // size of the structure
+    int         biWidth;           // image width
+    int         biHeight;          // image height
+    int16_t     biPlanes;          // bitplanes
+    int16_t     biBitCount;        // resolution 
+    int32_t     biCompression;     // compression
+    int32_t     biSizeImage;       // size of the image
+    int         biXPelsPerMeter;   // pixels per meter X
+    int         biYPelsPerMeter;   // pixels per meter Y
+    int32_t     biClrUsed;         // colors used
+    int32_t     biClrImportant;    // important colors
 
 } BITMAPINFOHEADER;
 
@@ -44,16 +44,16 @@ public:
     int size();
     const BITMAPFILEHEADER* getFileHeader();
     const BITMAPINFOHEADER* getInfoHeader();
-private:
 
+private:
 	int m_width;
 	int m_height;
 	string m_bmp_type;
 	int m_byte_size;
     BITMAPFILEHEADER m_bitmap_file_header;
     BITMAPINFOHEADER m_bitmap_info_header;
-    
-
+    uint8_t * m_padded_buffer_data;
+    uint8_t * m_buffer_data;
 };
 
 #endif

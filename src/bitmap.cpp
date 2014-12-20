@@ -16,6 +16,11 @@ Bitmap::~Bitmap()
 {
 
     cout <<"destructor bitchessssss"<<endl;
+    delete [] m_padded_buffer_data;
+    delete [] m_buffer_data;
+    
+
+
 
 }
 
@@ -36,7 +41,7 @@ void Bitmap::open(const char* path)
 
     
     f.read((char*)&m_bitmap_file_header, sizeof(BITMAPFILEHEADER));
-    std::cout<<"type :"<<m_bitmap_file_header.bfType<<endl;
+    std::cout<<"type :"<<(m_bitmap_file_header.bfType ==  0x4D42)<<endl;
     std::cout<<"info header size"<< m_bitmap_file_header.bfSize<<endl;
     std::cout<<"offset :"<<m_bitmap_file_header.bfOffBits<<endl;
 
@@ -45,46 +50,47 @@ void Bitmap::open(const char* path)
     f.read((char*)&m_bitmap_info_header, sizeof(m_bitmap_info_header));
     std::cout<<m_bitmap_info_header.biHeight<<endl;
 
-    //first step read two chars
-    // int infoHeaderSize;
-    // char temp[2];
+    f.seekg(m_bitmap_file_header.bfOffBits, ios::beg);
+    int buff_size = m_bitmap_file_header.bfSize -  
+                                m_bitmap_file_header.bfOffBits;
+    cout <<m_bitmap_info_header.biSizeImage<<endl;
 
-    // f.read((char*)&temp, sizeof(char)*2);
-    // f.read((char*)&m_byte_size, sizeof(int));
-    // m_bmp_type = temp;
+    m_padded_buffer_data = new uint8_t[buff_size];
+    
 
-    // //skip 8 bytes of junk
-    // f.seekg(4, ios::cur);
+    f.read((char*)m_padded_buffer_data, m_bitmap_info_header.biSizeImage);
 
-    // int offset;
+    m_width = m_bitmap_info_header.biWidth;
+    m_height = m_bitmap_info_header.biHeight;
 
-    // f.read((char*)&offset, sizeof(int));
-    // f.read((char*)&infoHeaderSize, sizeof(int));
-    // f.read((char*)&m_width, sizeof(int));
-    // f.read((char*)&m_height, sizeof(int));
-    // // f.seekg(infoHeaderSize- sizeof(int)*3 + 24, ios::cur);
+    m_buffer_data = new uint8_t[m_width*m_height*3];
 
-    // f.seekg(offset , ios::beg);
-    // uint8_t r,g,b;
-    // f.read((char*)&r, sizeof(uint8_t));
-    // f.read((char*)&g, sizeof(uint8_t));
-    // f.read((char*)&b, sizeof(uint8_t));
+    int padding = 0;
+    int scanlinebytes = m_width * 3;
+    while ( ( scanlinebytes + padding ) % 4 != 0 )
+        padding++;
 
+    int psw = scanlinebytes + padding;
 
-    // std::cout<<"type :"<<m_bmp_type<<endl;
-    // std::cout<<"info header size"<< infoHeaderSize<<endl;
-    // std::cout<<"offset :"<<offset<<endl;
-    // std::cout<<m_width<<endl;
-    // std::cout<<m_height<<endl;
-    // std::cout<<int(r)<<endl;
-    // std::cout<<int(g)<<endl;
-    // std::cout<<int(b)<<endl;
-    // std::cout<<g<<endl;
-    // std::cout<<b<<endl;
-    // std::cout<<offset<<endl;
-    // f
+    std::cout<<padding<<endl;
 
+    long bufpos = 0;   
+    long newpos = 0;
+    for ( int y = 0; y < m_height; y++ )
+        for ( int x = 0; x < 3 * m_width; x+=3 )
+        {
+            newpos = y * 3 * m_width + x;     
+            bufpos = ( m_height - y - 1 ) * psw + x;
 
+            m_buffer_data[newpos] = m_padded_buffer_data[bufpos + 2];       
+            m_buffer_data[newpos + 1] = m_padded_buffer_data[bufpos+1]; 
+            m_buffer_data[newpos + 2] = m_padded_buffer_data[bufpos];     
+        }
+
+    // std::cout<<int(m_buffer_data[0])<<" "<<int(m_buffer_data[1])<<" "<<int(m_buffer_data[2])<<" "<<endl;
+    // std::cout<<int(m_buffer_data[3])<<" "<<int(m_buffer_data[4])<<" "<<int(m_buffer_data[5])<<" "<<endl;
+    // std::cout<<int(m_buffer_data[6])<<" "<<int(m_buffer_data[7])<<" "<<int(m_buffer_data[8])<<" "<<endl;
+    // std::cout<<int(m_buffer_data[9])<<" "<<int(m_buffer_data[10])<<" "<<int(m_buffer_data[11])<<" "<<endl;
     
 }
 
@@ -99,7 +105,7 @@ int Bitmap::height()
 }
 
 // char Bitmap::type()
-// {
+// 
 //     return m_bmp_type;
 // }
 
