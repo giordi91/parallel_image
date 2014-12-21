@@ -38,7 +38,10 @@ SRC_PATH= src
 
 vpath %.cpp src
 
-
+#TO DO , I want to build all the .o in the buil dir
+# which I can do already but then I dunno how to read
+# allthe .o properly for the $? symbol, need more 
+#studies
 
 all: main.o bitmap.o bw_filter.o
 	$(CXX) -L . -ltbb  $? -o $(BUILD_PATH)/$(TARGET) 
