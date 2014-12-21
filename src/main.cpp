@@ -6,6 +6,7 @@
 #include <tbb/task_scheduler_init.h>
 #include "tbb/tick_count.h"
 #include <time.h>
+#include <stdexcept>
 
 using namespace std;
 
@@ -13,7 +14,15 @@ int main( int argc, char* argv[])
 {
 	cout<<"initializing ..."<<endl;
     Bitmap testbmp;
-    testbmp.open("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/emma.bmp");
+    try
+    {
+    	testbmp.open("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessy.bmp");
+	}
+	catch(std::runtime_error &e)
+	{
+		std::cout<<e.what()<<endl;
+		return 0;
+	}
 
     //gather the data
     uint8_t * buffer = testbmp.getRawData();
@@ -34,7 +43,7 @@ int main( int argc, char* argv[])
 
 
     t0 = tbb::tick_count::now();
-    tbb::task_scheduler_init init(4);
+    tbb::task_scheduler_init init;
     //testing tbb
     bw_tbb(buffer, resultBuffer, width, height);
     //terminating tbb
@@ -43,8 +52,15 @@ int main( int argc, char* argv[])
     cout << (t1-t0).seconds()<<"S" << endl; 
     testbmp.setRawData(resultBuffer);
 
-    testbmp.save("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/emmaSave.bmp");
-    
+    try
+    {
+    	testbmp.save("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/dataX/emmaSave.bmp");
+    }
+    catch(std::runtime_error &e)
+	{
+		std::cout<<e.what()<<endl;
+		return 0;
+	}
     //cleanup 
     //no need to clean up since the bitmap class takes ownership of the pointer and 
     //cleans it up

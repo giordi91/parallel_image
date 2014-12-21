@@ -1,34 +1,43 @@
 #include <bitmap.h>
 #include <iostream>
 #include <fstream>
+#include <stdexcept>
 
 
 using namespace std;
 
-Bitmap::Bitmap()
+//SHOULD I USE SMART POINTERS?
+Bitmap::Bitmap():m_padded_buffer_data(NULL),
+                m_buffer_data(NULL)
 {
 
 }
-
 
 Bitmap::~Bitmap()
 {
-    delete [] m_padded_buffer_data;
-    delete [] m_buffer_data;
-}
+    //checking if the pointer have been used
+    //if so free the data    
+    if (!m_padded_buffer_data == NULL)
+    {
+        delete [] m_padded_buffer_data;
+    }
+    if (!m_buffer_data == NULL)
+    {
+        delete [] m_buffer_data;
+    }
+}   
 
 void Bitmap::open(const char* path)
 {
     ifstream f(path,ifstream::binary | ifstream::in);
 
+    //checking if the path is valid , if not raise an exception
     if(!f.good())
     {
+        throw std::runtime_error("The input file path is not valid");
         return;
     }
-    else
-    {
-        cout<<"file is valid! woot"<<endl;
-    }
+
 
     //read in the header file header    
     f.read((char*)&m_bitmap_file_header, sizeof(BITMAPFILEHEADER));
@@ -65,6 +74,12 @@ void Bitmap::save(const char* path)
 {
     //creating the needed stream
     ofstream f(path,ofstream::binary | ofstream::out);
+
+    if(!f.good())
+    {
+        throw std::runtime_error("Impossible to save in the given path");
+        return;
+    }
 
     //writing the headers informations of the bmp
     f.write((char*)&m_bitmap_file_header, sizeof(BITMAPFILEHEADER));
@@ -133,15 +148,11 @@ void Bitmap::paddedToRGB(const uint8_t * source,
             target[newpos + 1] = source[bufpos+1]; 
             target[newpos + 2] = source[bufpos];               
         }
-
-
-
 }
 
 void Bitmap::RGBtoPadded(const uint8_t * source,
                      uint8_t* target)
 {
-
     int padding = 0;
     int scanlinebytes = m_width * 3;
     while ( ( scanlinebytes + padding ) % 4 != 0 ) 
@@ -167,7 +178,6 @@ uint8_t* Bitmap::getRawData()
     return m_buffer_data;
 
 }
-
 
 void Bitmap::setRawData(uint8_t * buffer)
 {
