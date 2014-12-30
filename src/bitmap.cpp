@@ -17,11 +17,11 @@ Bitmap::~Bitmap()
 {
     //checking if the pointer have been used
     //if so free the data    
-    if (!m_padded_buffer_data == NULL)
+    if (!m_padded_buffer_data)
     {
         delete [] m_padded_buffer_data;
     }
-    if (!m_buffer_data == NULL)
+    if (!m_buffer_data)
     {
         delete [] m_buffer_data;
     }

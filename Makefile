@@ -6,8 +6,14 @@ DIST = NOT_SET
 ##########################################
 
 #checking linux 
+#checking windows
+ifeq ($(OS), Windows_NT)
+CURR_OS = Windows
 
-ifeq ($(OSTYPE), linux)
+else
+endif
+OSTYPE := $(shell uname -s)
+ifeq ($(OSTYPE), Linux)
 CURR_OS = linux
 TEMP_ID = $(shell cat /etc/*-release)
 #checking which linux distro
@@ -19,12 +25,6 @@ ifneq (, $(findstring Ubuntu, $(TEMP_ID)))
 	DIST = Ubuntu
 endif
 
-else
-
-#checking windows
-ifeq ($(OS), Windows_NT)
-CURR_OS = Windows
-endif
 
 endif
 
@@ -44,7 +44,7 @@ vpath %.cpp src
 #studies
 
 all: main.o bitmap.o bw_filter.o
-	$(CXX) -L . -ltbb  $? -o $(BUILD_PATH)/$(TARGET) 
+	$(CXX)  $? -o $(BUILD_PATH)/$(TARGET) -L /usr/local/lib -ltbb 
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -I $(INCLUDE_PATH) -c $<
@@ -62,7 +62,7 @@ clean:
 .PHONY: verbose
 	
 verbose:
-	@echo $(OSTYPE)
+
 	@echo Build Started ....
 	@echo -----Environment-------
 	@echo Operating System: $(CURR_OS)

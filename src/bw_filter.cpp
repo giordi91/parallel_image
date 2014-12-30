@@ -19,7 +19,7 @@ void bw_serial(	const uint8_t * source,
 		{
 			//computing index and color
 			idx = (width*h)*3 + (w*3);
-			color = 0.21*float(source[idx]) +0.72*float(source[idx+1]) + 0.07*float(source[idx+2]);
+			color = uint8_t(0.21*float(source[idx])+0.72*float(source[idx+1]) + 0.07*float(source[idx+2]));
 			//setting the color
 			target[idx] = color;
 			target[idx+1] = color;
@@ -59,15 +59,14 @@ void Apply_bw_tbb::operator() (const tbb::blocked_range<size_t>& r)const
 	uint8_t color;
 
 	//looping for the given widht range
-	for (int w=r.begin(); w!=r.end(); w++ )
+	for (long unsigned int w=r.begin(); w!=r.end(); w++ )
 	{
 		//looping for the height
 		for (int h=0; h<m_height; h++ )
 		{
 			//computing the index and the color
-			idx = (m_width*h)*3 + (w*3);
-			color = 0.21*float(m_source[idx]) +0.72*float(m_source[idx+1]) + 0.07*float(m_source[idx+2]);
-			// 0.21 R + 0.72 G + 0.07 B
+			idx = (m_width*h)*3 + (int(w)*3);
+			color = uint8_t(0.21*float(m_source[idx])+0.72*float(m_source[idx+1]) + 0.07*float(m_source[idx+2]));
 			//setting the color value
 			m_target[idx] = color;
 			m_target[idx+1] = color;
