@@ -89,7 +89,7 @@ void Bitmap::save(const char* path)
     int padding = 0;
     int scanlinebytes = m_width * 3;
     while ( ( scanlinebytes + padding ) % 4 != 0 ) 
-        padding++;
+        ++padding;
     int psw = scanlinebytes + padding;
 
     //converting rgb data into padded data ready to be saved
@@ -131,14 +131,14 @@ void Bitmap::paddedToRGB(const uint8_t * source,
     int padding = 0;
     int scanlinebytes = m_width * 3;
     while ( ( scanlinebytes + padding ) % 4 != 0 )
-        padding++;
+        ++padding;
 
     int psw = scanlinebytes + padding;
 
     //converting raw buffer data to a rgb array
     long bufpos = 0;   
     long newpos = 0;
-    for ( int y = 0; y < m_height; y++ )
+    for ( int y = 0; y < m_height; ++y )
         for ( int x = 0; x < 3 * m_width; x+=3 )
         {
             newpos = y * 3 * m_width + x;     
@@ -156,12 +156,12 @@ void Bitmap::RGBtoPadded(const uint8_t * source,
     int padding = 0;
     int scanlinebytes = m_width * 3;
     while ( ( scanlinebytes + padding ) % 4 != 0 ) 
-        padding++;
+        ++padding;
     int psw = scanlinebytes + padding;
 
     long bufpos = 0;   
     long newpos = 0;
-    for ( int y = 0; y < m_height; y++ )
+    for ( int y = 0; y < m_height; ++y )
         for ( int x = 0; x < 3 * m_width; x+=3 )
         {
             bufpos = y * 3 * m_width + x;     // position in original buffer

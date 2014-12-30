@@ -16,7 +16,7 @@ int main( int argc, char* argv[])
     Bitmap testbmp;
     try
     {
-    	testbmp.open("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessy.bmp");
+    	testbmp.open("/home/giordi/WORK_IN_PROGRESS/parallel_image/data/lol.bmp");
 	}
 	catch(std::runtime_error &e)
 	{
@@ -39,22 +39,22 @@ int main( int argc, char* argv[])
     bw_serial(buffer, resultBuffer, width, height);
     
     t1 = tbb::tick_count::now();
-    cout << (t1-t0).seconds()<<"S" << endl; 
+    cout << (t1-t0).seconds()<<" s" << endl; 
 
 
     t0 = tbb::tick_count::now();
-    tbb::task_scheduler_init init;
+    tbb::task_scheduler_init init(4);
     //testing tbb
     bw_tbb(buffer, resultBuffer, width, height);
     //terminating tbb
     init.terminate();
     t1 = tbb::tick_count::now();
-    cout << (t1-t0).seconds()<<"S" << endl; 
+    cout << (t1-t0).seconds()<<" s" << endl; 
     testbmp.setRawData(resultBuffer);
 
     try
     {
-    	testbmp.save("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/dataX/emmaSave.bmp");
+    	testbmp.save("/home/giordi/WORK_IN_PROGRESS/parallel_image/data/lol2.bmp");
     }
     catch(std::runtime_error &e)
 	{
