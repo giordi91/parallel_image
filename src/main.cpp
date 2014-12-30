@@ -16,7 +16,7 @@ int main( int argc, char* argv[])
     Bitmap testbmp;
     try
     {
-    	testbmp.open("/home/giordi/WORK_IN_PROGRESS/parallel_image/data/lol.bmp");
+    	testbmp.open("/home/giordi/WORK_IN_PROGRESS/parallel_image/data/jessy.bmp");
 	}
 	catch(std::runtime_error &e)
 	{
@@ -24,19 +24,22 @@ int main( int argc, char* argv[])
 		return 0;
 	}
 
-    //gather the data
-    uint8_t * buffer = testbmp.getRawData();
-    int width = testbmp.width();
-    int height = testbmp.height();
+ //    //gather the data
+    uint width = testbmp.get_width();
+    uint height = testbmp.get_height();
+    uint padded_size = testbmp.get_padded_size();
+    Bitmap workingBmp(width, height, padded_size);
 
-    //allocate result buffer
-	uint8_t *resultBuffer = new uint8_t[width*height*3];    
+    //needed buffers
+    uint8_t * src = testbmp.getRawData();
+    uint8_t * target = workingBmp.getRawData();
+ 
 
 	tbb::tick_count t0,t1;
 	//time the serial functon
 
 	t0 = tbb::tick_count::now();
-    bw_serial(buffer, resultBuffer, width, height);
+    bw_serial(src, target, width, height);
     
     t1 = tbb::tick_count::now();
     cout << (t1-t0).seconds()<<" s" << endl; 
@@ -45,26 +48,22 @@ int main( int argc, char* argv[])
     t0 = tbb::tick_count::now();
     tbb::task_scheduler_init init(4);
     //testing tbb
-    bw_tbb(buffer, resultBuffer, width, height);
+    bw_tbb(src, target, width, height);
     //terminating tbb
     init.terminate();
     t1 = tbb::tick_count::now();
     cout << (t1-t0).seconds()<<" s" << endl; 
-    testbmp.setRawData(resultBuffer);
 
     try
     {
-    	testbmp.save("/home/giordi/WORK_IN_PROGRESS/parallel_image/data/lol2.bmp");
+    	workingBmp.save("/home/giordi/WORK_IN_PROGRESS/parallel_image/data/jessyBW.bmp");
     }
     catch(std::runtime_error &e)
 	{
 		std::cout<<e.what()<<endl;
 		return 0;
 	}
-    //cleanup 
-    //no need to clean up since the bitmap class takes ownership of the pointer and 
-    //cleans it up
-    //delete [] resultBuffer;
+
 
     return 0;
 

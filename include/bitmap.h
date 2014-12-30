@@ -36,16 +36,20 @@ class Bitmap
 
 public:
     Bitmap();
+    Bitmap(const uint width, 
+                const uint height, 
+                const uint padded_size);
     ~Bitmap();
     void open( const char* path);
     void save( const char* path);
-    int width();
-    int height();
+    uint get_width();
+    uint get_height();
+    uint get_padded_size();
 
     const BITMAPFILEHEADER* getFileHeader();
     const BITMAPINFOHEADER* getInfoHeader();
     uint8_t * getRawData();
-    void setRawData(uint8_t * buffer);
+
 
 private:
 
@@ -54,16 +58,21 @@ private:
 
     void RGBtoPadded(const uint8_t * target,
                      uint8_t* source);
+    void generate_headers();
+
 
 private:
-	int m_width;
-	int m_height;
-	
-	int m_byte_size;
-    BITMAPFILEHEADER m_bitmap_file_header;
-    BITMAPINFOHEADER m_bitmap_info_header;
-    uint8_t * m_padded_buffer_data;
-    uint8_t * m_buffer_data;
+	uint m_width;
+	uint m_height;
+  uint m_padded_size;
+  uint m_size;
+
+  BITMAPFILEHEADER m_bitmap_file_header;
+  BITMAPINFOHEADER m_bitmap_info_header;
+
+  //TODO: SHOULD I USE SMART POINTERS?
+  uint8_t * m_padded_buffer_data;
+  uint8_t * m_buffer_data;  
 };
 
 #endif
