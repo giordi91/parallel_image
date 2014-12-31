@@ -59,7 +59,7 @@ clean:
 #############################################
 # Verbose OS
 #############################################
-.PHONY: verbose
+.PHONY: verbose doc
 	
 verbose:
 
@@ -68,3 +68,8 @@ verbose:
 	@echo Operating System: $(CURR_OS)
 	@echo Operating System Distribution: $(DIST)
 	@echo -----------------------
+
+doc:
+	rm -f -r ./doc/html
+	doxygen ./Doxyfile
+	google-chrome ./doc/html/index.html

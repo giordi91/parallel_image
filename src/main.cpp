@@ -24,7 +24,7 @@ int main( int argc, char* argv[])
 		return 0;
 	}
 
- //    //gather the data
+	//gather the data
     uint width = testbmp.get_width();
     uint height = testbmp.get_height();
     uint padded_size = testbmp.get_padded_size();

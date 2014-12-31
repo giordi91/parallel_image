@@ -12,10 +12,10 @@ void bw_serial(	const uint8_t * source,
 	int idx =0;
 	uint8_t color;
 	//looping the width
-	for (int w=0; w<width; w++ )
+	for (int w=0; w<width; ++w )
 	{
 		//looping the height
-		for (int h=0; h<height; h++ )
+		for (int h=0; h<height; ++h )
 		{
 			//computing index and color
 			idx = (width*h)*3 + (w*3);
@@ -24,9 +24,7 @@ void bw_serial(	const uint8_t * source,
 			target[idx] = color;
 			target[idx+1] = color;
 			target[idx+2] = color;
-
 		}
-
 	}
 }
 
@@ -59,10 +57,10 @@ void Apply_bw_tbb::operator() (const tbb::blocked_range<size_t>& r)const
 	uint8_t color;
 
 	//looping for the given widht range
-	for (long unsigned int w=r.begin(); w!=r.end(); w++ )
+	for (long unsigned int w=r.begin(); w!=r.end(); ++w )
 	{
 		//looping for the height
-		for (int h=0; h<m_height; h++ )
+		for (int h=0; h<m_height; ++h )
 		{
 			//computing the index and the color
 			idx = (m_width*h)*3 + (int(w)*3);
