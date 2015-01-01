@@ -58,6 +58,7 @@ public:
     */
 	void operator() (const tbb::blocked_range<size_t>& r)const;
 
+
 private:
     // internal pointer to the source buffer
 	const uint8_t * m_source;

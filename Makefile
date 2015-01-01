@@ -43,7 +43,7 @@ vpath %.cpp src
 # allthe .o properly for the $? symbol, need more 
 #studies
 
-all: main.o bitmap.o bw_filter.o
+all: main.o bitmap.o bw_filter.o blur_filter.o
 	$(CXX)  $? -o $(BUILD_PATH)/$(TARGET) -L /usr/local/lib -ltbb 
 
 %.o: %.cpp

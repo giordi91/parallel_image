@@ -2,11 +2,12 @@
 #include <fstream>
 #include <cstring>
 #include <bitmap.h>
-#include <bw_filter.h>
 #include <tbb/task_scheduler_init.h>
 #include "tbb/tick_count.h"
 #include <time.h>
 #include <stdexcept>
+#include <bw_filter.h>
+#include <blur_filter.h>
 
 using namespace std;
 
@@ -33,26 +34,48 @@ int main( int argc, char* argv[])
     //needed buffers
     uint8_t * src = testbmp.getRawData();
     uint8_t * target = workingBmp.getRawData();
- 
+ 	
+
+ 	// blur test
+ 	int iterations = 19;
 
 	tbb::tick_count t0,t1;
-	//time the serial functon
+	// //time the serial functon
 
 	t0 = tbb::tick_count::now();
-    bw_serial(src, target, width, height);
+    simple_blur_serial(src, target, width, height, iterations);
+    t1 = tbb::tick_count::now();
+    cout << (t1-t0).seconds()<<" s" << endl;
+
+	t0 = tbb::tick_count::now();
+	tbb::task_scheduler_init init;
+	//testing tbb
+	blur_tbb(src, target, width, height, iterations);
+	//terminating tbb
+	init.terminate();
+    t1 = tbb::tick_count::now();
+    cout << (t1-t0).seconds()<<" s" << endl;
+
+
+    //BW test
+	// tbb::tick_count t0,t1;
+	// //time the serial functon
+
+	// t0 = tbb::tick_count::now();
+ //    bw_serial(src, target, width, height);
     
-    t1 = tbb::tick_count::now();
-    cout << (t1-t0).seconds()<<" s" << endl; 
+ //    t1 = tbb::tick_count::now();
+ //    cout << (t1-t0).seconds()<<" s" << endl; 
 
 
-    t0 = tbb::tick_count::now();
-    tbb::task_scheduler_init init(4);
-    //testing tbb
-    bw_tbb(src, target, width, height);
-    //terminating tbb
-    init.terminate();
-    t1 = tbb::tick_count::now();
-    cout << (t1-t0).seconds()<<" s" << endl; 
+ //    t0 = tbb::tick_count::now();
+ //    tbb::task_scheduler_init init(4);
+ //    //testing tbb
+ //    bw_tbb(src, target, width, height);
+ //    //terminating tbb
+ //    init.terminate();
+ //    t1 = tbb::tick_count::now();
+ //    cout << (t1-t0).seconds()<<" s" << endl; 
 
     try
     {
