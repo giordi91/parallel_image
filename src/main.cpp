@@ -48,7 +48,7 @@ int main( int argc, char* argv[])
     cout << (t1-t0).seconds()<<" s" << endl;
 
 	t0 = tbb::tick_count::now();
-	tbb::task_scheduler_init init;
+	tbb::task_scheduler_init init(8);
 	//testing tbb
 	blur_tbb(src, target, width, height, iterations);
 	//terminating tbb

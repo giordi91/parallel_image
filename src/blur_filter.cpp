@@ -120,7 +120,7 @@ void blur_tbb(	uint8_t * source,
 	memcpy(workingBuffer, source, sizeof(uint8_t)*width*height*3);
 	
 	//assigning the dummy pointer  to a copy of the original pointer 
-	sourc_copy_ptr = (uint8_t * )tworkingBuffer;
+	sourc_copy_ptr = (uint8_t * )workingBuffer;
 	target_copy_ptr= (uint8_t * )target;
 
 
