@@ -22,7 +22,7 @@ void simple_blur_serial(const uint8_t * source,
 			            uint8_t* target,
 			            const int &width,
 			            const int &height,
-			            const uint iterations
+			            const unsigned int iterations
 			            );
 
 
@@ -39,7 +39,7 @@ void blur_tbb(uint8_t * source,
             uint8_t* target,
             const int &width,
             const int &height,
-            const uint iterations);
+            const unsigned int iterations);
 
 
 
@@ -61,7 +61,7 @@ public:
             uint8_t* target,
             const int &width,
             const int &height,
-            const uint iterations);
+            const unsigned int iterations);
 
     /**
     @brief the () operator called by TBB
@@ -79,5 +79,5 @@ private:
     //internal height of the image
     const long unsigned int m_height;
     //internal number of iterations;
-    const uint m_iterations;
+    const unsigned int m_iterations;
 };

@@ -4,6 +4,8 @@
 #include <stdexcept>
 #include <cstring>
 
+
+
 using namespace std;
 
 Bitmap::Bitmap():m_width(0), m_height(0), m_padded_size(0), m_size(0),
@@ -13,9 +15,9 @@ Bitmap::Bitmap():m_width(0), m_height(0), m_padded_size(0), m_size(0),
 
 }
 
-Bitmap::Bitmap( const uint width, 
-                const uint height, 
-                const uint padded_size):
+Bitmap::Bitmap( const unsigned int width, 
+                const unsigned int height, 
+                const unsigned int padded_size):
                 m_width(width),m_height(height), 
                 m_padded_size(padded_size), 
                 m_size(width*height*3),
@@ -123,17 +125,17 @@ void Bitmap::save(const char* path)
 
 }
 
-uint Bitmap::get_width()
+unsigned int Bitmap::get_width()
 {
     return m_width;
 }
 
-uint Bitmap::get_height()
+unsigned int Bitmap::get_height()
 {
     return m_height;
 }
 
-uint Bitmap::get_padded_size()
+unsigned int Bitmap::get_padded_size()
 {
     return m_padded_size;
 }
@@ -162,8 +164,8 @@ void Bitmap::paddedToRGB(const uint8_t * source,
     //converting raw buffer data to a rgb array
     long bufpos = 0;   
     long newpos = 0;
-    for ( uint y = 0; y < m_height; ++y )
-        for ( uint x = 0; x < 3 * m_width; x+=3 )
+    for ( unsigned int y = 0; y < m_height; ++y )
+        for ( unsigned int x = 0; x < 3 * m_width; x+=3 )
         {
             newpos = y * 3 * m_width + x;     
             bufpos = ( m_height - y - 1 ) * psw + x;
@@ -185,8 +187,8 @@ void Bitmap::RGBtoPadded(const uint8_t * source,
 
     long bufpos = 0;   
     long newpos = 0;
-    for ( uint y = 0; y < m_height; ++y )
-        for ( uint x = 0; x < 3 * m_width; x+=3 )
+    for ( unsigned int y = 0; y < m_height; ++y )
+        for ( unsigned int x = 0; x < 3 * m_width; x+=3 )
         {
             bufpos = y * 3 * m_width + x;     // position in original buffer
             newpos = ( m_height - y - 1 ) * psw + x; // position in padded buffer

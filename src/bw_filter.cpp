@@ -2,7 +2,6 @@
 #include <bw_filter.h>
 #include <tbb/parallel_for.h>
 
-
 void bw_serial(	const uint8_t * source,
                 uint8_t* target,
              	const int &width,

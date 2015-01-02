@@ -17,7 +17,7 @@ int main( int argc, char* argv[])
     Bitmap testbmp;
     try
     {
-    	testbmp.open("/home/giordi/WORK_IN_PROGRESS/parallel_image/data/jessy.bmp");
+    	testbmp.open("D:/PROGETTI_IN_CORSO/C/parallel_image/data/jessy.bmp");
 	}
 	catch(std::runtime_error &e)
 	{
@@ -26,9 +26,9 @@ int main( int argc, char* argv[])
 	}
 
 	//gather the data
-    uint width = testbmp.get_width();
-    uint height = testbmp.get_height();
-    uint padded_size = testbmp.get_padded_size();
+    unsigned int width = testbmp.get_width();
+    unsigned int height = testbmp.get_height();
+    unsigned int padded_size = testbmp.get_padded_size();
     Bitmap workingBmp(width, height, padded_size);
 
     //needed buffers
@@ -79,7 +79,7 @@ int main( int argc, char* argv[])
 
     try
     {
-    	workingBmp.save("/home/giordi/WORK_IN_PROGRESS/parallel_image/data/jessyBW.bmp");
+    	workingBmp.save("D:/PROGETTI_IN_CORSO/C/parallel_image/data/jessyBW.bmp");
     }
     catch(std::runtime_error &e)
 	{

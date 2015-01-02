@@ -17,12 +17,21 @@ http://tipsandtricks.runicsoft.com/Cpp/BitmapTutorial.html
  */
 
 #include <string>
+#include <cstdint>
+#if defined(WIN32)
+#include <Windows.h>
+#endif
+
+
 
 using namespace std;
 
 #ifndef __PARALLEL_IMAGE_BITMAP__
 #define __PARALLEL_IMAGE_BITMAP__
 
+
+
+#if defined(LINUX)
 /**
 @brief Structure defining the header of the bitmap file
 
@@ -38,7 +47,9 @@ typedef struct   BITMAPFILEHEADER
   int16_t  bfReserved2;     /** reserved, must be 0*/
   int32_t bfOffBits;        /** size of the structure*/
 } __attribute__((__packed__)) BITMAPFILEHEADER;
+#endif
 
+#if defined(LINUX)
 /**
 @brief Structure defining the header of the image content
 
@@ -46,6 +57,7 @@ The __attribute__((__packed__))  is needed for gcc to not
 add padding to the structure which would make the binary read
 offsetted
 */
+
 typedef struct BITMAPINFOHEADER
 {
     int         biSize;            /** size of the structure*/
@@ -61,6 +73,8 @@ typedef struct BITMAPINFOHEADER
     int32_t     biClrImportant;    /** important colors*/
 
 } __attribute__((__packed__))  BITMAPINFOHEADER;
+
+#endif
 
 /** 
 @brief Class for manipulating bitmaps.
@@ -87,9 +101,9 @@ public:
   @param padded_size: the size of the padded buffer, taking into account
                       padded scanlines 
    */ 
-  Bitmap(const uint width, 
-              const uint height, 
-              const uint padded_size);
+  Bitmap(const unsigned int width, 
+              const unsigned int height, 
+              const unsigned int padded_size);
   /** 
   @brief The destructor
    */ 
@@ -111,21 +125,21 @@ public:
 
   /** 
   @brief Get the width of the loaded/initialized image
-  @return uint
+  @return unsigned int
    */ 
-  uint get_width();
+  unsigned int get_width();
   
   /** 
   @brief Get the height of the loaded/initialized image
-  @return uint
+  @return unsigned int
    */ 
-  uint get_height();
+  unsigned int get_height();
 
   /** 
   @brief Get the the padded_size of the buffer of the opened image
-  @return uint
+  @return unsigned int
    */ 
-  uint get_padded_size();
+  unsigned int get_padded_size();
 
   /** 
   @brief Get a pointer to the loaded/initialized header
@@ -172,13 +186,13 @@ private:
 
 private:
   //internal width of the image
-	uint m_width;
+	unsigned int m_width;
   //internal height of the image
-	uint m_height;
+	unsigned int m_height;
   //internal padded size of the image
-  uint m_padded_size;
+  unsigned int m_padded_size;
   //internal size of the not padded buffer
-  uint m_size;
+  unsigned int m_size;
 
   //internal file header
   BITMAPFILEHEADER m_bitmap_file_header;

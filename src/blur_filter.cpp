@@ -9,7 +9,7 @@ void simple_blur_serial(const uint8_t * source,
 			            uint8_t* target,
 			            const int &width,
 			            const int &height,
-			            const uint iterations)
+			            const unsigned int iterations)
 {
 	//instancing needed variables
 	std::vector<int> idxs;
@@ -38,7 +38,7 @@ void simple_blur_serial(const uint8_t * source,
 
 
 	//looping for the number of iterations
-	for (uint iter =0; iter< iterations; ++iter)
+	for (unsigned int iter =0; iter< iterations; ++iter)
 	{
 		//looping for the width
 		for (int w=0; w<width; ++w )
@@ -105,7 +105,7 @@ void blur_tbb(	uint8_t * source,
                 uint8_t* target,
              	const int &width,
                 const int &height,
-                const uint iterations)
+                const unsigned int iterations)
 {
 	
 	//dummy pointer used for the swap, this will hold the target pointer
@@ -128,7 +128,7 @@ void blur_tbb(	uint8_t * source,
 	Apply_blur_tbb kernel(sourc_copy_ptr,target_copy_ptr,width,height,iterations);
 	
 	//looping for the iteration
-	for (uint iter =0; iter< iterations; ++iter)
+	for (unsigned int iter =0; iter< iterations; ++iter)
 	{
 		//kick the parallel for
 		tbb::parallel_for(tbb::blocked_range<size_t>(0,width), kernel);
@@ -153,7 +153,7 @@ Apply_blur_tbb::Apply_blur_tbb(uint8_t * source,
             uint8_t* target,
             const int &width,
             const int &height,
-            const uint iterations):m_source(source),m_target(target),
+            const unsigned int iterations):m_source(source),m_target(target),
 								m_width(width),m_height(height),
 								m_iterations(iterations)
 {
