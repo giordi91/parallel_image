@@ -69,3 +69,10 @@ private:
     //internal height of the image
     const int m_height;
 };
+
+
+void bw_cuda(const uint8_t * h_source,
+                uint8_t* h_target,
+                const int &width,
+                const int &height);
+

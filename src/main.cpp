@@ -9,6 +9,7 @@
 #include <bw_filter.h>
 #include <blur_filter.h>
 
+
 using namespace std;
 
 int main( int argc, char* argv[])
@@ -17,7 +18,7 @@ int main( int argc, char* argv[])
     Bitmap testbmp;
     try
     {
-    	testbmp.open("D:/PROGETTI_IN_CORSO/C/parallel_image/data/jessy.bmp");
+    	testbmp.open("D:/PROGETTI_IN_CORSO/C/parallel_image/data/small.bmp");
 	}
 	catch(std::runtime_error &e)
 	{
@@ -35,7 +36,7 @@ int main( int argc, char* argv[])
     uint8_t * src = testbmp.getRawData();
     uint8_t * target = workingBmp.getRawData();
  	
-
+	/*
  	// blur test
  	int iterations = 19;
 
@@ -55,28 +56,33 @@ int main( int argc, char* argv[])
 	init.terminate();
     t1 = tbb::tick_count::now();
     cout << (t1-t0).seconds()<<" s" << endl;
-
+	*/
 
     //BW test
-	// tbb::tick_count t0,t1;
-	// //time the serial functon
+	tbb::tick_count t0,t1;
+	//time the serial functon
 
-	// t0 = tbb::tick_count::now();
- //    bw_serial(src, target, width, height);
+	t0 = tbb::tick_count::now();
+	bw_serial(src, target, width, height);
     
- //    t1 = tbb::tick_count::now();
- //    cout << (t1-t0).seconds()<<" s" << endl; 
+	t1 = tbb::tick_count::now();
+	cout << (t1-t0).seconds()<<" s" << endl; 
 
 
- //    t0 = tbb::tick_count::now();
- //    tbb::task_scheduler_init init(4);
- //    //testing tbb
- //    bw_tbb(src, target, width, height);
- //    //terminating tbb
- //    init.terminate();
- //    t1 = tbb::tick_count::now();
- //    cout << (t1-t0).seconds()<<" s" << endl; 
+	t0 = tbb::tick_count::now();
+	tbb::task_scheduler_init init(4);
+	//testing tbb
+	bw_tbb(src, target, width, height);
+	//terminating tbb
+	init.terminate();
+	t1 = tbb::tick_count::now();
+	cout << (t1-t0).seconds()<<" s" << endl; 
 
+
+	t0 = tbb::tick_count::now();
+	bw_cuda(src, target, width, height);
+	t1 = tbb::tick_count::now();
+	cout << (t1-t0).seconds()<<" s" << endl; 
     try
     {
     	workingBmp.save("D:/PROGETTI_IN_CORSO/C/parallel_image/data/jessyBW.bmp");
@@ -87,6 +93,7 @@ int main( int argc, char* argv[])
 		return 0;
 	}
 
+	system ("PAUSE");
 
     return 0;
 
