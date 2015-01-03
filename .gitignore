@@ -1,2 +1,9 @@
 *.o
 parallel_image
+*.user
+*.sdf
+*.opensdf
+ipch/
+Debug/
+Release/
+*.ipch

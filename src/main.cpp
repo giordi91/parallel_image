@@ -18,7 +18,7 @@ int main( int argc, char* argv[])
     Bitmap testbmp;
     try
     {
-    	testbmp.open("D:/PROGETTI_IN_CORSO/C/parallel_image/data/small.bmp");
+    	testbmp.open("D:/PROGETTI_IN_CORSO/C/parallel_image/data/jessy.bmp");
 	}
 	catch(std::runtime_error &e)
 	{
@@ -63,7 +63,7 @@ int main( int argc, char* argv[])
 	//time the serial functon
 
 	t0 = tbb::tick_count::now();
-	bw_serial(src, target, width, height);
+	//bw_serial(src, target, width, height);
     
 	t1 = tbb::tick_count::now();
 	cout << (t1-t0).seconds()<<" s" << endl; 
@@ -72,7 +72,7 @@ int main( int argc, char* argv[])
 	t0 = tbb::tick_count::now();
 	tbb::task_scheduler_init init(4);
 	//testing tbb
-	bw_tbb(src, target, width, height);
+	//bw_tbb(src, target, width, height);
 	//terminating tbb
 	init.terminate();
 	t1 = tbb::tick_count::now();
