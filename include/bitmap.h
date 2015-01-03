@@ -13,12 +13,15 @@ I took some code and a lot of help from this website:
 http://tipsandtricks.runicsoft.com/Cpp/BitmapTutorial.html
 
 @author Marco Giordano
-@bug No known bugs.
+@bug Sometimes when the image width-height is not even , or some weird size the reader, freask out and reads the image wrong,
+	 like it grabs a piece of the left image , like a 1/4 ~1/6 of it  and place it on the right, like if you wrap-slided the image,
+	 not going to fix that for now, I am not interested on getting a bad ass bmp class up and running
  */
 
 #include <string>
 #include <cstdint>
 #if defined(WIN32)
+//if on windows include the windwos.h so we have the declaration of many of the datatype needed
 #include <Windows.h>
 #endif
 
@@ -200,9 +203,9 @@ private:
   BITMAPINFOHEADER m_bitmap_info_header;
 
   //TODO: SHOULD I USE SMART POINTERS?
-  //internal pointer to the padded buffer
+  //internal pointer to the padded buffer, unprocessed so upside, down
   uint8_t * m_padded_buffer_data;
-  //internal pointer to the not padded buffer
+  //internal pointer to the not padded buffer, the buffer goes left to right, top to bottom
   uint8_t * m_buffer_data;  
 };
 

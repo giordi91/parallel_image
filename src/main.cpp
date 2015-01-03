@@ -12,7 +12,7 @@
 
 using namespace std;
 
-int main( int argc, char* argv[])
+int main( int argc, char* argv[]) 
 {
 	cout<<"initializing ..."<<endl;
     Bitmap testbmp;
@@ -23,6 +23,7 @@ int main( int argc, char* argv[])
 	catch(std::runtime_error &e)
 	{
 		std::cout<<e.what()<<endl;
+		system ("PAUSE");
 		return 0;
 	}
 
@@ -35,7 +36,7 @@ int main( int argc, char* argv[])
     //needed buffers
     uint8_t * src = testbmp.getRawData();
     uint8_t * target = workingBmp.getRawData();
- 	
+
 	/*
  	// blur test
  	int iterations = 19;
@@ -63,7 +64,7 @@ int main( int argc, char* argv[])
 	//time the serial functon
 
 	t0 = tbb::tick_count::now();
-	//bw_serial(src, target, width, height);
+	bw_serial(src, target, width, height);
     
 	t1 = tbb::tick_count::now();
 	cout << (t1-t0).seconds()<<" s" << endl; 
@@ -72,7 +73,7 @@ int main( int argc, char* argv[])
 	t0 = tbb::tick_count::now();
 	tbb::task_scheduler_init init(4);
 	//testing tbb
-	//bw_tbb(src, target, width, height);
+	bw_tbb(src, target, width, height);
 	//terminating tbb
 	init.terminate();
 	t1 = tbb::tick_count::now();
@@ -90,6 +91,7 @@ int main( int argc, char* argv[])
     catch(std::runtime_error &e)
 	{
 		std::cout<<e.what()<<endl;
+		system ("PAUSE");
 		return 0;
 	}
 
