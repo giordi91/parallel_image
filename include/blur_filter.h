@@ -81,3 +81,11 @@ private:
     //internal number of iterations;
     const unsigned int m_iterations;
 };
+
+
+
+void blur_cuda(const uint8_t * h_source,
+                uint8_t* h_target,
+                const int &width,
+                const int &height,
+				const int iterations);

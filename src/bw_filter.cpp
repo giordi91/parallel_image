@@ -89,7 +89,6 @@ void bw_cuda(const uint8_t * h_source,
 
 {
 
-	std::cout<<"running cuda bitches"<<std::endl;
 	//calculating the size of the arrya
 	int byte_size = width*height*3*sizeof(uint8_t);
 

@@ -1,9 +1,17 @@
 #include <stdio.h>
 #include <iostream>
-#include <blur_filter.h>
 #include <vector>
+
+#include <blur_filter.h>
 #include <bitmap.h>
+
+//tbb includes
 #include <tbb/parallel_for.h>
+
+
+//cuda includes 
+#include "cuda_runtime.h"
+#include "device_launch_parameters.h"
 
 void simple_blur_serial(const uint8_t * source,
 			            uint8_t* target,
@@ -223,4 +231,45 @@ void Apply_blur_tbb::swap_pointers()
 	tmp = m_source;
 	m_source = m_target;
 	m_target = tmp;
+}
+
+void run_blur_kernel(const uint8_t *d_source, uint8_t *d_target, 
+						const int width, const int height);
+
+void blur_cuda(const uint8_t * h_source,
+                uint8_t* h_target,
+                const int &width,
+                const int &height,
+				const int iterations)
+{
+	std::cout<<"running from gpu bitches"<<std::endl;
+
+	//calculating the size of the arrya
+	int byte_size = width*height*3*sizeof(uint8_t);
+
+	//declaring gpu pointers
+	uint8_t * d_source;
+	uint8_t * d_target;
+
+	//allocating memory on the gpu
+	cudaMalloc((void **) &d_source,byte_size);
+	cudaMalloc((void **) &d_target,byte_size);
+
+	//copying memory to gpu
+	cudaError_t s = cudaMemcpy(d_source, h_source, byte_size, cudaMemcpyHostToDevice);
+	if (s != cudaSuccess) 
+		printf("Error: %s\n", cudaGetErrorString(s));
+
+	//run the kernel
+	run_blur_kernel(d_source, d_target, width, height);
+	
+	//copying memory from gpu
+	s = cudaMemcpy(h_target, d_target, byte_size, cudaMemcpyDeviceToHost);
+	if (s != cudaSuccess) 
+		printf("Error: %s\n", cudaGetErrorString(s));
+
+	//freeing the memory
+	cudaFree(d_source);
+	cudaFree(d_target);
+
 }
