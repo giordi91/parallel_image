@@ -193,7 +193,7 @@ void Apply_blur_tbb::operator() (const tbb::blocked_range<size_t>& r)const
 			idxs[2] = (h<(m_height-1))?((m_width*(h+1))*3) + (w*3) : -1;
 			//right index
 			idxs[3] = (w<m_width-1)?(idxs[0] +3) : -1;
-			//top index
+			//bottom index
 			idxs[4] = (h>1)?((m_width*(h-1))*3) + (w*3) : -1;
 
 			//flushing the color and sum
@@ -233,8 +233,9 @@ void Apply_blur_tbb::swap_pointers()
 	m_target = tmp;
 }
 
-void run_blur_kernel(const uint8_t *d_source, uint8_t *d_target, 
-						const int width, const int height);
+void run_blur_kernel( uint8_t *d_source, uint8_t *d_target, 
+						const int width, const int height,
+						const int iterations);
 
 void blur_cuda(const uint8_t * h_source,
                 uint8_t* h_target,
@@ -242,7 +243,6 @@ void blur_cuda(const uint8_t * h_source,
                 const int &height,
 				const int iterations)
 {
-	std::cout<<"running from gpu bitches"<<std::endl;
 
 	//calculating the size of the arrya
 	int byte_size = width*height*3*sizeof(uint8_t);
@@ -261,7 +261,7 @@ void blur_cuda(const uint8_t * h_source,
 		printf("Error: %s\n", cudaGetErrorString(s));
 
 	//run the kernel
-	run_blur_kernel(d_source, d_target, width, height);
+	run_blur_kernel(d_source, d_target, width, height, iterations);
 	
 	//copying memory from gpu
 	s = cudaMemcpy(h_target, d_target, byte_size, cudaMemcpyDeviceToHost);
