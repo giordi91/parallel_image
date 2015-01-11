@@ -102,7 +102,7 @@ int main( int argc, char* argv[])
 	*/
     try
     {
-    	workingBmp.save("D:/PROGETTI_IN_CORSO/C/parallel_image/data/jessyBW.bmp");
+    	workingBmp.save("D:/PROGETTI_IN_CORSO/C/parallel_image/data/jessyBlur.bmp");
     }
     catch(std::runtime_error &e)
 	{
