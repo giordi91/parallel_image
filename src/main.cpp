@@ -8,7 +8,8 @@
 #include <stdexcept>
 #include <bw_filter.h>
 #include <blur_filter.h>
-
+#include <stancil.h>
+#include <gaussian_stancil.h>
 
 using namespace std;
 
@@ -45,27 +46,27 @@ int main( int argc, char* argv[])
     uint8_t * target = workingBmp.getRawData();
 
     
-    // blur test
+    // // blur test
 
-    int iterations = 19;
-    std::cout<<"Operation : 20 blur iterations \n"<<endl;
-    tbb::tick_count t0,t1;
-    // //time the serial functon
-    std::cout<<"Running CPU serial..."<<endl; 
-    t0 = tbb::tick_count::now();
-    simple_blur_serial(src, target, width, height, iterations);
-    t1 = tbb::tick_count::now();
-    cout << (t1-t0).seconds()<<" seconds \n" << endl;
+    // int iterations = 19;
+    // std::cout<<"Operation : 20 blur iterations \n"<<endl;
+    // tbb::tick_count t0,t1;
+    // // //time the serial functon
+    // std::cout<<"Running CPU serial..."<<endl; 
+    // t0 = tbb::tick_count::now();
+    // simple_blur_serial(src, target, width, height, iterations);
+    // t1 = tbb::tick_count::now();
+    // cout << (t1-t0).seconds()<<" seconds \n" << endl;
 
-    std::cout<<"Running CPU parallel (TBB)..."<<endl; 
-    t0 = tbb::tick_count::now();
-    tbb::task_scheduler_init init(8);
-    //testing tbb
-    blur_tbb(src, target, width, height, iterations);
-    //terminating tbb
-    init.terminate();
-    t1 = tbb::tick_count::now();
-    cout << (t1-t0).seconds()<<" seconds \n" << endl;
+    // std::cout<<"Running CPU parallel (TBB)..."<<endl; 
+    // t0 = tbb::tick_count::now();
+    // tbb::task_scheduler_init init(8);
+    // //testing tbb
+    // blur_tbb(src, target, width, height, iterations);
+    // //terminating tbb
+    // init.terminate();
+    // t1 = tbb::tick_count::now();
+    // cout << (t1-t0).seconds()<<" seconds \n" << endl;
 
     // std::cout<<"Running GPU parallel (Cuda)..."<<endl; 
     // t0 = tbb::tick_count::now();
@@ -100,6 +101,14 @@ int main( int argc, char* argv[])
     // bw_cuda(src, target, width, height);
     // t1 = tbb::tick_count::now();
     // cout << (t1-t0).seconds()<<" s" << endl; 
+    
+
+    //testing the stancil
+
+    Gaussian_stancil st(1.0, true);
+    st.log();
+
+
     try
     {
         workingBmp.save("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessyBW.bmp");

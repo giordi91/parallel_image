@@ -20,7 +20,7 @@ vpath %.cu src
 
 .SUFFIXES: .cpp .o .cu .h
 
-all: main.o bitmap.o bw_filter.o blur_filter.o bw_kernel.cu.o blur_kernel.cu.o
+all: main.o bitmap.o bw_filter.o blur_filter.o stancil.o gaussian_stancil.o bw_kernel.cu.o blur_kernel.cu.o
 	$(CXX)  $? -o $(BUILD_PATH)/$(TARGET) -L /usr/local/cuda/lib64 -L /usr/local/lib  -ltbb  -lcudart
 
 
