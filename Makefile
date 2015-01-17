@@ -10,23 +10,25 @@ NVCC = $(CUDA_PATH)/bin/nvcc
 CUDA_FLAGS = -arch=sm_35
 
 vpath %.cpp src
+vpath %.cu src
+# VPATH = src
 
 #TO DO , I want to build all the .o in the buil dir
 # which I can do already but then I dunno how to read
 # allthe .o properly for the $? symbol, need more 
 #studies
 
-all: main.o bitmap.o bw_filter.o blur_filter.o bw_kernel.o blur_kernel.o
+.SUFFIXES: .cpp .o .cu .h
+
+all: main.o bitmap.o bw_filter.o blur_filter.o bw_kernel.cu.o blur_kernel.cu.o
 	$(CXX)  $? -o $(BUILD_PATH)/$(TARGET) -L /usr/local/cuda/lib64 -L /usr/local/lib  -ltbb  -lcudart
 
-bw_kernel.o: 
-	$(NVCC) -c -arch=sm_35 ./src/bw_kernel.cu
-
-blur_kernel.o: 
-	$(NVCC) $(CUDA_FLAGS) -c ./src/blur_kernel.cu
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS)  $(INCLUDE_PATH) -c $<
+
+%.cu.o: %.cu
+	$(NVCC) $(CUDA_FLAGS) -c $< -o $@
 
 run: clean all
 	$(BUILD_PATH)/$(TARGET) 

@@ -90,7 +90,7 @@ void bw_cuda(const uint8_t * h_source,
 {
 
 	//calculating the size of the arrya
-	int byte_size = width*height*3*sizeof(uint8_t);
+	int byte_size = width*height*3*(int)sizeof(uint8_t);
 
 	//declaring gpu pointers
 	uint8_t * d_source;

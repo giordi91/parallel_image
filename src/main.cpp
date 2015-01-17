@@ -20,7 +20,7 @@ int main( int argc, char* argv[])
     Bitmap testbmp;
     try
     {
-    	testbmp.open("D:/PROGETTI_IN_CORSO/C/parallel_image/data/jessy.bmp");
+    	testbmp.open("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessy.bmp");
 	}
 	catch(std::runtime_error &e)
 	{
