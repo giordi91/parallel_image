@@ -164,6 +164,12 @@ public:
 
 
 private:
+  /** 
+  @brief private copy constructor
+  For now copying with copy constructor is not supported thus made
+  privet
+   */   
+  Bitmap(Bitmap& bmp);
 
   /** 
   @brief convert a padded buffer to an flat rgb buffer

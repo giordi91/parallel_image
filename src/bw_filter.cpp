@@ -39,7 +39,7 @@ void bw_tbb(	const uint8_t * source,
 	//create an instance of the class
 	Apply_bw_tbb kernel(source,target,width,height);
 	//kick the parallel for
-	tbb::parallel_for(tbb::blocked_range<size_t>(0,width), kernel);
+	tbb::parallel_for(tbb::blocked_range2d<size_t>(0,width,0,height), kernel);
 
 
 }
@@ -53,27 +53,26 @@ Apply_bw_tbb::Apply_bw_tbb(const uint8_t * source,
 
 }
 
-void Apply_bw_tbb::operator() (const tbb::blocked_range<size_t>& r)const
+void Apply_bw_tbb::operator() (const tbb::blocked_range2d<size_t>& r)const
 {
 	//allocatin needed variables
 	int idx =0;
 	uint8_t color;
 
-	//looping for the given widht range
-	for (long unsigned int w=r.begin(); w!=r.end(); ++w )
-	{
-		//looping for the height
-		for (int h=0; h<m_height; ++h )
-		{
-			//computing the index and the color
-			idx = (m_width*h)*3 + (int(w)*3);
-			color = uint8_t(0.21*float(m_source[idx])+0.72*float(m_source[idx+1]) + 0.07*float(m_source[idx+2]));
-			//setting the color value
-			m_target[idx] = color;
-			m_target[idx+1] = color;
-			m_target[idx+2] = color;
+	for( size_t i=r.rows().begin(); i!=r.rows().end(); ++i ){
+        for( size_t j=r.cols().begin(); j!=r.cols().end(); ++j ) 
+           	{
+				//computing the index and the color
+				// idx = (m_width*h)*3 + (int(w)*3);
+				idx = (m_width*j)*3 + (int(i)*3);
+
+				color = uint8_t(0.21*float(m_source[idx])+0.72*float(m_source[idx+1]) + 0.07*float(m_source[idx+2]));
+				//setting the color value
+				m_target[idx] = color;
+				m_target[idx+1] = color;
+				m_target[idx+2] = color;
+			}
 		}
-	}
 }
 
 
