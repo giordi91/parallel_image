@@ -8,7 +8,8 @@ blur filter
 @author Marco Giordano
 @bug No known bugs.
  */
-#include <tbb/blocked_range.h>
+
+#include <tbb/blocked_range2d.h>
 
 /**
 @brief this function performs a serial average blur filter
@@ -67,7 +68,7 @@ public:
     @brief the () operator called by TBB
     @param r: the range the thread had to work on
     */
-	void operator() (const tbb::blocked_range<size_t>& r)const;
+	void operator() (const tbb::blocked_range2d<size_t>& r)const;
     void swap_pointers();
 private:
     // internal pointer to the source buffer

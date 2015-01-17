@@ -139,7 +139,7 @@ void blur_tbb(	uint8_t * source,
 	for (unsigned int iter =0; iter< iterations; ++iter)
 	{
 		//kick the parallel for
-		tbb::parallel_for(tbb::blocked_range<size_t>(0,width), kernel);
+		tbb::parallel_for(tbb::blocked_range2d<size_t>(0,width,0,height), kernel);
 		kernel.swap_pointers();
 	}
 
@@ -168,7 +168,7 @@ Apply_blur_tbb::Apply_blur_tbb(uint8_t * source,
 
 }
 
-void Apply_blur_tbb::operator() (const tbb::blocked_range<size_t>& r)const
+void Apply_blur_tbb::operator() (const tbb::blocked_range2d<size_t>& r)const
 {
 	
 	//instancing variablese
@@ -178,13 +178,15 @@ void Apply_blur_tbb::operator() (const tbb::blocked_range<size_t>& r)const
 	long unsigned int curr_id;
 	float colorR,colorG,colorB,sum;
 
-	
-	//looping the given TBB range
-	for (long unsigned int w=r.begin(); w!=r.end(); ++w )
-	{
-		//looping the height
-		for (long unsigned int h=0; h<m_height; ++h )
-		{
+	for( size_t w=r.rows().begin(); w!=r.rows().end(); ++w ){
+        for( size_t h=r.cols().begin(); h!=r.cols().end(); ++h ) 
+           	{
+	// //looping the given TBB range
+	// for (long unsigned int w=r.begin(); w!=r.end(); ++w )
+	// {
+	// 	//looping the height
+	// 	for (long unsigned int h=0; h<m_height; ++h )
+	// 	{
 			//central index
 			idxs[0]=(m_width*h)*3 + (w*3);
 			//left index

@@ -59,13 +59,11 @@ void Apply_bw_tbb::operator() (const tbb::blocked_range2d<size_t>& r)const
 	int idx =0;
 	uint8_t color;
 
-	for( size_t i=r.rows().begin(); i!=r.rows().end(); ++i ){
-        for( size_t j=r.cols().begin(); j!=r.cols().end(); ++j ) 
+	for( size_t w=r.rows().begin(); w!=r.rows().end(); ++w ){
+        for( size_t h=r.cols().begin(); h!=r.cols().end(); ++h ) 
            	{
-				//computing the index and the color
-				// idx = (m_width*h)*3 + (int(w)*3);
-				idx = (m_width*j)*3 + (int(i)*3);
-
+				idx = (m_width*h)*3 + (int(w)*3);
+				
 				color = uint8_t(0.21*float(m_source[idx])+0.72*float(m_source[idx+1]) + 0.07*float(m_source[idx+2]));
 				//setting the color value
 				m_target[idx] = color;
