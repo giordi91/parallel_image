@@ -12,7 +12,7 @@ CUDA_FLAGS = -arch=sm_35
 vpath %.cpp src
 vpath %.cu src
 # VPATH = src
-
+ 
 #TO DO , I want to build all the .o in the buil dir
 # which I can do already but then I dunno how to read
 # allthe .o properly for the $? symbol, need more 
@@ -40,3 +40,5 @@ doc:
 	rm -f -r ./doc/html
 	doxygen ./Doxyfile
 	google-chrome ./doc/html/index.html
+
+.PHONY: all run clean
