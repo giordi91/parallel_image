@@ -17,6 +17,7 @@ Gaussian_stancil::Gaussian_stancil(	const float sigma,
 	m_width = size_t(m_sigma)*2 +1;
 	m_height = m_width;
 
+
 	//allocating the buffer
 	m_data= new float[m_width*m_height];
 
@@ -27,14 +28,16 @@ Gaussian_stancil::Gaussian_stancil(	const float sigma,
 	total = 0;
 	 
 	float fistArg = 1.0f/(2.0f * PI_F * (float)pow(m_sigma,2.0f));
+
 	for (size_t w=0; w<m_width; ++w)
 	{
 
 		for (size_t h=0; h<m_width; ++h)
 		{
 			//computing local coordinate
-			localX = float(w-center);
-			localY = float(h-center);
+			localX = float(float(w)-center);
+			localY = float(float(h)-center);
+
 			//computing exponential part of the formula
 			toExp = -((localX*localX) + (localY*localY))/(2.0f * m_sigma*m_sigma);
 			//result
