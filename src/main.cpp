@@ -10,8 +10,13 @@
 #include <blur_filter.h>
 #include <stancil.h>
 #include <gaussian_stancil.h>
+#include <convolution_filter.h>
 
 using namespace std;
+
+//TODO 
+//MAKE SURE WE ARE DOING CONSEQUNETIAL ACCESS IN MEMORY (MOSTLY GPU),
+//aka looping first hegiht then width
 
 int main( int argc, char* argv[]) 
 {
@@ -21,7 +26,8 @@ int main( int argc, char* argv[])
     Bitmap testbmp;
     try
     {
-        testbmp.open("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessy.bmp");
+        ///user_data/WORK_IN_PROGRESS/parallel_image/data/jessy.bmp
+        testbmp.open("/user_data/WORK_IN_PROGRESS/parallel_image/data/jessy.bmp");
     }
     catch(std::runtime_error &e)
     {
@@ -45,12 +51,12 @@ int main( int argc, char* argv[])
     uint8_t * src = testbmp.getRawData();
     uint8_t * target = workingBmp.getRawData();
 
-    
-    // // blur test
+    tbb::tick_count t0,t1;
+     
+    // blur test
 
     // int iterations = 19;
     // std::cout<<"Operation : 20 blur iterations \n"<<endl;
-    // tbb::tick_count t0,t1;
     // // //time the serial functon
     // std::cout<<"Running CPU serial..."<<endl; 
     // t0 = tbb::tick_count::now();
@@ -106,12 +112,32 @@ int main( int argc, char* argv[])
     //testing the stancil
 
     Gaussian_stancil st(1.0, true);
-    st.log();
+    // std::cout<<"gaussian_stancil values"<<std::endl;
+    // st.log();
+
+    t0 = tbb::tick_count::now();
+    convolution_serial(src,target,width,height,st);
+    t1 = tbb::tick_count::now();
+    cout << "Computing SERIAL convolution"<< endl;
+    cout << (t1-t0).seconds()<<" s" << endl; 
+
+    t0 = tbb::tick_count::now();
+    convolution_tbb(src,target,width,height,st);
+    t1 = tbb::tick_count::now();
+    cout << "Computing parallel TBB convolution"<< endl;
+    cout << (t1-t0).seconds()<<" s" << endl; 
+
+
+    t0 = tbb::tick_count::now();
+    convolution_cuda(src,target,width,height,st);
+    t1 = tbb::tick_count::now();
+    cout << "Computing parallel GPU convolution"<< endl;
+    cout << (t1-t0).seconds()<<" s" << endl; 
 
 
     try
-    {
-        workingBmp.save("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessyBW.bmp");
+    {   ///user_data/WORK_IN_PROGRESS/parallel_image/data/jessy.bmp
+        workingBmp.save("/user_data/WORK_IN_PROGRESS/parallel_image/data/jessyBW.bmp");
     }
     catch(std::runtime_error &e)
     {

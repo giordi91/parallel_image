@@ -6,8 +6,10 @@
  * kind of stancil we wants to apply
  */
 
- #ifndef __PARALLEL_IMAGE_STANCIL_H__
- #define __PARALLEL_IMAGE_STANCIL_H__
+#ifndef __PARALLEL_IMAGE_STANCIL_H__
+#define __PARALLEL_IMAGE_STANCIL_H__
+#include <cstddef> 
+#include <cstdint> 
 
  class Stancil
  {
@@ -20,7 +22,7 @@
  	 * @param x: the x coordinate of the stancil
  	 * @param y: the y coordinate of the stancil
  	 */
- 	virtual float get_value(unsigned int x, unsigned int y)const = 0;
+ 	virtual float get_value(size_t x, size_t y)const = 0;
  	
  	/**
  	 * @brief printing at conosle the stancil values
@@ -33,13 +35,13 @@
  	 * @brief get the width of the stancil
  	 * @return width in pixel of the stancil
  	 */
- 	virtual unsigned int get_width()const = 0;  
+ 	virtual size_t get_width()const = 0;  
  	
  	/**
  	 * @brief get the height of the stancil
  	 * @return height in pixel of the stancil
  	 */
- 	virtual unsigned int get_height()const = 0;
+ 	virtual size_t get_height()const = 0;
 	
 	/**
  	 * @brief the they stancil size in byte
@@ -48,7 +50,7 @@
  	 * 			the GPU
  	 * @return the byte size of the stancil
  	 */
- 	virtual unsigned int get_size()const = 0;  
+ 	virtual size_t get_size()const = 0;  
 
  	/**
  	 * @brief get pointer to the stancil data
@@ -81,8 +83,8 @@ class GenericStancil: public Stancil
  	 */
  	GenericStancil();
  	GenericStancil(	const float * data, 
- 					const unsigned int width, 
-					const unsigned int height);
+ 					const size_t width, 
+					const size_t height);
  	/**
  	 * @brief returns the stancil value at wanted coordinates
  	 * 		  
@@ -91,7 +93,7 @@ class GenericStancil: public Stancil
  	 * @param x: the x coordinate of the stancil
  	 * @param y: the y coordinate of the stancil
  	 */
- 	float get_value(unsigned int x, unsigned int y)const ;
+ 	float get_value(size_t x, size_t y)const ;
  	
  	/**
  	 * @brief printing at conosle the stancil values
@@ -104,13 +106,13 @@ class GenericStancil: public Stancil
  	 * @brief get the width of the stancil
  	 * @return width in pixel of the stancil
  	 */
- 	unsigned int get_width()const ;  
+ 	size_t get_width()const ;  
  	
  	/**
  	 * @brief get the height of the stancil
  	 * @return height in pixel of the stancil
  	 */
- 	unsigned int get_height()const ;
+ 	size_t get_height()const ;
 	
 	/**
  	 * @brief the they stancil size in byte
@@ -119,7 +121,7 @@ class GenericStancil: public Stancil
  	 * 			the GPU
  	 * @return the byte size of the stancil
  	 */
- 	unsigned int get_size()const ;  
+ 	size_t get_size()const ;  
 
  	/**
  	 * @brief get pointer to the stancil data
@@ -132,8 +134,8 @@ class GenericStancil: public Stancil
 
  protected:
  	float * m_data;
- 	unsigned int m_width;
- 	unsigned int m_height;
+ 	size_t m_width;
+ 	size_t m_height;
  };
 
 

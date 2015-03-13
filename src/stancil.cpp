@@ -1,5 +1,6 @@
 #include <stancil.h>
 #include <cstring>
+
 #include <iostream>
 
 GenericStancil::GenericStancil(): 	m_data(NULL), 
@@ -8,8 +9,8 @@ GenericStancil::GenericStancil(): 	m_data(NULL),
 {}
 
 GenericStancil::GenericStancil(	const float * data, 
-			 					const unsigned int width, 
-								const unsigned int height): m_data(NULL), 
+			 					const size_t width, 
+								const size_t height): m_data(NULL), 
 															m_width(width), 
 															m_height(height)
 {
@@ -19,7 +20,7 @@ GenericStancil::GenericStancil(	const float * data,
 
 }
 
-float GenericStancil::get_value(unsigned int x, unsigned int y) const
+float GenericStancil::get_value(size_t x, size_t y) const
 {
 	// TODO should i do boundaries check?
 	// if i do trow exception and let it handle externally?
@@ -28,9 +29,9 @@ float GenericStancil::get_value(unsigned int x, unsigned int y) const
 
 void GenericStancil::log()const
 {
-	for (unsigned int w=0; w< m_width; ++w)
+	for (size_t w=0; w< m_width; ++w)
 	{
-		for (unsigned int h=0; h<m_height; ++h)
+		for (size_t h=0; h<m_height; ++h)
 		{
 			std::cout<<get_value(w,h)<<" ";
 		}
@@ -39,19 +40,19 @@ void GenericStancil::log()const
 
 }
 
-unsigned int GenericStancil::get_width()const
+size_t GenericStancil::get_width()const
 {
 	return m_width;
 }
 
-unsigned int GenericStancil::get_height()const
+size_t GenericStancil::get_height()const
 {	
 	return m_height;
 }
 
-unsigned int GenericStancil::get_size()const
+size_t GenericStancil::get_size()const
 {
-	return (unsigned int)sizeof(float) * m_width * m_height;
+	return (size_t)sizeof(float) * m_width * m_height;
 }
 
 const float * GenericStancil::get_data()const

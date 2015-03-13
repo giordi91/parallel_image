@@ -1,5 +1,5 @@
 #include "stancil.h"
-
+#include <cstdint>
 
 
 #ifndef __PARALLEL_IMAGE_GAUSSIAN_STANCIL_H

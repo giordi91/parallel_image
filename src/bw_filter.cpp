@@ -56,13 +56,13 @@ Apply_bw_tbb::Apply_bw_tbb(const uint8_t * source,
 void Apply_bw_tbb::operator() (const tbb::blocked_range2d<size_t>& r)const
 {
 	//allocatin needed variables
-	int idx =0;
+	size_t idx =0;
 	uint8_t color;
 
 	for( size_t w=r.rows().begin(); w!=r.rows().end(); ++w ){
         for( size_t h=r.cols().begin(); h!=r.cols().end(); ++h ) 
            	{
-				idx = (m_width*h)*3 + (int(w)*3);
+				idx = (m_width*h)*3 + (size_t(w)*3);
 				
 				color = uint8_t(0.21*float(m_source[idx])+0.72*float(m_source[idx+1]) + 0.07*float(m_source[idx+2]));
 				//setting the color value

@@ -1,0 +1,50 @@
+CXX = g++
+CXXFLAGS = -ansi -pedantic -Wall -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -std=c++0x -DLINUX
+TARGET = parallel_image
+BUILD_PATH = build
+SRC_PATH= src
+CUDA_PATH = /apps/Linux64/cuda/cuda-5.5.22
+INCLUDE_PATH = -I include -I $(CUDA_PATH)/include -I /tools/SITE/rnd/include/tbb/tbb-4.1
+LIB_PATH = -L /tools/SITE/rnd/lib/Linux64/tbb/tbb-4.1
+LIB = -ltbb-gcc446 -Wl,-rpath=/tools/SITE/rnd/lib/Linux64/tbb/tbb-4.1
+
+CUDA_LIB_PATH = -L $(CUDA_PATH)/lib64 
+CUDA_LIB = -Wl,-rpath=/apps/Linux64/cuda/cuda-5.5.22/lib64/ -lcudart -lcudadevrt
+NVCC = $(CUDA_PATH)/bin/nvcc
+CUDA_FLAGS = -arch=sm_35
+
+
+file:///apps/Linux64/cuda/cuda-5.5.22/lib64/libcudart.so
+
+vpath %.cpp src
+vpath %.cu src
+ 
+#TO DO , I want to build all the .o in the buil dir
+# which I can do already but then I dunno how to read
+# allthe .o properly for the $? symbol, need more 
+#studies
+
+.SUFFIXES: .cpp .o .cu .h
+
+all: main.o bitmap.o bw_filter.o blur_filter.o stancil.o gaussian_stancil.o bw_kernel.cu.o blur_kernel.cu.o convolution_filter.o
+	$(CXX)  $? -o $(BUILD_PATH)/$(TARGET) $(LIB_PATH) $(LIB) $(CUDA_LIB_PATH) $(CUDA_LIB)
+
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS)  $(INCLUDE_PATH) -c $<
+
+%.cu.o: %.cu
+	$(NVCC) -c $< -o $@
+
+run: clean all
+	$(BUILD_PATH)/$(TARGET) 
+
+clean:
+	rm -f $(BUILD_PATH)/*.o $(BUILD_PATH)/$(TARGET)* *.o
+
+doc:
+	rm -f -r ./doc/html
+	doxygen ./Doxyfile
+	google-chrome ./doc/html/index.html
+
+.PHONY: all run clean
