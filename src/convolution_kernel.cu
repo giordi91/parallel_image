@@ -16,18 +16,19 @@ __global__ void blur_kernel(const uint8_t *d_source, uint8_t *d_target,
                     (threadIdx.x + (blockIdx.x*blockDim.x))) *3;
 
     //setting the average result
-    d_target[idxs[0]] = 255;
-    d_target[idxs[0]+1] = 0;
-    d_target[idxs[0]+2] = 0;
+    d_target[idx] = 255;
+    d_target[idx+1] = 0;
+    d_target[idx+2] = 0;
 
 }
 
 
 
 void run_convolution_kernel( uint8_t *d_source,  uint8_t *d_target, 
-                        const int width, const int height, const  Stancil &workStancil)
+                        const int width, const int height, const  float *workStancil)
 {
-    const int grainSize=16;
+    /*
+	const int grainSize=16;
     int width_blocks,width_height;
     //computing the block size
     width_blocks = ((width%grainSize) != 0)?(width/grainSize) +1: (width/grainSize);
@@ -71,5 +72,5 @@ void run_convolution_kernel( uint8_t *d_source,  uint8_t *d_target,
     if (err != cudaSuccess) 
         printf("Error: %s\n", cudaGetErrorString(err));
 
-
+	*/
 }

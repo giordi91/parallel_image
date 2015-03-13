@@ -46,8 +46,8 @@ void convolution_serial(const uint8_t * source,
                     localY = st_h - center_y;
 
                     //checking if we are in the image boundary
-                    if ((localX >= 0 and (localX < (width))) ||
-                        (localY >= 0 and (localY < (height))))
+                    if ((localX >= 0 && (localX < (width))) ||
+                        (localY >= 0 && (localY < (height))))
 
                     {
                         //if we reach here it means we are somewhere 
@@ -134,8 +134,8 @@ void Apply_convolution_tbb::operator() (const tbb::blocked_range2d<size_t>& r)co
 
                         //checking if we are in the image boundary
                         //better boundary checks here I am loosing some pixel on the edges
-                        if ((localX >= 0 and (localX < (m_width))) ||
-                            (localY >= 0 and (localY < (m_height))))
+                        if ((localX >= 0 && (localX < (m_width))) ||
+                            (localY >= 0 && (localY < (m_height))))
 
                         {
                             //if we reach here it means we are somewhere 
