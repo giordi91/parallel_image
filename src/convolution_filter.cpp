@@ -165,7 +165,9 @@ void Apply_convolution_tbb::operator() (const tbb::blocked_range2d<size_t>& r)co
 
 void run_convolution_kernel( uint8_t *d_source, uint8_t *d_target, 
                         const int width, const int height,
-                        const int iterations);
+                        const float * d_stancil,
+                        const int st_width,
+                        const int st_height);
 
 
 void convolution_cuda(const uint8_t * h_source,
@@ -180,6 +182,9 @@ void convolution_cuda(const uint8_t * h_source,
     int filter_byte_size = workStancil.get_height()*
                       workStancil.get_width()*3*
                       (int)sizeof(float);
+    int d_st_width = workStancil.get_width();
+    int d_st_height= workStancil.get_height();
+
 
 
     //declaring gpu pointers
@@ -201,6 +206,8 @@ void convolution_cuda(const uint8_t * h_source,
         printf("Error: %s\n", cudaGetErrorString(s));
 
     //here run
+    run_convolution_kernel(d_source,d_target,width,height,
+    					d_stancil,d_st_width,d_st_height);
 
     s = cudaMemcpy(h_target, d_target, byte_size, cudaMemcpyDeviceToHost);
     if (s != cudaSuccess) 
