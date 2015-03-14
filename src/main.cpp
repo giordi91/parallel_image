@@ -12,6 +12,7 @@
 #include <gaussian_stancil.h>
 #include <convolution_filter.h>
 #include <sharpen_filter.h>
+#include <edge_detection_filter.h>
 
 using namespace std;
 
@@ -154,10 +155,30 @@ int main( int argc, char* argv[])
     // cout << "serial TBB sharpen"<< endl;
     // cout << (t1-t0).seconds()<<" s" << endl; 
 
+    // t0 = tbb::tick_count::now();
+    // sharpen_cuda(src,target,width,height);
+    // t1 = tbb::tick_count::now();
+    // cout << "serial Cuda sharpen"<< endl;
+    // cout << (t1-t0).seconds()<<" s" << endl; 
+
+
     t0 = tbb::tick_count::now();
-    sharpen_cuda(src,target,width,height);
+    edge_detection_serial(src,target,width,height,2);
     t1 = tbb::tick_count::now();
-    cout << "serial Cuda sharpen"<< endl;
+    cout << "Computing serial edge detection"<< endl;
+    cout << (t1-t0).seconds()<<" s" << endl; 
+
+        t0 = tbb::tick_count::now();
+    edge_detection_tbb(src,target,width,height,2);
+    t1 = tbb::tick_count::now();
+    cout << "Computing TBB edge detection"<< endl;
+    cout << (t1-t0).seconds()<<" s" << endl; 
+
+
+        t0 = tbb::tick_count::now();
+    edge_detection_cuda(src,target,width,height,2);
+    t1 = tbb::tick_count::now();
+    cout << "Computing CUDA edge detection"<< endl;
     cout << (t1-t0).seconds()<<" s" << endl; 
 
 

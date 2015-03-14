@@ -2,8 +2,8 @@
 #include <cstdint>
 
 
-#ifndef __PARALLEL_IMAGE_GAUSSIAN_STANCIL_H
-#define __PARALLEL_IMAGE_GAUSSIAN_STANCIL_H 
+#ifndef __PARALLEL_IMAGE_SHARPEN_FILTER_H
+#define __PARALLEL_IMAGE_SHARPEN_FILTER_H 
 /**
  * @brief stancil class for gaussian blur
  * @details This stancil generates a gaussian filter based on the standard
