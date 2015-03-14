@@ -201,7 +201,7 @@ void convolution_cuda(const uint8_t * h_source,
     //calculating the size of the arrya
     size_t byte_size = width*height*3*(size_t)sizeof(uint8_t);
     size_t filter_byte_size = workStancil.get_height()*
-                      workStancil.get_width()*3*
+                      workStancil.get_width()*
                       (size_t)sizeof(float);
     size_t d_st_width = workStancil.get_width();
     size_t d_st_height= workStancil.get_height();
