@@ -181,9 +181,12 @@ void convolution_cuda(const uint8_t * h_source,
     //calculating the size of the arrya
     int byte_size = width*height*3*(int)sizeof(uint8_t);
     int filter_byte_size = workStancil.get_height()*
-                      workStancil.get_width()*3*
+                      workStancil.get_width()*
                       (int)sizeof(float);
-    int d_st_width = workStancil.get_width();
+	std::cout<<sizeof(float)<<std::endl;
+	std::cout<<workStancil.get_height()<<std::endl;
+    std::cout<<workStancil.get_width()<<std::endl;
+	int d_st_width = workStancil.get_width();
     int d_st_height= workStancil.get_height();
 
 
@@ -191,7 +194,7 @@ void convolution_cuda(const uint8_t * h_source,
     //declaring gpu pointers
     uint8_t * d_source;
     uint8_t * d_target;
-    float * d_stancil;
+    float * d_stancil; 
 
     //allocating memory on the gpu for source image,target,and stancil
     cudaMalloc((void **) &d_source,byte_size);
@@ -203,7 +206,9 @@ void convolution_cuda(const uint8_t * h_source,
 	s= cudaMemcpy(d_source, h_source, byte_size, cudaMemcpyHostToDevice);
     if (s != cudaSuccess) 
         printf("Error: %s\n", cudaGetErrorString(s));
-    s = cudaMemcpy(d_stancil, workStancil.get_data(), filter_byte_size, cudaMemcpyHostToDevice);
+
+	const float * h_st_source = workStancil.get_data();
+    s = cudaMemcpy(d_stancil, h_st_source, filter_byte_size, cudaMemcpyHostToDevice);
     if (s != cudaSuccess) 
         printf("Error: %s\n", cudaGetErrorString(s));
 
