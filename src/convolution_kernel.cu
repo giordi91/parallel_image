@@ -3,7 +3,6 @@
 #include "device_launch_parameters.h"
 
 #include <stdint.h>
-#include<iostream>
 #include<stdio.h>
 
 
@@ -20,52 +19,63 @@ __global__ void convolution_kernel(const uint8_t *d_source, uint8_t *d_target,
     {
         return;
     }
+    //
     if ((blockDim.y * blockIdx.y)+ threadIdx.y > (height-1))
     {
         return;
     }
 
-    int idx =( (((blockIdx.y*blockDim.y) + threadIdx.y) *width) + 
-                    (threadIdx.x + (blockIdx.x*blockDim.x))) *3;
+    int x,y,localX,localY,final_idx,pixX,pixY, st_idx;
+    //lets compute the coordinate of the pixel we are computing
+    pixX = (blockIdx.x*blockDim.x) + threadIdx.x;
+    pixY = (blockIdx.y*blockDim.y) + threadIdx.y;
 
-    int x,y,localX,localY,final_idx;
+    int idx = ((pixY *width) + (pixX)) *3;
 
+
+    //computing the center of the filter
     int center_x = (int)(st_width/2.0);
     int center_y = (int)(st_height/2.0);
+    
+    //allocating/initializing  color variables
+    float colorR = 0,colorG = 0,colorB = 0;
 
-    float colorR = 0;
-    float colorG = 0;
-    float colorB = 0;
-
-
+    //looping the height of the filter
     for (y=0; y<st_height; ++y)
     {
+
+        localY = y - center_y;
+        //looping the weidth of the filter
         for (x=0;x<st_width; ++x)
         {
+            //lets compute where in the filter we are, computiing local
+            //coordinate from the center
             localX = x - center_x;
-            localY = y - center_y;
 
             //boundary check 
-            if ((localX >= 0 && (localX < (width))) ||
-                            (localY >= 0 && (localY < (height))))
+            if (( (localX + pixX) >= 0 && ((localX+pixX) < width)) &&
+                (localY+pixY >= 0 && ((localY+pixY) < height)))
 
             {
 
-                // final_idx = idx + ((localX*3) + (localY*m_width*3));
+                //compute the final pixel to sample taking in to account 
+                //the offset of the filter
                 final_idx = idx + ((localX*3) + (localY*width*3));
 
-                colorR += float(d_source[final_idx])*d_stancil[x+ (y*st_width)];
-                colorG += float(d_source[final_idx+1])*d_stancil[x+ (y*st_width)];
-                colorB += float(d_source[final_idx+2])*d_stancil[x+ (y*st_width)];
+                //compute the filter index buffer
+                st_idx = x+ (y*st_width);
 
+                colorR += float(d_source[final_idx])*d_stancil[st_idx];
+                colorG += float(d_source[final_idx+1])*d_stancil[st_idx];
+                colorB += float(d_source[final_idx+2])*d_stancil[st_idx];
 
-            }
+            }//end of stencil boundary checking
 
-        }
+        }//end of looping filter width
 
-    }
+    }//end of looping filter height
 
-    //setting the average result
+    //setting the color to final buffer
     d_target[idx] = (uint8_t)colorR;
     d_target[idx+1] = (uint8_t)colorG;
     d_target[idx+2] = (uint8_t)colorB;
@@ -91,29 +101,17 @@ void run_convolution_kernel( uint8_t *d_source,  uint8_t *d_target,
     const dim3 blockSize( grainSize, grainSize , 1); 
     const dim3 gridSize( width_blocks, width_height, 1); 
 
-    //setupping clock
-    //cudaEvent_t start, stop;
-    //cudaEventCreate(&start);
-    //cudaEventCreate(&stop);
-
-    //starting the clock
-    //cudaEventRecord(start);
-    //kick the kernel
-    
-    convolution_kernel<<<gridSize, blockSize>>>(d_source, d_target, width,height,
-        d_stancil,st_width,st_height);
+    //calling the actual kernel
+    convolution_kernel<<<gridSize, blockSize>>>(d_source, 
+                                                d_target, 
+                                                width,
+                                                height,
+                                                d_stancil,
+                                                st_width,
+                                                st_height);
     
     //sincronizing device
     cudaDeviceSynchronize();
-
-    //stop the clock
-    //cudaEventRecord(stop);
-
-    //getting the time
-    //float milliseconds = 0;
-    //cudaEventElapsedTime(&milliseconds, start, stop);
-    //std::cout<<milliseconds<<std::endl;
-
 
     //checking for error
     cudaError_t err = cudaGetLastError();

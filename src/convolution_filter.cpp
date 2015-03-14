@@ -39,15 +39,15 @@ void convolution_serial(const uint8_t * source,
             idx = (width*h)*3 + (w*3);
             for (st_h=0; st_h< st_height; ++st_h)
             {
+                localY = st_h - center_y;
                 for (st_w=0; st_w< st_width; ++st_w)
                 {
                     //compute relative position of the stancil pixel
                     localX = st_w - center_x;
-                    localY = st_h - center_y;
 
                     //checking if we are in the image boundary
-                    if ((localX >= 0 && (localX < (width))) ||
-                        (localY >= 0 && (localY < (height))))
+                    if ((localX +st_w  >= 0 && (localX + st_w < (width))) ||
+                        (localY + st_h >= 0 && (localY+ st_h < (height))))
 
                     {
                         //if we reach here it means we are somewhere 
@@ -124,18 +124,19 @@ void Apply_convolution_tbb::operator() (const tbb::blocked_range2d<size_t>& r)co
                 colorB=0;
                 //looping the stancil width
                 idx = (m_width*h)*3 + (w*3);
+
                 for (st_h=0; st_h< st_height; ++st_h)
                 {
+                    localY = st_h - center_y;
                     for (st_w=0; st_w< st_width; ++st_w)
                     {
                         //compute relative position of the stancil pixel
                         localX = st_w - center_x;
-                        localY = st_h - center_y;
 
                         //checking if we are in the image boundary
                         //better boundary checks here I am loosing some pixel on the edges
-                        if ((localX >= 0 && (localX < (m_width))) ||
-                            (localY >= 0 && (localY < (m_height))))
+                        if (( (localX +w) >= 0 && (localX+w < (m_width))) ||
+                            (localY+h >= 0 && (localY+h < (m_height))))
 
                         {
                             //if we reach here it means we are somewhere 
@@ -192,7 +193,7 @@ void convolution_cuda(const uint8_t * h_source,
     uint8_t * d_target;
     float * d_stancil;
 
-    //allocating memory on the gpu
+    //allocating memory on the gpu for source image,target,and stancil
     cudaMalloc((void **) &d_source,byte_size);
     cudaMalloc((void **) &d_target,byte_size);
     cudaMalloc((void **) &d_stancil,filter_byte_size);

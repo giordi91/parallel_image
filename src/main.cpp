@@ -115,11 +115,11 @@ int main( int argc, char* argv[])
     // std::cout<<"gaussian_stancil values"<<std::endl;
     // st.log();
 
-    t0 = tbb::tick_count::now();
-    convolution_serial(src,target,width,height,st);
-    t1 = tbb::tick_count::now();
-    cout << "Computing SERIAL convolution"<< endl;
-    cout << (t1-t0).seconds()<<" s" << endl; 
+    // t0 = tbb::tick_count::now();
+    // convolution_serial(src,target,width,height,st);
+    // t1 = tbb::tick_count::now();
+    // cout << "Computing SERIAL convolution"<< endl;
+    // cout << (t1-t0).seconds()<<" s" << endl; 
 
     t0 = tbb::tick_count::now();
     convolution_tbb(src,target,width,height,st);
@@ -128,11 +128,11 @@ int main( int argc, char* argv[])
     cout << (t1-t0).seconds()<<" s" << endl; 
 
 
-    t0 = tbb::tick_count::now();
-    convolution_cuda(src,target,width,height,st);
-    t1 = tbb::tick_count::now();
-    cout << "Computing parallel GPU convolution"<< endl;
-    cout << (t1-t0).seconds()<<" s" << endl; 
+    // t0 = tbb::tick_count::now();
+    // convolution_cuda(src,target,width,height,st);
+    // t1 = tbb::tick_count::now();
+    // cout << "Computing parallel GPU convolution"<< endl;
+    // cout << (t1-t0).seconds()<<" s" << endl; 
 
 
     try
