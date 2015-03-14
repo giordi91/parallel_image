@@ -11,6 +11,7 @@
 #include <stancil.h>
 #include <gaussian_stancil.h>
 #include <convolution_filter.h>
+#include <sharpen_filter.h>
 
 using namespace std;
 
@@ -30,7 +31,7 @@ int main( int argc, char* argv[])
 		//E:/WORK_IN_PROGRESS/C/parallel_image/data
         ///user_data/WORK_IN_PROGRESS/parallel_image/data/jessy.bmp
 		///home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessy.bmp
-        testbmp.open("E:/WORK_IN_PROGRESS/C/parallel_image/data/jessy.bmp");
+        testbmp.open("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessy.bmp");
     }
     catch(std::runtime_error &e)
     {
@@ -114,7 +115,7 @@ int main( int argc, char* argv[])
 
     //testing the stancil
 
-    Gaussian_stancil st(15.0, true);
+    Gaussian_stancil st(30.0, true);
     // std::cout<<"gaussian_stancil values"<<std::endl;
     // st.log();
 	/*
@@ -131,16 +132,37 @@ int main( int argc, char* argv[])
     cout << (t1-t0).seconds()<<" s" << endl; 
 	*/
 
+    // t0 = tbb::tick_count::now();
+    // convolution_cuda(src,target,width,height,st);
+    // t1 = tbb::tick_count::now();
+    // cout << "Computing parallel GPU convolution"<< endl;
+    // cout << (t1-t0).seconds()<<" s" << endl; 
+
+
+    // t0 = tbb::tick_count::now();
+    // sharpen_serial(src,target,width,height);
+    // t1 = tbb::tick_count::now();
+    // cout << "serial CPU sharpen"<< endl;
+    // cout << (t1-t0).seconds()<<" s" << endl; 
+
+
+
+    // t0 = tbb::tick_count::now();
+    // sharpen_tbb(src,target,width,height);
+    // t1 = tbb::tick_count::now();
+    // cout << "serial TBB sharpen"<< endl;
+    // cout << (t1-t0).seconds()<<" s" << endl; 
+
     t0 = tbb::tick_count::now();
-    convolution_cuda(src,target,width,height,st);
+    sharpen_cuda(src,target,width,height);
     t1 = tbb::tick_count::now();
-    cout << "Computing parallel GPU convolution"<< endl;
+    cout << "serial Cuda sharpen"<< endl;
     cout << (t1-t0).seconds()<<" s" << endl; 
 
 
     try
     {   ///user_data/WORK_IN_PROGRESS/parallel_image/data/jessy.bmp
-        workingBmp.save("E:/WORK_IN_PROGRESS/C/parallel_image/data/jessyBW.bmp");
+        workingBmp.save("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessyBW.bmp");
     }
     catch(std::runtime_error &e)
     {

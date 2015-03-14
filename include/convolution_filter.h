@@ -17,15 +17,15 @@
 */
 void convolution_serial(	const uint8_t * source,
 			                uint8_t* target,
-			                const int &width,
-			                const int &height,
+			                const size_t &width,
+			                const size_t &height,
 			                const  Stancil &workStancil);
 
 
 void convolution_tbb(       const uint8_t * source,
                             uint8_t* target,
-                            const int &width,
-                            const int &height,
+                            const size_t &width,
+                            const size_t &height,
                             const  Stancil &workStancil);
 
 
@@ -34,8 +34,8 @@ class Apply_convolution_tbb
 public:
     Apply_convolution_tbb(const uint8_t * source,
                             uint8_t* target,
-                            const int &width,
-                            const int &height,
+                            const size_t &width,
+                            const size_t &height,
                             const  Stancil &workStancil);
 
     void operator() (const tbb::blocked_range2d<size_t>& r)const;
@@ -47,9 +47,9 @@ private:
     // internal pointer to the target buffer
     uint8_t* m_target;
     //internal width of the image
-    const int m_width;
+    const size_t m_width;
     //internal height of the image
-    const int m_height;
+    const size_t m_height;
     //stancil pointer
     const Stancil *m_workStancil;
 
@@ -59,8 +59,8 @@ private:
 
 void convolution_cuda(const uint8_t * h_source,
                 uint8_t* h_target,
-                const int &width,
-                const int &height,
+                const size_t &width,
+                const size_t &height,
                 const  Stancil &workStancil);
 
 #endif

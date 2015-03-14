@@ -76,19 +76,19 @@ __global__ void convolution_kernel(const uint8_t *d_source, uint8_t *d_target,
     }//end of looping filter height
 
     //setting the color to final buffer
-    d_target[idx] = (uint8_t)colorR;
-    d_target[idx+1] = (uint8_t)colorG;
-    d_target[idx+2] = (uint8_t)colorB;
+    d_target[idx] = (uint8_t)min(255.0f,max(0.0f,colorR));
+    d_target[idx+1] = (uint8_t)min(255.0f,max(0.0f,colorG));
+    d_target[idx+2] = (uint8_t)min(255.0f,max(0.0f,colorB));
 
 }
 
 
 
 void run_convolution_kernel( uint8_t *d_source,  uint8_t *d_target, 
-                        const int width, const int height, 
+                        const size_t width, const size_t height, 
                         const  float *d_stancil,
-                        const int st_width,
-                        const int st_height)
+                        const size_t st_width,
+                        const size_t st_height)
 {
     
 	const int grainSize=16;

@@ -1,5 +1,6 @@
 #include "convolution_filter.h" 
 #include <iostream>
+#include <algorithm> //min max
 
 //tbb includes
 #include <tbb/parallel_for.h>
@@ -8,27 +9,35 @@
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
 
+using namespace std;
 
 void convolution_serial(const uint8_t * source,
                         uint8_t* target,
-                        const int &width,
-                        const int &height,
+                        const size_t &width,
+                        const size_t &height,
                         const  Stancil &workStancil)
 {
 
-    int st_width = workStancil.get_width();
-    int st_height = workStancil.get_height();
-    int center_x = (int)(st_width/2.0);
-    int center_y = (int)(st_height/2.0);
+    int st_width = (int)workStancil.get_width();
+    int st_height = (int)workStancil.get_height();
+    int center_x = (int)(st_width/2);
+    int center_y = (int)(st_height/2);
 
-
-    int w,h,st_w,st_h,localX,localY,idx,final_idx;
+ 
+    int localX,localY,st_w,st_h,w,h;
+    size_t idx,final_idx;
 
     float colorR,colorG,colorB;
+
+    //should i do that?
+    //matching type
+    int int_height= (int)height;
+    int int_width= (int)width;
+
     //looping for the width of the image
-    for (h=0; h<height; ++h )
+    for (h=0; h<int_height; ++h )
     {
-        for (w=0; w<width; ++w )
+        for (w=0; w<int_width; ++w )
         //looping the height of the image
         {
             //zeroing the value in memory
@@ -46,8 +55,8 @@ void convolution_serial(const uint8_t * source,
                     localX = st_w - center_x;
 
                     //checking if we are in the image boundary
-                    if ((localX +w  >= 0 && (localX + w < (width))) &&
-                        (localY + h >= 0 && (localY+ h < (height))))
+                    if ((localX +w  >= 0 && (localX + w < (int_width))) &&
+                        (localY + h >= 0 && (localY+ h < (int_height))))
 
                     {
                         //if we reach here it means we are somewhere 
@@ -60,25 +69,25 @@ void convolution_serial(const uint8_t * source,
                         //now we shift for the offsetted stencil positon
                         final_idx = idx + ((localX*3) + (localY*width*3));
 
-                        colorR += float(source[final_idx])*workStancil.get_value(st_w,st_h);
-                        colorG += float(source[final_idx+1])*workStancil.get_value(st_w,st_h);
-                        colorB += float(source[final_idx+2])*workStancil.get_value(st_w,st_h);
+                        colorR += float(source[final_idx])*(float)workStancil.get_value(st_w,st_h);
+                        colorG += float(source[final_idx+1])*(float)workStancil.get_value(st_w,st_h);
+                        colorB += float(source[final_idx+2])*(float)workStancil.get_value(st_w,st_h);
 
                     }//end boundary check
                 }//end filter looping width
 
             }//end of filetr looping height
-            target[idx] = (uint8_t)colorR;
-            target[idx+1] = (uint8_t)colorG;
-            target[idx+2] = (uint8_t)colorB;
+            target[idx] = (uint8_t)min(255.0f,max(0.0f,colorR));
+            target[idx+1] = (uint8_t)min(255.0f,max(0.0f,colorG));
+            target[idx+2] = (uint8_t)min(255.0f,max(0.0f,colorB));
         }//end of image looping width
     }//end image looping height
-}
+} 
 
 void convolution_tbb(   const uint8_t * source,
                         uint8_t* target,
-                        const int &width,
-                        const int &height,
+                        const size_t &width,
+                        const size_t &height,
                         const  Stancil &workStancil)
 {
     //create an instance of the class for blur parallel
@@ -91,8 +100,8 @@ void convolution_tbb(   const uint8_t * source,
 
 Apply_convolution_tbb::Apply_convolution_tbb(const uint8_t * source,
                             uint8_t* target,
-                            const int &width,
-                            const int &height,
+                            const size_t &width,
+                            const size_t &height,
                             const  Stancil &workStancil):m_source(source),m_target(target),
                                 m_width(width),m_height(height),
                                 m_workStancil(&workStancil)
@@ -103,20 +112,30 @@ Apply_convolution_tbb::Apply_convolution_tbb(const uint8_t * source,
 void Apply_convolution_tbb::operator() (const tbb::blocked_range2d<size_t>& r)const
 {
     
-    int st_width = m_workStancil->get_width();
-    int st_height = m_workStancil->get_height();
-    int center_x = (int)(st_width/2.0);
-    int center_y = (int)(st_height/2.0);
+    int st_width = (int)m_workStancil->get_width();
+    int st_height = (int)m_workStancil->get_height();
+    int center_x = (int)(st_width/2);
+    int center_y = (int)(st_height/2);
 
-
-    int st_w,st_h,localX,localY,idx,final_idx;
-
+ 
+    int localX,localY,st_w,st_h;
+    size_t idx,final_idx;
+ 
     float colorR,colorG,colorB;
 
+    //should i do that?
+    //matching type
+    int int_height= (int)m_height;
+    int int_width= (int)m_width;
 
-
-    for( size_t w=r.rows().begin(); w!=r.rows().end(); ++w ){
-        for( size_t h=r.cols().begin(); h!=r.cols().end(); ++h ) 
+ 	//extracting the ranges
+ 	int startRows = (int)r.rows().begin();
+ 	int endRows = (int)r.rows().end();
+ 	int startCols = (int)r.cols().begin();
+ 	int endCols = (int)r.cols().end();
+ 
+    for( int w= startRows; w!=endRows; ++w ){
+        for( int h=startCols; h!=endCols; ++h ) 
             {
                 //zeroing the value in memory
                 colorR=0;
@@ -135,8 +154,8 @@ void Apply_convolution_tbb::operator() (const tbb::blocked_range2d<size_t>& r)co
 
                         //checking if we are in the image boundary
                         //better boundary checks here I am loosing some pixel on the edges
-                        if (( (localX +w) >= 0 && (localX+w < (m_width))) &&
-                            (localY+h >= 0 && (localY+h < (m_height))))
+                        if (( (localX +w) >= 0 && (localX+w < (int_width))) &&
+                            (localY+h >= 0 && (localY+h < (int_height))))
 
                         {
                             //if we reach here it means we are somewhere 
@@ -157,36 +176,35 @@ void Apply_convolution_tbb::operator() (const tbb::blocked_range2d<size_t>& r)co
                     }//end filter looping width
 
                 }//end of filetr looping height
-                m_target[idx] = (uint8_t)colorR;
-                m_target[idx+1] = (uint8_t)colorG;
-                m_target[idx+2] = (uint8_t)colorB;
+
+                m_target[idx] = (uint8_t)min(255.0f,max(0.0f,colorR));
+	            m_target[idx+1] = (uint8_t)min(255.0f,max(0.0f,colorG));
+	            m_target[idx+2] = (uint8_t)min(255.0f,max(0.0f,colorB));
             }
         }
 }
 
 void run_convolution_kernel( uint8_t *d_source, uint8_t *d_target, 
-                        const int width, const int height,
+                        const size_t width, const size_t height,
                         const float * d_stancil,
-                        const int st_width,
-                        const int st_height);
+                        const size_t st_width,
+                        const size_t st_height);
 
 
 void convolution_cuda(const uint8_t * h_source,
                 uint8_t* h_target,
-                const int &width,
-                const int &height,
+                const size_t &width,
+                const size_t &height,
                 const  Stancil &workStancil)
 
 {
     //calculating the size of the arrya
-    int byte_size = width*height*3*(int)sizeof(uint8_t);
-    int filter_byte_size = workStancil.get_height()*
+    size_t byte_size = width*height*3*(size_t)sizeof(uint8_t);
+    size_t filter_byte_size = workStancil.get_height()*
                       workStancil.get_width()*3*
-                      (int)sizeof(float);
-    int d_st_width = workStancil.get_width();
-    int d_st_height= workStancil.get_height();
-
-
+                      (size_t)sizeof(float);
+    size_t d_st_width = workStancil.get_width();
+    size_t d_st_height= workStancil.get_height();
 
     //declaring gpu pointers
     uint8_t * d_source;

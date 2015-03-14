@@ -7,8 +7,8 @@ SRC_PATH= src
 CUDA_LIB = -L /usr/local/cuda/lib -lcudadevrt
 CUDA_PATH = "/usr/local/cuda-6.5"
 NVCC = $(CUDA_PATH)/bin/nvcc
-CUDA_FLAGS = -arch=sm_35
-
+CUDA_FLAGS =  -arch=sm_35
+#-Xptxas --warning-as-error
 vpath %.cpp src
 vpath %.cu src
 # VPATH = src
@@ -20,7 +20,7 @@ vpath %.cu src
 
 .SUFFIXES: .cpp .o .cu .h
 
-all: main.o bitmap.o bw_filter.o blur_filter.o stancil.o gaussian_stancil.o convolution_filter.o bw_kernel.cu.o blur_kernel.cu.o convolution_kernel.cu.o 
+all: main.o bitmap.o bw_filter.o blur_filter.o stancil.o gaussian_stancil.o convolution_filter.o sharpen_filter.o bw_kernel.cu.o blur_kernel.cu.o convolution_kernel.cu.o
 	$(CXX)  $? -o $(BUILD_PATH)/$(TARGET) -L /usr/local/cuda/lib64 -L /usr/local/lib  -ltbb  -lcudart
 
 

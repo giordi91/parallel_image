@@ -35,8 +35,8 @@ Gaussian_stancil::Gaussian_stancil(	const float sigma,
 		for (size_t h=0; h<m_width; ++h)
 		{
 			//computing local coordinate
-			localX = float(float(w)-center);
-			localY = float(float(h)-center);
+			localX = float(w-center);
+			localY = float(h-center);
 
 			//computing exponential part of the formula
 			toExp = -((localX*localX) + (localY*localY))/(2.0f * m_sigma*m_sigma);
