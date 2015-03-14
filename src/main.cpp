@@ -20,19 +20,22 @@ using namespace std;
 
 int main( int argc, char* argv[]) 
 {
+
     cout<<"Initializing ..."<<endl;
     cout<<"Reading image...."<<std::endl;
     
     Bitmap testbmp;
     try
     {
+		//E:/WORK_IN_PROGRESS/C/parallel_image/data
         ///user_data/WORK_IN_PROGRESS/parallel_image/data/jessy.bmp
-        testbmp.open("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessy.bmp");
+		///home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessy.bmp
+        testbmp.open("E:/WORK_IN_PROGRESS/C/parallel_image/data/jessy.bmp");
     }
     catch(std::runtime_error &e)
     {
         std::cout<<e.what()<<endl;
-        #if defined(WIN)
+        #if defined(WIN32)
         system ("PAUSE");
         #endif
         return 0;
@@ -114,39 +117,41 @@ int main( int argc, char* argv[])
     Gaussian_stancil st(15.0, true);
     // std::cout<<"gaussian_stancil values"<<std::endl;
     // st.log();
-
-    // t0 = tbb::tick_count::now();
-    // convolution_serial(src,target,width,height,st);
-    // t1 = tbb::tick_count::now();
-    // cout << "Computing SERIAL convolution"<< endl;
-    // cout << (t1-t0).seconds()<<" s" << endl; 
+	/*
+    t0 = tbb::tick_count::now();
+    convolution_serial(src,target,width,height,st);
+    t1 = tbb::tick_count::now();
+    cout << "Computing SERIAL convolution"<< endl;
+    cout << (t1-t0).seconds()<<" s" << endl; 
 
     t0 = tbb::tick_count::now();
     convolution_tbb(src,target,width,height,st);
     t1 = tbb::tick_count::now();
     cout << "Computing parallel TBB convolution"<< endl;
     cout << (t1-t0).seconds()<<" s" << endl; 
+	*/
 
-
-    // t0 = tbb::tick_count::now();
-    // convolution_cuda(src,target,width,height,st);
-    // t1 = tbb::tick_count::now();
-    // cout << "Computing parallel GPU convolution"<< endl;
-    // cout << (t1-t0).seconds()<<" s" << endl; 
+    t0 = tbb::tick_count::now();
+    convolution_cuda(src,target,width,height,st);
+    t1 = tbb::tick_count::now();
+    cout << "Computing parallel GPU convolution"<< endl;
+    cout << (t1-t0).seconds()<<" s" << endl; 
 
 
     try
     {   ///user_data/WORK_IN_PROGRESS/parallel_image/data/jessy.bmp
-        workingBmp.save("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessyBW.bmp");
+        workingBmp.save("E:/WORK_IN_PROGRESS/C/parallel_image/data/jessyBW.bmp");
     }
     catch(std::runtime_error &e)
     {
         std::cout<<e.what()<<endl;
+		#if defined(WIN32)
         system ("PAUSE");
+		#endif  
         return 0;
     }
 
-    #if defined(WIN)
+    #if defined(WIN32)
     system ("PAUSE");
     #endif        
     return 0;

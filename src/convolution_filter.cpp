@@ -46,8 +46,8 @@ void convolution_serial(const uint8_t * source,
                     localX = st_w - center_x;
 
                     //checking if we are in the image boundary
-                    if ((localX +st_w  >= 0 && (localX + st_w < (width))) ||
-                        (localY + st_h >= 0 && (localY+ st_h < (height))))
+                    if ((localX +w  >= 0 && (localX + w < (width))) &&
+                        (localY + h >= 0 && (localY+ h < (height))))
 
                     {
                         //if we reach here it means we are somewhere 
@@ -135,7 +135,7 @@ void Apply_convolution_tbb::operator() (const tbb::blocked_range2d<size_t>& r)co
 
                         //checking if we are in the image boundary
                         //better boundary checks here I am loosing some pixel on the edges
-                        if (( (localX +w) >= 0 && (localX+w < (m_width))) ||
+                        if (( (localX +w) >= 0 && (localX+w < (m_width))) &&
                             (localY+h >= 0 && (localY+h < (m_height))))
 
                         {
@@ -199,7 +199,8 @@ void convolution_cuda(const uint8_t * h_source,
     cudaMalloc((void **) &d_stancil,filter_byte_size);
 
     //copying memory to gpu
-    cudaError_t s = cudaMemcpy(d_source, h_source, byte_size, cudaMemcpyHostToDevice);
+    cudaError_t s;
+	s= cudaMemcpy(d_source, h_source, byte_size, cudaMemcpyHostToDevice);
     if (s != cudaSuccess) 
         printf("Error: %s\n", cudaGetErrorString(s));
     s = cudaMemcpy(d_stancil, workStancil.get_data(), filter_byte_size, cudaMemcpyHostToDevice);
