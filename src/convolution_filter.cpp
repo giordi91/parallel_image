@@ -206,10 +206,11 @@ void convolution_cuda(const uint8_t * h_source,
     size_t d_st_width = workStancil.get_width();
     size_t d_st_height= workStancil.get_height();
 
+
     //declaring gpu pointers
     uint8_t * d_source;
     uint8_t * d_target;
-    float * d_stancil;
+    float * d_stancil; 
 
     //allocating memory on the gpu for source image,target,and stancil
     cudaMalloc((void **) &d_source,byte_size);
@@ -221,7 +222,9 @@ void convolution_cuda(const uint8_t * h_source,
 	s= cudaMemcpy(d_source, h_source, byte_size, cudaMemcpyHostToDevice);
     if (s != cudaSuccess) 
         printf("Error: %s\n", cudaGetErrorString(s));
-    s = cudaMemcpy(d_stancil, workStancil.get_data(), filter_byte_size, cudaMemcpyHostToDevice);
+
+	const float * h_st_source = workStancil.get_data();
+    s = cudaMemcpy(d_stancil, h_st_source, filter_byte_size, cudaMemcpyHostToDevice);
     if (s != cudaSuccess) 
         printf("Error: %s\n", cudaGetErrorString(s));
 

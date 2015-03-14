@@ -116,15 +116,16 @@ int main( int argc, char* argv[])
     //testing the stancil
 
     Gaussian_stancil st(30.0, true);
+
     // std::cout<<"gaussian_stancil values"<<std::endl;
-    // st.log();
+    //st.log();
 	/*
     t0 = tbb::tick_count::now();
     convolution_serial(src,target,width,height,st);
     t1 = tbb::tick_count::now();
     cout << "Computing SERIAL convolution"<< endl;
     cout << (t1-t0).seconds()<<" s" << endl; 
-
+	
     t0 = tbb::tick_count::now();
     convolution_tbb(src,target,width,height,st);
     t1 = tbb::tick_count::now();
