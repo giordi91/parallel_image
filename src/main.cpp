@@ -12,6 +12,12 @@
 #include <filters/sharpen_filter.h>
 #include <filters/edge_detection_filter.h>
 
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QSplashScreen>
+#include <QtCore/QTimer>
+#include <QtWidgets/QPushButton>
+
+
 using namespace std;
 
 //TODO 
@@ -21,40 +27,56 @@ using namespace std;
 int main( int argc, char* argv[]) 
 {
 
-    cout<<"Initializing ..."<<endl;
-    cout<<"Reading image...."<<std::endl;
+    QApplication a(argc, argv);
+    // QSplashScreen * splash = new QSplashScreen();
+    // splash->setPixmap(QPixmap("../sandbox/misc/ui/grapichs/splashScreen.png"));
+    // splash->showMessage(QString("Initializing quantum mechanics awesomness ... ")
+    //                     ,Qt::AlignLeft ,Qt::white);
+
+    // splash->show();
+    QPushButton b("helloooo");
+    b.show();
+
+    //MainWindow w;
+    // QTimer::singleShot(250, splash,SLOT(close()));
+    // QTimer::singleShot(250, &w,SLOT(show()));
+
+    return a.exec();
+
+  //   cout<<"Initializing ..."<<endl;
+  //   cout<<"Reading image...."<<std::endl;
     
-    Bitmap testbmp;
-    try
-    {
-		//E:/WORK_IN_PROGRESS/C/parallel_image/data
-        ///user_data/WORK_IN_PROGRESS/parallel_image/data/jessy.bmp
-		///home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessy.bmp
-        testbmp.open("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessy.bmp");
-    }
-    catch(std::runtime_error &e)
-    {
-        std::cout<<e.what()<<endl;
-        #if defined(WIN32)
-        system ("PAUSE");
-        #endif
-        return 0;
-    }
+  //   Bitmap testbmp;
+  //   try
+  //   {
+		// //E:/WORK_IN_PROGRESS/C/parallel_image/data
+  //       ///user_data/WORK_IN_PROGRESS/parallel_image/data/jessy.bmp
+		// ///home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessy.bmp
+  //       testbmp.open("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessy.bmp");
+  //   }
+  //   catch(std::runtime_error &e)
+  //   {
+  //       std::cout<<e.what()<<endl;
+  //       #if defined(WIN32)
+  //       system ("PAUSE");
+  //       #endif
+  //       return 0;
+  //   }
 
-    //gather the data
-    unsigned int width = testbmp.get_width();
-    unsigned int height = testbmp.get_height();
-    unsigned int padded_size = testbmp.get_padded_size();
-    Bitmap workingBmp(width, height, padded_size);
-    std::cout<<"Image Info :"<<std::endl;
-    std::cout<<"width: "<<width<<std::endl;
-    std::cout<<"height: "<<height<<std::endl;
+  //   //gather the data
+  //   unsigned int width = testbmp.get_width();
+  //   unsigned int height = testbmp.get_height();
+  //   unsigned int padded_size = testbmp.get_padded_size();
+  //   Bitmap workingBmp(width, height, padded_size);
+  //   std::cout<<"Image Info :"<<std::endl;
+  //   std::cout<<"width: "<<width<<std::endl;
+  //   std::cout<<"height: "<<height<<std::endl;
 
-    //needed buffers
-    uint8_t * src = testbmp.getRawData();
-    uint8_t * target = workingBmp.getRawData();
+  //   //needed buffers
+  //   uint8_t * src = testbmp.getRawData();
+  //   uint8_t * target = workingBmp.getRawData();
 
-    tbb::tick_count t0,t1;
+  //   tbb::tick_count t0,t1;
      
     // blur test
 
@@ -117,17 +139,17 @@ int main( int argc, char* argv[])
 
     // std::cout<<"gaussian_stancil values"<<std::endl;
     //st.log();
-    t0 = tbb::tick_count::now();
-    gaussian_serial(src,target,width,height,5.0f,true);
-    t1 = tbb::tick_count::now();
-    cout << "Computing SERIAL convolution"<< endl;
-    cout << (t1-t0).seconds()<<" s" << endl; 
+    // t0 = tbb::tick_count::now();
+    // gaussian_serial(src,target,width,height,5.0f,true);
+    // t1 = tbb::tick_count::now();
+    // cout << "Computing SERIAL convolution"<< endl;
+    // cout << (t1-t0).seconds()<<" s" << endl; 
 	
-    t0 = tbb::tick_count::now();
-    gaussian_tbb(src,target,width,height,5.0f,true);
-    t1 = tbb::tick_count::now();
-    cout << "Computing parallel TBB convolution"<< endl;
-    cout << (t1-t0).seconds()<<" s" << endl; 
+    // t0 = tbb::tick_count::now();
+    // gaussian_tbb(src,target,width,height,5.0f,true);
+    // t1 = tbb::tick_count::now();
+    // cout << "Computing parallel TBB convolution"<< endl;
+    // cout << (t1-t0).seconds()<<" s" << endl; 
 
     // t0 = tbb::tick_count::now();
     // convolution_cuda(src,target,width,height,st);
@@ -177,22 +199,22 @@ int main( int argc, char* argv[])
     // cout << (t1-t0).seconds()<<" s" << endl; 
 
 
-    try
-    {   ///user_data/WORK_IN_PROGRESS/parallel_image/data/jessy.bmp
-        workingBmp.save("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessyBW.bmp");
-    }
-    catch(std::runtime_error &e)
-    {
-        std::cout<<e.what()<<endl;
-		#if defined(WIN32)
-        system ("PAUSE");
-		#endif  
-        return 0;
-    }
+  //   try
+  //   {   ///user_data/WORK_IN_PROGRESS/parallel_image/data/jessy.bmp
+  //       workingBmp.save("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessyBW.bmp");
+  //   }
+  //   catch(std::runtime_error &e)
+  //   {
+  //       std::cout<<e.what()<<endl;
+		// #if defined(WIN32)
+  //       system ("PAUSE");
+		// #endif  
+  //       return 0;
+  //   }
 
-    #if defined(WIN32)
-    system ("PAUSE");
-    #endif        
-    return 0;
+  //   #if defined(WIN32)
+  //   system ("PAUSE");
+  //   #endif        
+    // return 0;
 
 }
