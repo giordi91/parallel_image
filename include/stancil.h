@@ -93,7 +93,7 @@ class GenericStancil: public Stancil
  	 * @param x: the x coordinate of the stancil
  	 * @param y: the y coordinate of the stancil
  	 */
- 	float get_value(size_t x, size_t y)const ;
+ 	inline float get_value(size_t x, size_t y)const ;
  	
  	/**
  	 * @brief printing at conosle the stancil values

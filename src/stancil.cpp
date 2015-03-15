@@ -20,7 +20,7 @@ GenericStancil::GenericStancil(	const float * data,
 
 }
 
-float GenericStancil::get_value(size_t x, size_t y) const
+inline float GenericStancil::get_value(size_t x, size_t y) const
 {
 	// TODO should i do boundaries check?
 	// if i do trow exception and let it handle externally?

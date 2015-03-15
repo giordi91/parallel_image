@@ -175,11 +175,11 @@ int main( int argc, char* argv[])
     cout << (t1-t0).seconds()<<" s" << endl; 
 
 
-        t0 = tbb::tick_count::now();
-    edge_detection_cuda(src,target,width,height,2);
-    t1 = tbb::tick_count::now();
-    cout << "Computing CUDA edge detection"<< endl;
-    cout << (t1-t0).seconds()<<" s" << endl; 
+    //     t0 = tbb::tick_count::now();
+    // edge_detection_cuda(src,target,width,height,2);
+    // t1 = tbb::tick_count::now();
+    // cout << "Computing CUDA edge detection"<< endl;
+    // cout << (t1-t0).seconds()<<" s" << endl; 
 
 
     try
