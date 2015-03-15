@@ -1,5 +1,5 @@
 #include <iostream>
-#include <bw_filter.h>
+#include <filters/bw_filter.h>
 #include <tbb/parallel_for.h>
 
 //cuda includes 

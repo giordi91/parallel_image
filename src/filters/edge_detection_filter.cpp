@@ -1,7 +1,7 @@
-#include <edge_detection_filter.h>
+#include <filters/edge_detection_filter.h>
 #include <iostream>		/* cout */
 #include <math.h>       /* pow exp*/
-#include <convolution_filter.h>
+#include <filters/convolution_filter.h>
 
 Edge_detection_stancil::Edge_detection_stancil(size_t sharpen_type)
 {

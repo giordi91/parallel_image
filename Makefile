@@ -9,6 +9,7 @@ CUDA_PATH = "/usr/local/cuda-6.5"
 NVCC = $(CUDA_PATH)/bin/nvcc
 CUDA_FLAGS =  -arch=sm_35
 #-Xptxas --warning-as-error
+vpath %.cpp src/filters
 vpath %.cpp src
 vpath %.cpp src/core
 vpath %.cu src/kernels

@@ -6,12 +6,11 @@
 #include "tbb/tick_count.h"
 #include <time.h>
 #include <stdexcept>
-#include <bw_filter.h>
-#include <blur_filter.h>
-#include <gaussian_filter.h>
-#include <convolution_filter.h>
-#include <sharpen_filter.h>
-#include <edge_detection_filter.h>
+#include <filters/bw_filter.h>
+#include <filters/blur_filter.h>
+#include <filters/gaussian_filter.h>
+#include <filters/sharpen_filter.h>
+#include <filters/edge_detection_filter.h>
 
 using namespace std;
 

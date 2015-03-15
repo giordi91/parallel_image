@@ -1,7 +1,7 @@
-#include <sharpen_filter.h>
+#include <filters/sharpen_filter.h>
 #include <iostream>		/* cout */
 #include <math.h>       /* pow exp*/
-#include <convolution_filter.h>
+#include <filters/convolution_filter.h>
 
 Sharpen_stancil::Sharpen_stancil()
 {
