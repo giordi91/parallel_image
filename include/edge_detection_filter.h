@@ -1,4 +1,4 @@
-#include "stancil.h"
+#include "core/stancil.h"
 #include <cstdint>
 
 
@@ -15,12 +15,8 @@ class Edge_detection_stancil: public GenericStancil
 public:
 	/**
 	* @brief this is the constructor
-	* 
-	* The filter is a 3x3 filter with values
-	* 0  -1  0
-	* -1  5  -1
-	* 0  -1  0
-	*/
+
+ril	*/
 	Edge_detection_stancil(size_t sharpen_type = 0);
 	/**
 	 * @brief This is the destructor of the class

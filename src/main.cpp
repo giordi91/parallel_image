@@ -1,15 +1,14 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
-#include <bitmap.h>
+#include <core/bitmap.h>
 #include <tbb/task_scheduler_init.h>
 #include "tbb/tick_count.h"
 #include <time.h>
 #include <stdexcept>
 #include <bw_filter.h>
 #include <blur_filter.h>
-#include <stancil.h>
-#include <gaussian_stancil.h>
+#include <gaussian_filter.h>
 #include <convolution_filter.h>
 #include <sharpen_filter.h>
 #include <edge_detection_filter.h>
@@ -116,23 +115,20 @@ int main( int argc, char* argv[])
 
     //testing the stancil
 
-    Gaussian_stancil st(30.0, true);
 
     // std::cout<<"gaussian_stancil values"<<std::endl;
     //st.log();
-	/*
     t0 = tbb::tick_count::now();
-    convolution_serial(src,target,width,height,st);
+    gaussian_serial(src,target,width,height,5.0f,true);
     t1 = tbb::tick_count::now();
     cout << "Computing SERIAL convolution"<< endl;
     cout << (t1-t0).seconds()<<" s" << endl; 
 	
     t0 = tbb::tick_count::now();
-    convolution_tbb(src,target,width,height,st);
+    gaussian_tbb(src,target,width,height,5.0f,true);
     t1 = tbb::tick_count::now();
     cout << "Computing parallel TBB convolution"<< endl;
     cout << (t1-t0).seconds()<<" s" << endl; 
-	*/
 
     // t0 = tbb::tick_count::now();
     // convolution_cuda(src,target,width,height,st);
@@ -162,17 +158,17 @@ int main( int argc, char* argv[])
     // cout << (t1-t0).seconds()<<" s" << endl; 
 
 
-    t0 = tbb::tick_count::now();
-    edge_detection_serial(src,target,width,height,2);
-    t1 = tbb::tick_count::now();
-    cout << "Computing serial edge detection"<< endl;
-    cout << (t1-t0).seconds()<<" s" << endl; 
+    // t0 = tbb::tick_count::now();
+    // edge_detection_serial(src,target,width,height,2);
+    // t1 = tbb::tick_count::now();
+    // cout << "Computing serial edge detection"<< endl;
+    // cout << (t1-t0).seconds()<<" s" << endl; 
 
-        t0 = tbb::tick_count::now();
-    edge_detection_tbb(src,target,width,height,2);
-    t1 = tbb::tick_count::now();
-    cout << "Computing TBB edge detection"<< endl;
-    cout << (t1-t0).seconds()<<" s" << endl; 
+    //     t0 = tbb::tick_count::now();
+    // edge_detection_tbb(src,target,width,height,2);
+    // t1 = tbb::tick_count::now();
+    // cout << "Computing TBB edge detection"<< endl;
+    // cout << (t1-t0).seconds()<<" s" << endl; 
 
 
     //     t0 = tbb::tick_count::now();

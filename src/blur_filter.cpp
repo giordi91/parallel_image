@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include <iostream>
 #include <vector>
-
 #include <blur_filter.h>
-#include <bitmap.h>
+
 
 //tbb includes
 #include <tbb/parallel_for.h>
