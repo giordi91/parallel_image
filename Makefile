@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -ansi -pedantic -Wall -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -std=c++0x -DLINUX -fPIE -m64
-UIC = /opt/Qt/5.4/gcc_64/bin/uic
+UIC = uic
 TARGET = parallel_image
 BUILD_PATH = build
 SRC_PATH= src
