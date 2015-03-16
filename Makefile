@@ -1,5 +1,6 @@
 CXX = g++
 CXXFLAGS = -ansi -pedantic -Wall -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -std=c++0x -DLINUX -fPIE -m64
+UIC = /opt/Qt/5.4/gcc_64/bin/uic
 TARGET = parallel_image
 BUILD_PATH = build
 SRC_PATH= src
@@ -19,6 +20,7 @@ vpath %.cpp src/filters
 vpath %.cpp src
 vpath %.cpp src/core
 vpath %.cu src/kernels
+vpath %.ui src/ui/forms
 vpath %.o build
 
 .SUFFIXES: .cpp .o .cu .h
@@ -29,9 +31,12 @@ OBJS = main.o bitmap.o bw_filter.o blur_filter.o stancil.o gaussian_filter.o con
 #object with added build path for linking purpose
 F_OBJS = $(addprefix $(BUILD_PATH)/, $(OBJS))
 
-
+UI_FORMS = ui_mainwindow.h
 all: $(OBJS)
 	$(CXX)  $(F_OBJS) -o $(BUILD_PATH)/$(TARGET) $(LIBS_PATH) $(LIBS) $(CUDA_LIB_PATH) $(CUDA_LIB)
+
+ui_compile: $(UI_FORMS)
+
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS)  $(INCLUDE_PATH) -c $< -o $(BUILD_PATH)/$@
@@ -39,11 +44,12 @@ all: $(OBJS)
 %.cu.o: %.cu
 	$(NVCC) $(CUDA_FLAGS) -c $< -o $(BUILD_PATH)/$@
 
-run: clean all
+run: clean ui_compile all
 
 	$(BUILD_PATH)/$(TARGET) 
 
 clean:
+	rm -f include/ui/ui_*.h
 	rm -f $(BUILD_PATH)/*.o $(BUILD_PATH)/$(TARGET)* *.o
 
 doc:
@@ -51,7 +57,13 @@ doc:
 	doxygen ./Doxyfile
 	google-chrome ./doc/html/index.html
 
-.PHONY: all run clean doc
+
+
+ui_%.h: %.ui
+	$(UIC) $< -o include/ui/$@
+
+
+.PHONY: all run clean doc ui_compile
 
 
 #QT_PLUGIN_PATH=/opt/Qt/5.4/gcc_64/plugins/
