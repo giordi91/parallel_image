@@ -17,6 +17,7 @@
 #include <QtCore/QTimer>
 #include <QtWidgets/QPushButton>
 
+#include <ui/mainwindow.h>
 
 using namespace std;
 
@@ -34,12 +35,22 @@ int main( int argc, char* argv[])
     //                     ,Qt::AlignLeft ,Qt::white);
 
     // splash->show();
-    QPushButton b("helloooo");
-    b.show();
+    // Application a(argc, argv);
+    QSplashScreen * splash = new QSplashScreen();
+    splash->setPixmap(QPixmap("misc/ui/splashScreen.png"));
+    splash->showMessage(QString("Initializing quantum mechanics awesomness ... ")
+                        ,Qt::AlignLeft ,Qt::white);
 
-    //MainWindow w;
+    splash->show();
+
+    MainWindow w;
     // QTimer::singleShot(250, splash,SLOT(close()));
     // QTimer::singleShot(250, &w,SLOT(show()));
+
+
+    // MainWindow w;
+    QTimer::singleShot(250, splash,SLOT(close()));
+    QTimer::singleShot(250, &w,SLOT(show()));
 
     return a.exec();
 
