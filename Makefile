@@ -30,15 +30,16 @@ vpath %.cpp build
 
 
 #list of object to build
-OBJS = mainwindow.o    main.o bitmap.o bw_filter.o blur_filter.o stancil.o gaussian_filter.o convolution_filter.o sharpen_filter.o edge_detection_filter.o bw_kernel.cu.o blur_kernel.cu.o convolution_kernel.cu.o 
+OBJS = mainwindow.o  main.o bitmap.o bw_filter.o blur_filter.o stancil.o gaussian_filter.o convolution_filter.o sharpen_filter.o edge_detection_filter.o bw_kernel.cu.o blur_kernel.cu.o convolution_kernel.cu.o 
 #object with added build path for linking purpose
 F_OBJS = $(addprefix $(BUILD_PATH)/, $(OBJS))
-
+#the ui file we need to generate
 UI_FORMS = ui_base_window.h
-
+#the moc files we need to extract from header
 MOCS = moc_mainwindow.cpp
-
+#the moc objs we need to generate from the correspectviev moc*.cpp
 MOCS_OBJS = moc_mainwindow.o
+#the final moc objects that need to be linked
 F_MOCS_OBJS = $(addprefix $(BUILD_PATH)/, $(MOCS_OBJS))
 
 all: $(UI_FORMS) $(MOCS) $(MOCS_OBJS) $(OBJS)
@@ -51,7 +52,7 @@ all: $(UI_FORMS) $(MOCS) $(MOCS_OBJS) $(OBJS)
 	$(NVCC) $(CUDA_FLAGS) -c $< -o $(BUILD_PATH)/$@
 
 run: clean all
-	./build/parallel_image
+	./$(BUILD_PATH)/$(TARGET) 
 
 	
 clean:
@@ -67,10 +68,8 @@ ui_%.h: %.ui
 	$(UIC) $< -o include/ui/$@
 
 moc_%.cpp: %.h
-	moc $< -o  build/$@
+	moc $< -o  $(BUILD_PATH)/$@
 
-
-.PHONY: all run clean doc ui_compile moc_compile
-
+.PHONY: all run clean doc
 
 #QT_PLUGIN_PATH=/opt/Qt/5.4/gcc_64/plugins/
