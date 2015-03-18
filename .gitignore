@@ -11,3 +11,4 @@ Release/
 *doc
 /junk/ui_build
 *.*~
+moc*.cpp
