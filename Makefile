@@ -16,15 +16,19 @@ NVCC = $(CUDA_PATH)/bin/nvcc
 CUDA_FLAGS =  -arch=sm_35
 
 #setup searching path
-vpath %.cpp src/filters
-vpath %.cpp src/ui
-vpath %.h include/ui
+#regular cpp source
 vpath %.cpp src
 vpath %.cpp src/core
-vpath %.cu src/kernels
+vpath %.cpp src/filters
+vpath %.cpp src/ui
+#ui file source
+vpath %.h include/ui
 vpath %.ui src/ui/forms
-vpath %.o build
 vpath %.cpp build
+#cuda file source
+vpath %.cu src/kernels
+#final obj source
+vpath %.o build
 
 .SUFFIXES: .cpp .o .cu .h
 
@@ -45,16 +49,9 @@ F_MOCS_OBJS = $(addprefix $(BUILD_PATH)/, $(MOCS_OBJS))
 all: $(UI_FORMS) $(MOCS) $(MOCS_OBJS) $(OBJS)
 	$(CXX)  $(F_OBJS) $(F_MOCS_OBJS) -o $(BUILD_PATH)/$(TARGET) $(LIBS_PATH) $(LIBS) $(CUDA_LIB_PATH) $(CUDA_LIB)
 
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS)  $(INCLUDE_PATH) -c $< -o $(BUILD_PATH)/$@
-
-%.cu.o: %.cu
-	$(NVCC) $(CUDA_FLAGS) -c $< -o $(BUILD_PATH)/$@
-
 run: clean all
 	./$(BUILD_PATH)/$(TARGET) 
 
-	
 clean:
 	rm -f include/ui/ui_*.h
 	rm -f $(BUILD_PATH)/*.o $(BUILD_PATH)/$(TARGET)* *.o
@@ -64,12 +61,21 @@ doc:
 	doxygen ./Doxyfile
 	google-chrome ./doc/html/index.html
 
+tests:
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS)  $(INCLUDE_PATH) -c $< -o $(BUILD_PATH)/$@
+
+%.cu.o: %.cu
+	$(NVCC) $(CUDA_FLAGS) -c $< -o $(BUILD_PATH)/$@
+
+
 ui_%.h: %.ui
 	$(UIC) $< -o include/ui/$@
 
 moc_%.cpp: %.h
 	moc $< -o  $(BUILD_PATH)/$@
 
-.PHONY: all run clean doc
+.PHONY: all run clean doc test
 
 #QT_PLUGIN_PATH=/opt/Qt/5.4/gcc_64/plugins/

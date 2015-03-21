@@ -6,22 +6,20 @@
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
 
-void bw_serial(	const uint8_t * source,
-                uint8_t* target,
-             	const int &width,
-                const int &height)
+void Bw_filter::compute_serial(	const uint8_t * source,
+                uint8_t* target)
 {
 	//instancing variablese
 	int idx =0;
 	uint8_t color;
 	//looping the width
-	for (int w=0; w<width; ++w )
+	for (int w=0; w<m_width; ++w )
 	{
 		//looping the height
-		for (int h=0; h<height; ++h )
+		for (int h=0; h<m_height; ++h )
 		{
 			//computing index and color
-			idx = (width*h)*3 + (w*3);
+			idx = (m_width*h)*3 + (w*3);
 			color = uint8_t(0.21*float(source[idx])+0.72*float(source[idx+1]) + 0.07*float(source[idx+2]));
 			//setting the color
 			target[idx] = color;
@@ -31,15 +29,15 @@ void bw_serial(	const uint8_t * source,
 	}
 }
 
-void bw_tbb(	const uint8_t * source,
-                uint8_t* target,
-             	const int &width,
-                const int &height)
+
+
+void Bw_filter::compute_tbb(const uint8_t * source,
+                			uint8_t* target)
 {
 	//create an instance of the class
-	Apply_bw_tbb kernel(source,target,width,height);
+	Apply_bw_tbb kernel(source,target,m_width,m_height);
 	//kick the parallel for
-	tbb::parallel_for(tbb::blocked_range2d<size_t>(0,width,0,height), kernel);
+	tbb::parallel_for(tbb::blocked_range2d<size_t>(0,m_width,0,m_height), kernel);
 
 
 }
@@ -79,15 +77,13 @@ void Apply_bw_tbb::operator() (const tbb::blocked_range2d<size_t>& r)const
 void run_bw_kernel(const uint8_t *d_source, uint8_t *d_target, 
 						const int width, const int height);
 
-void bw_cuda(const uint8_t * h_source,
-                uint8_t* h_target,
-                const int &width,
-                const int &height)
+void Bw_filter::compute_cuda(const uint8_t * h_source,
+                uint8_t* h_target)
 
 {
 
 	//calculating the size of the arrya
-	int byte_size = width*height*3*(int)sizeof(uint8_t);
+	int byte_size = m_width*m_height*3*(int)sizeof(uint8_t);
 
 	//declaring gpu pointers
 	uint8_t * d_source;
@@ -102,7 +98,7 @@ void bw_cuda(const uint8_t * h_source,
 	if (s != cudaSuccess) 
 		printf("Error: %s\n", cudaGetErrorString(s));
 	//run the kernel
-	run_bw_kernel(d_source, d_target, width, height);
+	run_bw_kernel(d_source, d_target, m_width, m_height);
 	
 	//copying memory from gpu
 	s = cudaMemcpy(h_target, d_target, byte_size, cudaMemcpyDeviceToHost);

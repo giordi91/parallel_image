@@ -7,8 +7,13 @@ This is the header containing the functions needed for doing the black and white
 @author Marco Giordano
 @bug No known bugs.
  */
+#include <core/filter.h>
 #include <tbb/blocked_range.h>
 #include <tbb/blocked_range2d.h>
+
+
+#ifndef __PARALLEL_IMAGE_BW_FILTER_H
+#define __PARALLEL_IMAGE_BW_FILTER_H 
 
 /**
 @brief this function performs a serial black and white filter
@@ -17,10 +22,28 @@ This is the header containing the functions needed for doing the black and white
 @param width: the width of the image
 @param height: the height of the image
 */
-void bw_serial(	const uint8_t * source,
-                uint8_t* target,
-                const int &width,
-                const int &height);
+
+class Bw_filter: public Filter
+{
+public:
+    Bw_filter(const int &width,
+                const int &height):Filter(width,height){};
+
+    void compute_serial( const uint8_t * source,
+                uint8_t* target);
+
+    void compute_tbb(const uint8_t * source,
+                uint8_t* target);
+    void compute_cuda(const uint8_t * source,
+                uint8_t* target);
+
+
+};
+
+// void bw_serial(	const uint8_t * source,
+//                 uint8_t* target,
+//                 const int &width,
+//                 const int &height);
 
 
 /**
@@ -77,3 +100,4 @@ void bw_cuda(const uint8_t * h_source,
                 const int &width,
                 const int &height);
 
+#endif
