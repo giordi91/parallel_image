@@ -34,7 +34,7 @@ vpath %.o build
 
 
 #list of object to build
-OBJS = mainwindow.o  main.o bitmap.o bw_filter.o stancil.o gaussian_filter.o convolution.o sharpen_filter.o edge_detection_filter.o bw_kernel.cu.o convolution_kernel.cu.o 
+OBJS = mainwindow.o  main.o bitmap.o bw_filter.o stancil.o convolution.o convolution_filter.o gaussian_filter.o  sharpen_filter.o edge_detection_filter.o bw_kernel.cu.o convolution_kernel.cu.o 
 #object with added build path for linking purpose
 F_OBJS = $(addprefix $(BUILD_PATH)/, $(OBJS))
 #the ui file we need to generate

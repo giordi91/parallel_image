@@ -2,8 +2,8 @@
 #include <core/stancil.h>
 #include <tbb/blocked_range2d.h>
 
-#ifndef __PARALLEL_IMAGE_CONVOLUTION_FILTER_H
-#define __PARALLEL_IMAGE_CONVOLUTION_FILTER_H 
+#ifndef __PARALLEL_IMAGE_CONVOLUTION_H
+#define __PARALLEL_IMAGE_CONVOLUTION_H 
 
 
 /**

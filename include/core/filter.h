@@ -1,6 +1,7 @@
 /** 
 Abstract interface for the filters
 "*/
+#include <cstdint>
 
 #ifndef __PARALLEL_IMAGE_FILTER_H
 #define __PARALLEL_IMAGE_FILTER_H 
