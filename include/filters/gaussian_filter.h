@@ -1,4 +1,5 @@
 #include "core/stancil.h"
+#include "core/filter.h"
 #include <cstdint>
 
 
@@ -35,6 +36,28 @@ private:
 	bool m_normalize;
 
 };
+
+class Gaussian_filter: public Filter
+{
+public:
+    Gaussian_filter(const int &width,
+                const int &height,
+                const float &sigma);
+
+    void compute_serial( const uint8_t * source,
+                uint8_t* target);
+
+    void compute_tbb(const uint8_t * source,
+                uint8_t* target);
+    void compute_cuda(const uint8_t * source,
+                uint8_t* target);
+private:
+	Gaussian_stancil  m_working_stancil;
+	float m_sigma;
+
+};
+
+
 
 void gaussian_serial(const uint8_t * source,
                         uint8_t* target,

@@ -70,51 +70,35 @@ Gaussian_stancil::~Gaussian_stancil()
 }
 
 
+Gaussian_filter::Gaussian_filter(const int &width,
+                const int &height,
+                const float &sigma):Filter(width,height), 
+									m_working_stancil(Gaussian_stancil(sigma,1)),
+									m_sigma(sigma)
+{}
 
-void gaussian_serial(const uint8_t * source,
-                        uint8_t* target,
-                        const int &width,
-                        const int &height,
-                        const float sigma,
-                        const bool normalize
-                        )
+
+void Gaussian_filter::compute_serial(const uint8_t * source,
+                        			uint8_t* target)
 {
-
-	//make an instance of the filter
-	Gaussian_stancil st = Gaussian_stancil(sigma,normalize);
-	convolution_serial(source, target,width,height,st);
-
+	convolution_serial(source, target,m_width,m_height,m_working_stancil);
 }
 
 
 
-void gaussian_tbb(const uint8_t * source,
-                        uint8_t* target,
-                        const int &width,
-                        const int &height,
-                        const float sigma,
-                        const bool normalize
-                        )
+void Gaussian_filter::compute_tbb(const uint8_t * source,
+                        uint8_t* target)
 {
 
-	//make an instance of the filter
-	Gaussian_stancil st = Gaussian_stancil(sigma,normalize);
-	convolution_tbb(source, target,width,height,st);
+	convolution_tbb(source, target,m_width,m_height,m_working_stancil);
 
 }
 
 
-void gaussian_cuda(const uint8_t * source,
-                        uint8_t* target,
-                        const int &width,
-                        const int &height,
-                        const float sigma,
-                        const bool normalize
-                        )
+void Gaussian_filter::compute_cuda(const uint8_t * source,
+                        uint8_t* target)
 {
 
-	//make an instance of the filter
-	Gaussian_stancil st = Gaussian_stancil(sigma,normalize);
-	convolution_cuda(source, target,width,height,st);
+	convolution_cuda(source, target,m_width,m_height,m_working_stancil);
 
 }
