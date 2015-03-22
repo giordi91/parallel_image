@@ -1,7 +1,5 @@
 #include <filters/edge_detection_filter.h>
-#include <iostream>		/* cout */
-#include <math.h>       /* pow exp*/
-#include <filters/convolution_filter.h>
+#include <core/convolution.h>
 
 Edge_detection_stancil::Edge_detection_stancil(size_t sharpen_type)
 {
@@ -19,7 +17,6 @@ Edge_detection_stancil::Edge_detection_stancil(size_t sharpen_type)
 	{
 	
 		case 1:
-			std::cout<<"case 1"<<std::endl;
 			m_data[0] = 1;
 			m_data[1] = 0;
 			m_data[2] = -1;
@@ -36,7 +33,6 @@ Edge_detection_stancil::Edge_detection_stancil(size_t sharpen_type)
 			break;
 
 		case 2:
-			std::cout<<"case 2"<<std::endl;
 			m_data[0] = -1;
 			m_data[1] = -1;
 			m_data[2] = -1;
@@ -54,7 +50,6 @@ Edge_detection_stancil::Edge_detection_stancil(size_t sharpen_type)
 
 		
 		default:
-			std::cout<<"case def"<<std::endl;
 			m_data[0] = 0;
 			m_data[1] = 1;
 			m_data[2] = 0;

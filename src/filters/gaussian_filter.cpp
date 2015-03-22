@@ -1,7 +1,7 @@
 #include <filters/gaussian_filter.h>
+#include <core/convolution.h>
 #include <iostream>		/* cout */
 #include <math.h>       /* pow exp*/
-#include <filters/convolution_filter.h>
 const float  PI_F=3.14159265358979f;
 
 Gaussian_stancil::Gaussian_stancil(	const float sigma, 

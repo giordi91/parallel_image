@@ -1,4 +1,4 @@
-#include "filters/convolution_filter.h" 
+#include "core/convolution.h" 
 #include <iostream>
 #include <algorithm> //min max
 
