@@ -75,48 +75,68 @@ Edge_detection_stancil::~Edge_detection_stancil()
 }
 
 
+Edge_detection_filter::Edge_detection_filter(const int &width,
+                const int &height,
+                const int &detection_type):Filter(width,height), 
+									m_working_stancil(Edge_detection_stancil(detection_type)),
+									m_detection_type(detection_type)
+{}
 
-void edge_detection_serial(const uint8_t * source,
-                        uint8_t* target,
-                        const int &width,
-                        const int &height,
-                        int detection_type
-                        )
+
+
+void Edge_detection_filter::compute_serial(const uint8_t * source,
+                        uint8_t* target)
 {
 
 	//make an instance of the filter
-	Edge_detection_stancil st = Edge_detection_stancil(detection_type);
-	convolution_serial(source, target,width,height,st);
+	convolution_serial(source, target,m_width,m_height,m_working_stancil);
+
+}
+void Edge_detection_filter::compute_tbb(const uint8_t * source,
+                        uint8_t* target)
+{
+
+	//make an instance of the filter
+	convolution_tbb(source, target,m_width,m_height,m_working_stancil);
+
+}
+
+void Edge_detection_filter::compute_cuda(const uint8_t * source,
+                        uint8_t* target)
+{
+
+	//make an instance of the filter
+	convolution_cuda(source, target,m_width,m_height,m_working_stancil);
 
 }
 
 
 
-void edge_detection_tbb(const uint8_t * source,
-                        uint8_t* target,
-                        const int &width,
-                        const int &height,
-                        int detection_type
-                        )
-{
+// void edge_detection_tbb(const uint8_t * source,
+//                         uint8_t* target,
+//                         const int &width,
+//                         const int &height,
+//                         int detection_type
+//                         )
+// {
 
-	//make an instance of the filter
-	Edge_detection_stancil st = Edge_detection_stancil(detection_type);
-	convolution_tbb(source, target,width,height,st);
+// 	//make an instance of the filter
+// 	Edge_detection_stancil st = Edge_detection_stancil(detection_type);
+// 	convolution_tbb(source, target,width,height,st);
 
-}
+// }
 
 
-void edge_detection_cuda(const uint8_t * source,
-                        uint8_t* target,
-                        const int &width,
-                        const int &height,
-                        int detection_type
-                        )
-{
+// void edge_detection_cuda(const uint8_t * source,
+//                         uint8_t* target,
+//                         const int &width,
+//                         const int &height,
+//                         int detection_type
+//                         )
+// {
 
-	//make an instance of the filter
-	Edge_detection_stancil st = Edge_detection_stancil(detection_type);
-	convolution_cuda(source, target,width,height,st);
+// 	//make an instance of the filter
+// 	Edge_detection_stancil st = Edge_detection_stancil(detection_type);
+// 	convolution_cuda(source, target,width,height,st);
 
-}
+// }

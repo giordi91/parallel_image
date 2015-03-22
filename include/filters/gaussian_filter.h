@@ -56,32 +56,4 @@ private:
 	float m_sigma;
 
 };
-
-
-
-void gaussian_serial(const uint8_t * source,
-                        uint8_t* target,
-                        const int &width,
-                        const int &height,
-                        const float sigma,
-                        const bool normalize);
-
-
-void gaussian_tbb(const uint8_t * source,
-                        uint8_t* target,
-                        const int &width,
-                        const int &height,
-                        const float sigma,
-                        const bool normalize
-                        );
-
-
-void gaussian_cuda(const uint8_t * source,
-                        uint8_t* target,
-                        const int &width,
-                        const int &height,
-                        const float sigma,
-                        const bool normalize
-                        );
-
 #endif

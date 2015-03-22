@@ -1,9 +1,10 @@
 #include "core/stancil.h"
+#include "core/filter.h"
 #include <cstdint>
 
 
-#ifndef __PARALLEL_IMAGE_SHARPEN_FILTER_H
-#define __PARALLEL_IMAGE_SHARPEN_FILTER_H 
+#ifndef __PARALLEL_EDGE_DETECTION_FILTER_H
+#define __PARALLEL_EDGE_DETECTION_FILTER_H
 /**
  * @brief stancil class for gaussian blur
  * @details This stancil generates a gaussian filter based on the standard
@@ -23,27 +24,46 @@ ril	*/
 	 */
 	virtual ~Edge_detection_stancil();
 };
+
+class Edge_detection_filter: public Filter
+{
+public:
+    Edge_detection_filter(const int &width,
+                const int &height,
+                const int &detection_type);
+
+    void compute_serial( const uint8_t * source,
+                uint8_t* target);
+
+    void compute_tbb(const uint8_t * source,
+                uint8_t* target);
+    void compute_cuda(const uint8_t * source,
+                uint8_t* target);
+private:
+        Edge_detection_stancil  m_working_stancil;
+        int m_detection_type;
+
+};
+
+// void edge_detection_serial(const uint8_t * source,
+//                         uint8_t* target,
+//                         const int &width,
+//                         const int &height,
+//                         int detection_type);
+
+
+// void edge_detection_tbb(const uint8_t * source,
+//                         uint8_t* target,
+//                         const int &width,
+//                         const int &height,
+//                         int detection_type
+//                         );
+
+
+// void edge_detection_cuda(const uint8_t * source,
+//                         uint8_t* target,
+//                         const int &width,
+//                         const int &height,
+//                         int detection_type
+//                         );
 #endif
-
-
-void edge_detection_serial(const uint8_t * source,
-                        uint8_t* target,
-                        const int &width,
-                        const int &height,
-                        int detection_type);
-
-
-void edge_detection_tbb(const uint8_t * source,
-                        uint8_t* target,
-                        const int &width,
-                        const int &height,
-                        int detection_type
-                        );
-
-
-void edge_detection_cuda(const uint8_t * source,
-                        uint8_t* target,
-                        const int &width,
-                        const int &height,
-                        int detection_type
-                        );

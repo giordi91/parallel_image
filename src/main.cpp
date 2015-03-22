@@ -149,7 +149,7 @@ int main( int argc, char* argv[])
     //testing the stancil
 
 
-    Gaussian_filter gf(width,height,30.0f);
+    // Gaussian_filter gf(width,height,15.0f);
     // t0 = tbb::tick_count::now();
     // gf.compute_serial(src,target);
     // t1 = tbb::tick_count::now();
@@ -162,11 +162,11 @@ int main( int argc, char* argv[])
     // cout << "Computing parallel TBB convolution"<< endl;
     // cout << (t1-t0).seconds()<<" s" << endl; 
 
-    t0 = tbb::tick_count::now();
-    gf.compute_cuda(src,target);
-    t1 = tbb::tick_count::now();
-    cout << "Computing parallel GPU convolution"<< endl;
-    cout << (t1-t0).seconds()<<" s" << endl; 
+    // t0 = tbb::tick_count::now();
+    // gf.compute_cuda(src,target);
+    // t1 = tbb::tick_count::now();
+    // cout << "Computing parallel GPU convolution"<< endl;
+    // cout << (t1-t0).seconds()<<" s" << endl; 
 
 
     // t0 = tbb::tick_count::now();
@@ -190,21 +190,22 @@ int main( int argc, char* argv[])
     // cout << (t1-t0).seconds()<<" s" << endl; 
 
 
+    // Edge_detection_filter ed(width,height,1);
     // t0 = tbb::tick_count::now();
-    // edge_detection_serial(src,target,width,height,2);
+    // ed.compute_serial(src,target);
     // t1 = tbb::tick_count::now();
     // cout << "Computing serial edge detection"<< endl;
     // cout << (t1-t0).seconds()<<" s" << endl; 
 
-    //     t0 = tbb::tick_count::now();
-    // edge_detection_tbb(src,target,width,height,2);
+    // t0 = tbb::tick_count::now();
+    // ed.compute_tbb(src,target);
     // t1 = tbb::tick_count::now();
     // cout << "Computing TBB edge detection"<< endl;
     // cout << (t1-t0).seconds()<<" s" << endl; 
 
 
-    //     t0 = tbb::tick_count::now();
-    // edge_detection_cuda(src,target,width,height,2);
+    // t0 = tbb::tick_count::now();
+    // ed.compute_cuda(src,target);
     // t1 = tbb::tick_count::now();
     // cout << "Computing CUDA edge detection"<< endl;
     // cout << (t1-t0).seconds()<<" s" << endl; 
