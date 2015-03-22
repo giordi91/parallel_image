@@ -109,34 +109,3 @@ void Edge_detection_filter::compute_cuda(const uint8_t * source,
 	convolution_cuda(source, target,m_width,m_height,m_working_stancil);
 
 }
-
-
-
-// void edge_detection_tbb(const uint8_t * source,
-//                         uint8_t* target,
-//                         const int &width,
-//                         const int &height,
-//                         int detection_type
-//                         )
-// {
-
-// 	//make an instance of the filter
-// 	Edge_detection_stancil st = Edge_detection_stancil(detection_type);
-// 	convolution_tbb(source, target,width,height,st);
-
-// }
-
-
-// void edge_detection_cuda(const uint8_t * source,
-//                         uint8_t* target,
-//                         const int &width,
-//                         const int &height,
-//                         int detection_type
-//                         )
-// {
-
-// 	//make an instance of the filter
-// 	Edge_detection_stancil st = Edge_detection_stancil(detection_type);
-// 	convolution_cuda(source, target,width,height,st);
-
-// }

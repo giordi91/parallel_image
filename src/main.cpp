@@ -169,25 +169,26 @@ int main( int argc, char* argv[])
     // cout << (t1-t0).seconds()<<" s" << endl; 
 
 
-    // t0 = tbb::tick_count::now();
-    // sharpen_serial(src,target,width,height);
-    // t1 = tbb::tick_count::now();
-    // cout << "serial CPU sharpen"<< endl;
-    // cout << (t1-t0).seconds()<<" s" << endl; 
+    Sharpen_filter sp(width,height);
+    t0 = tbb::tick_count::now();
+    sp.compute_serial(src,target);
+    t1 = tbb::tick_count::now();
+    cout << "serial CPU sharpen"<< endl;
+    cout << (t1-t0).seconds()<<" s" << endl; 
 
 
 
-    // t0 = tbb::tick_count::now();
-    // sharpen_tbb(src,target,width,height);
-    // t1 = tbb::tick_count::now();
-    // cout << "serial TBB sharpen"<< endl;
-    // cout << (t1-t0).seconds()<<" s" << endl; 
+    t0 = tbb::tick_count::now();
+    sp.compute_tbb(src,target);
+    t1 = tbb::tick_count::now();
+    cout << "serial TBB sharpen"<< endl;
+    cout << (t1-t0).seconds()<<" s" << endl; 
 
-    // t0 = tbb::tick_count::now();
-    // sharpen_cuda(src,target,width,height);
-    // t1 = tbb::tick_count::now();
-    // cout << "serial Cuda sharpen"<< endl;
-    // cout << (t1-t0).seconds()<<" s" << endl; 
+    t0 = tbb::tick_count::now();
+    sp.compute_cuda(src,target);
+    t1 = tbb::tick_count::now();
+    cout << "serial Cuda sharpen"<< endl;
+    cout << (t1-t0).seconds()<<" s" << endl; 
 
 
     // Edge_detection_filter ed(width,height,1);

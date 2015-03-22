@@ -45,25 +45,4 @@ private:
 
 };
 
-// void edge_detection_serial(const uint8_t * source,
-//                         uint8_t* target,
-//                         const int &width,
-//                         const int &height,
-//                         int detection_type);
-
-
-// void edge_detection_tbb(const uint8_t * source,
-//                         uint8_t* target,
-//                         const int &width,
-//                         const int &height,
-//                         int detection_type
-//                         );
-
-
-// void edge_detection_cuda(const uint8_t * source,
-//                         uint8_t* target,
-//                         const int &width,
-//                         const int &height,
-//                         int detection_type
-//                         );
 #endif
