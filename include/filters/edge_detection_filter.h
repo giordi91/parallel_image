@@ -1,5 +1,6 @@
-#include "core/stancil.h"
-#include "core/filter.h"
+#include <core/stancil.h>
+#include <core/filter.h>
+#include <filters/convolution_filter.h>
 #include <cstdint>
 
 
@@ -18,31 +19,21 @@ public:
 	* @brief this is the constructor
 
 ril	*/
-	Edge_detection_stancil(size_t sharpen_type = 0);
+	Edge_detection_stancil(size_t detection_type = 0);
 	/**
 	 * @brief This is the destructor of the class
 	 */
 	virtual ~Edge_detection_stancil();
 };
 
-class Edge_detection_filter: public Filter
+class Edge_detection_filter: public Convolution_filter
 {
 public:
     Edge_detection_filter(const int &width,
                 const int &height,
-                const int &detection_type);
+                const size_t detection_type =0);
 
-    void compute_serial( const uint8_t * source,
-                uint8_t* target);
-
-    void compute_tbb(const uint8_t * source,
-                uint8_t* target);
-    void compute_cuda(const uint8_t * source,
-                uint8_t* target);
-private:
-        Edge_detection_stancil  m_working_stancil;
-        int m_detection_type;
-
+    size_t m_detection_type;
 };
 
 #endif

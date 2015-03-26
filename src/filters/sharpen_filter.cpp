@@ -1,6 +1,7 @@
 #include <filters/sharpen_filter.h>
 #include <core/convolution.h>
 
+
 Sharpen_stancil::Sharpen_stancil()
 {
 	//setting the static size
@@ -38,7 +39,16 @@ Sharpen_stancil::~Sharpen_stancil()
 Sharpen_filter::Sharpen_filter(const int &width,
                 const int &height):Convolution_filter(width,height)
 {
-	st = &m_working_stancil;
+	st = new Sharpen_stancil();
+}
+
+Convolution_filter::~Convolution_filter()
+{	
+	if (st)
+	{
+		delete st;
+	}
+
 }
 
 

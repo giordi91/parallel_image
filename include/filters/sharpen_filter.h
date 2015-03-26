@@ -35,18 +35,6 @@ class Sharpen_filter: public Convolution_filter
 public:
     Sharpen_filter(const int &width,
                 const int &height);
-
-    // void compute_serial( const uint8_t * source,
-    //             uint8_t* target);
-
-    // void compute_tbb(const uint8_t * source,
-    //             uint8_t* target);
-    // void compute_cuda(const uint8_t * source,
-    //             uint8_t* target);
-private:
-	Sharpen_stancil  m_working_stancil;
-
-
 };
 
 #endif

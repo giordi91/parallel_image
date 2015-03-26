@@ -11,6 +11,8 @@ public:
     Convolution_filter(const int &width,
                 const int &height):Filter(width,height){};
 
+    ~Convolution_filter();
+
     void compute_serial( const uint8_t * source,
                 uint8_t* target);
 
@@ -18,6 +20,7 @@ public:
                 uint8_t* target);
     void compute_cuda(const uint8_t * source,
                 uint8_t* target);
+
 protected:
 	Stancil * st;
 

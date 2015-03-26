@@ -73,33 +73,9 @@ Gaussian_stancil::~Gaussian_stancil()
 
 Gaussian_filter::Gaussian_filter(const int &width,
                 const int &height,
-                const float &sigma):Filter(width,height), 
-									m_working_stancil(Gaussian_stancil(sigma,1)),
+                const float &sigma):Convolution_filter(width,height), 
 									m_sigma(sigma)
-{}
-
-
-void Gaussian_filter::compute_serial(const uint8_t * source,
-                        			uint8_t* target)
-{
-	convolution_serial(source, target,m_width,m_height,m_working_stancil);
-}
-
-
-
-void Gaussian_filter::compute_tbb(const uint8_t * source,
-                        uint8_t* target)
 {
 
-	convolution_tbb(source, target,m_width,m_height,m_working_stancil);
-
-}
-
-
-void Gaussian_filter::compute_cuda(const uint8_t * source,
-                        uint8_t* target)
-{
-
-	convolution_cuda(source, target,m_width,m_height,m_working_stancil);
-
+	st = new Gaussian_stancil(m_sigma,1);
 }

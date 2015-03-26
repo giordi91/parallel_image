@@ -1,7 +1,7 @@
 #include <filters/edge_detection_filter.h>
 #include <core/convolution.h>
 
-Edge_detection_stancil::Edge_detection_stancil(size_t sharpen_type)
+Edge_detection_stancil::Edge_detection_stancil(size_t detection_type)
 {
 	//setting the static size
 	m_width = 3;
@@ -13,7 +13,7 @@ Edge_detection_stancil::Edge_detection_stancil(size_t sharpen_type)
 	//stancil
 	m_data= new float[m_width*m_height];
 	
-	switch(sharpen_type)
+	switch(detection_type)
 	{
 	
 		case 1:
@@ -77,35 +77,35 @@ Edge_detection_stancil::~Edge_detection_stancil()
 
 Edge_detection_filter::Edge_detection_filter(const int &width,
                 const int &height,
-                const int &detection_type):Filter(width,height), 
-									m_working_stancil(Edge_detection_stancil(detection_type)),
+                const size_t detection_type):Convolution_filter(width,height), 
 									m_detection_type(detection_type)
-{}
-
-
-
-void Edge_detection_filter::compute_serial(const uint8_t * source,
-                        uint8_t* target)
 {
+ 	st = new Edge_detection_stancil(m_detection_type);
+ }
 
-	//make an instance of the filter
-	convolution_serial(source, target,m_width,m_height,m_working_stancil);
 
-}
-void Edge_detection_filter::compute_tbb(const uint8_t * source,
-                        uint8_t* target)
-{
+// void Edge_detection_filter::compute_serial(const uint8_t * source,
+//                         uint8_t* target)
+// {
 
-	//make an instance of the filter
-	convolution_tbb(source, target,m_width,m_height,m_working_stancil);
+// 	//make an instance of the filter
+// 	convolution_serial(source, target,m_width,m_height,m_working_stancil);
 
-}
+// }
+// void Edge_detection_filter::compute_tbb(const uint8_t * source,
+//                         uint8_t* target)
+// {
 
-void Edge_detection_filter::compute_cuda(const uint8_t * source,
-                        uint8_t* target)
-{
+// 	//make an instance of the filter
+// 	convolution_tbb(source, target,m_width,m_height,m_working_stancil);
 
-	//make an instance of the filter
-	convolution_cuda(source, target,m_width,m_height,m_working_stancil);
+// }
 
-}
+// void Edge_detection_filter::compute_cuda(const uint8_t * source,
+//                         uint8_t* target)
+// {
+
+// 	//make an instance of the filter
+// 	convolution_cuda(source, target,m_width,m_height,m_working_stancil);
+
+// }
