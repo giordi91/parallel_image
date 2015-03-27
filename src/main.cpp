@@ -149,46 +149,46 @@ int main( int argc, char* argv[])
     //testing the stancil
 
 
-    Gaussian_filter gf(width,height,15.0f);
-    t0 = tbb::tick_count::now();
-    gf.compute_serial(src,target);
-    t1 = tbb::tick_count::now();
-    cout << "Computing SERIAL convolution"<< endl;
-    cout << (t1-t0).seconds()<<" s" << endl; 
+    // Gaussian_filter gf(width,height,15.0f);
+    // t0 = tbb::tick_count::now();
+    // gf.compute_serial(src,target);
+    // t1 = tbb::tick_count::now();
+    // cout << "Computing SERIAL convolution"<< endl;
+    // cout << (t1-t0).seconds()<<" s" << endl; 
 	
+    // t0 = tbb::tick_count::now();
+    // gf.compute_tbb(src,target);
+    // t1 = tbb::tick_count::now();
+    // cout << "Computing parallel TBB convolution"<< endl;
+    // cout << (t1-t0).seconds()<<" s" << endl; 
+
+    // t0 = tbb::tick_count::now();
+    // gf.compute_cuda(src,target);
+    // t1 = tbb::tick_count::now();
+    // cout << "Computing parallel GPU convolution"<< endl;
+    // cout << (t1-t0).seconds()<<" s" << endl; 
+
+
+    Sharpen_filter sp(width,height);
     t0 = tbb::tick_count::now();
-    gf.compute_tbb(src,target);
+    sp.compute_serial(src,target);
     t1 = tbb::tick_count::now();
-    cout << "Computing parallel TBB convolution"<< endl;
+    cout << "serial CPU sharpen"<< endl;
+    cout << (t1-t0).seconds()<<" s" << endl; 
+
+
+
+    t0 = tbb::tick_count::now();
+    sp.compute_tbb(src,target);
+    t1 = tbb::tick_count::now();
+    cout << "serial TBB sharpen"<< endl;
     cout << (t1-t0).seconds()<<" s" << endl; 
 
     t0 = tbb::tick_count::now();
-    gf.compute_cuda(src,target);
+    sp.compute_cuda(src,target);
     t1 = tbb::tick_count::now();
-    cout << "Computing parallel GPU convolution"<< endl;
+    cout << "serial Cuda sharpen"<< endl;
     cout << (t1-t0).seconds()<<" s" << endl; 
-
-
-    // Sharpen_filter sp(width,height);
-    // t0 = tbb::tick_count::now();
-    // sp.compute_serial(src,target);
-    // t1 = tbb::tick_count::now();
-    // cout << "serial CPU sharpen"<< endl;
-    // cout << (t1-t0).seconds()<<" s" << endl; 
-
-
-
-    // t0 = tbb::tick_count::now();
-    // sp.compute_tbb(src,target);
-    // t1 = tbb::tick_count::now();
-    // cout << "serial TBB sharpen"<< endl;
-    // cout << (t1-t0).seconds()<<" s" << endl; 
-
-    // t0 = tbb::tick_count::now();
-    // sp.compute_cuda(src,target);
-    // t1 = tbb::tick_count::now();
-    // cout << "serial Cuda sharpen"<< endl;
-    // cout << (t1-t0).seconds()<<" s" << endl; 
 
 
     // Edge_detection_filter ed(width,height,2);

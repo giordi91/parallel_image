@@ -86,6 +86,9 @@ tests:$(UI_FORMS) $(MOCS) $(MOCS_OBJS) $(TEST_OBJS)
 	$(CUDA_LIB_PATH) $(CUDA_LIB) \
 	$(TEST_LIB_PATH) $(TEST_LIB)
 
+	./$(BUILD_PATH)/$(TEST_TARGET) 
+
+
 ui_%.h: %.ui
 	$(UIC) $< -o include/ui/$@
 

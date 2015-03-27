@@ -9,7 +9,11 @@ class Convolution_filter: public Filter
 {
 public:
     Convolution_filter(const int &width,
-                const int &height):Filter(width,height){};
+                const int &height)
+    {
+        m_width = width;
+        m_height= height;
+    };
 
     ~Convolution_filter();
 

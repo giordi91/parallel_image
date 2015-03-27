@@ -18,6 +18,13 @@ public:
 	 * @brief the constructor
 	 */
 	Filter_manager(Bitmap * bmp);
+	/**
+	 * @brief this is the destructor
+	 * @details The destructor is in charge of deleting 
+	 * all the stuff the manager took ownership of, like 
+	 * the filters and the input bitmap,this mean there wont
+	 * be need of housekeeping outside the File_manager
+	 */
 	~Filter_manager();
 	/**
 	 * @brief add a filter to the manager
@@ -28,6 +35,13 @@ public:
 	 * the factory class
 	 */
 	void add_filter(Filter * fil);
+	/**
+	 * @brief returns the size of the filter stack
+	 * @return size_t, the size
+	 */
+	size_t stack_size();
+
+	void operator[](size_t value);
 
 private:
 	vector<Filter *>m_filters;
