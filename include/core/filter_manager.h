@@ -41,7 +41,7 @@ public:
 	 */
 	size_t stack_size();
 
-	void operator[](size_t value);
+	Filter * operator[](size_t value);
 
 private:
 	vector<Filter *>m_filters;

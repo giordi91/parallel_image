@@ -63,7 +63,7 @@ TEST_F(Filter_manager_Fixture_Test, constructor)
 TEST_F(Filter_manager_Fixture_Test, add_filters_and_check_size)
 {
 
-	Filter_manager fm(bmp);
+	Filter_manager fm=Filter_manager(bmp);
 	EXPECT_EQ(fm.stack_size(),0);
 	fm.add_filter(fil1);
 	EXPECT_EQ(fm.stack_size(),1);
@@ -72,6 +72,18 @@ TEST_F(Filter_manager_Fixture_Test, add_filters_and_check_size)
 	EXPECT_EQ(fm.stack_size(),3);
 
 }
+
+TEST_F(Filter_manager_Fixture_Test, subscription_operator)
+{
+
+	Filter_manager fm=Filter_manager(bmp);
+	fm.add_filter(fil1);
+	fm.add_filter(fil2);
+	fm.add_filter(fil3);
+	EXPECT_EQ(fm[0] ,fil1);
+	EXPECT_EQ(fm[2] ,fil3);
+}
+
 
 //able to allocate and manage filters
 //access with subscription operator

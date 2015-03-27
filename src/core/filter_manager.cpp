@@ -30,3 +30,9 @@ size_t Filter_manager::stack_size()
 {	
 	return m_filters.size();
 }
+
+Filter * Filter_manager::operator[](size_t value)
+{
+	//should i check for boundaries?
+	return m_filters[value];
+}

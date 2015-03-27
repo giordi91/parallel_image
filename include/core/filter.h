@@ -18,6 +18,7 @@ public:
                 					uint8_t* target)=0;
 	virtual void compute_cuda(const uint8_t * source,
                 					uint8_t* target)=0;
+	virtual ~Filter(){};
 protected:
 	int m_width;
 	int m_height;
