@@ -3,5 +3,5 @@
 
 TEST(filter_manager, constructor)
 {
-	Filter_manager fm();
+	Filter_manager fm;
 }
