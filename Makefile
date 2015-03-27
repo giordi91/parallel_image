@@ -58,8 +58,8 @@ MOCS_OBJS = moc_mainwindow.o
 #the final moc objects that need to be linked
 F_MOCS_OBJS = $(addprefix $(BUILD_PATH)/, $(MOCS_OBJS))
 
-TEST_OBJS = filter_manager_test.o filter_manager.o
- 
+TEST_OBJS = filter_manager_test.o filter_manager.o bitmap.o
+# TEST_OBJS :=  $(filter-out mainwindow.o main.o,$(OBJS))
 F_TEST_OBJS = $(addprefix $(BUILD_PATH)/, $(TEST_OBJS))
 
 all: ui $(MOCS_OBJS) $(OBJS) 
