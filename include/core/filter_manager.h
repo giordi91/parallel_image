@@ -84,8 +84,6 @@ private:
 	//the computation state of the manager
 	Computation m_comp_type;
 
-
-
 };
 
 #endif
