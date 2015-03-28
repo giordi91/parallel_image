@@ -14,6 +14,8 @@ using std::vector;
 class Filter_manager
 {
 public:
+	enum Computation { SERIAL=0, TBB=1, CUDA=2 };
+
 	/**
 	 * @brief the constructor
 	 */
@@ -49,16 +51,38 @@ public:
 	 */
 	Filter * operator[](size_t value);
 
-
+	/**
+	 * @brief removing a filter from manager
+	 * @details this function deletes the filters at current
+	 * index
+	 * 
+	 * @param index the index we want to delete
+	 * @thow: invalid_argument if out of range
+	 */
 	void remove_filter(const size_t index);
 
+	/**
+	 * @brief pop out a filter from manager
+	 * @details this function removes  the filters at current
+	 * index without deleteing it and returns the wanted pointer,
+	 * from that moment the manager has no more ownership over that 
+	 * memory is up to the user to clean up
+	 * 
+	 * @param index the index we want to pop
+	 * @thow: invalid_argument if out of range
+	 */
 	Filter * pop_filter(const size_t index);
+
+	void set_compute_type(const Computation type);
+	Computation get_compute_type() const;
 
 private:
 	//the internal filters data (pointers to the actual filters)
 	vector<Filter *>m_filters;
 	//the pointer to the image to work on
 	Bitmap * m_bmp;
+	//the computation state of the manager
+	Computation m_comp_type;
 
 
 

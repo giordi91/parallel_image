@@ -162,14 +162,22 @@ TEST_F(Filter_built_fixture_Test, pop_filter_from_stack)
 	delete temp1;
 	delete temp4;
 	delete temp2;
-
-
 }
 
+TEST_F(Filter_built_fixture_Test, set_get_computation)
+{
+	EXPECT_EQ(fm->get_compute_type(), Filter_manager::SERIAL);
 
+	fm->set_compute_type(Filter_manager::TBB);
+	EXPECT_EQ(fm->get_compute_type(), Filter_manager::TBB);
+
+	fm->set_compute_type(Filter_manager::CUDA);
+	EXPECT_EQ(fm->get_compute_type(), Filter_manager::CUDA);
+}
 
 //able to allocate and manage filters X
 //access with subscription operator X
 //remove filters by id, other get shifted X
+//set,query computation type X
 //able to manage cache trough external classes
 //albe to manage computation type cpu/cppu/gpu

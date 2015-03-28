@@ -1,7 +1,8 @@
 #include <core/filter_manager.h>
 #include <stdexcept>      // std::invalid_argument
 
-Filter_manager::Filter_manager(Bitmap * bmp):m_bmp(bmp)
+Filter_manager::Filter_manager(Bitmap * bmp):m_bmp(bmp),
+										     m_comp_type(SERIAL)
 {
 	m_filters.resize(0);
 }
@@ -67,4 +68,15 @@ Filter * Filter_manager::pop_filter(const size_t index)
 		throw std::invalid_argument("Filter_manager::remove_filter : index out of range");
 	}
 
+}
+
+
+void Filter_manager::set_compute_type(const Computation type)
+{
+	m_comp_type = type;
+}
+
+Filter_manager::Computation Filter_manager::get_compute_type() const
+{
+	return m_comp_type;
 }
