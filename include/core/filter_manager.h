@@ -39,12 +39,25 @@ public:
 	 * @brief returns the size of the filter stack
 	 * @return size_t, the size
 	 */
-	size_t stack_size();
-
+	size_t stack_size() const;
+	/**
+	 * @brief subscription operator
+	 * @details the subscription operator gives you a pointer to the
+	 *  wanted filter
+	 * 
+	 * @param value the index to access
+	 */
 	Filter * operator[](size_t value);
 
+
+	void remove_filter(const size_t index);
+
+	Filter * pop_filter(const size_t index);
+
 private:
+	//the internal filters data (pointers to the actual filters)
 	vector<Filter *>m_filters;
+	//the pointer to the image to work on
 	Bitmap * m_bmp;
 
 
