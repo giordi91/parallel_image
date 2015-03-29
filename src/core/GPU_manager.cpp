@@ -1,5 +1,7 @@
 #include <core/GPU_manager.h>
 #include <iostream>
+#include <stdexcept>      // std::invalid_argument
+#include <string>
 
 GPU_manager::GPU_manager(size_t width, size_t height,
 						size_t grain_size):
@@ -9,6 +11,21 @@ GPU_manager::GPU_manager(size_t width, size_t height,
 						d_source(nullptr), d_target(nullptr)
 {
 	
+	//first of all double check that the grain size is not too big
+	//for the max per block threads
+	struct cudaDeviceProp prop;
+	cudaError_t result =  cudaGetDeviceProperties(&prop,0);	
+	if (result != cudaSuccess) 
+        printf("Error: %s\n", cudaGetErrorString(result));
+
+    if ((m_grain_size*m_grain_size) > (unsigned int)prop.maxThreadsPerBlock)
+    {
+    	std::string error_msg = "GPU_manager::GPU_manager(): grain_size,";
+    	error_msg += std::string("argument excede the max allowed block per size. \n");
+    	error_msg += std::string("Check your card specs for more information");
+    	throw std::invalid_argument(error_msg.c_str());
+    }
+
     //computing the block size
     size_t width_blocks = ((m_width%m_grain_size) != 0)?(m_width/m_grain_size) +1: (m_width/m_grain_size);
     size_t width_height = ((m_height%m_grain_size) != 0)?(m_height/m_grain_size) +1: (m_height/m_grain_size);
@@ -20,19 +37,9 @@ GPU_manager::GPU_manager(size_t width, size_t height,
     							(unsigned int)width_height, 1); 
 
 	
-	//calculating the size of the buffer
-    size_t buffer_size = width*height*3*(size_t)sizeof(uint8_t);
-    
-    //allocating memory on the gpu for source image,target
-    cudaError_t result;
-    result = cudaMalloc((void **) &d_source,buffer_size);
-    if (result != cudaSuccess) 
-        printf("Error: %s\n", cudaGetErrorString(result));
-    result = cudaMalloc((void **) &d_target,buffer_size);
-
-    if (result != cudaSuccess) 
-        printf("GPU_manager::GPU_Manager Error allocating initial buffers: %s\n",
-        		 cudaGetErrorString(result));
+    //allocate the needed buffers
+   	d_source = allocate_device_buffer(m_width,m_height,3);
+    d_target = allocate_device_buffer(m_width,m_height,3);
 
 }
 
@@ -71,4 +78,27 @@ uint8_t * GPU_manager::get_source_buffer()
 uint8_t * GPU_manager::get_target_buffer()
 {
 	return d_target;
+}
+
+
+uint8_t * GPU_manager::allocate_device_buffer(size_t width,
+									 size_t height,
+									 size_t stride)
+{
+	//calculating the size of the buffer
+    size_t buffer_size = width*height*stride*(size_t)sizeof(uint8_t);
+
+    uint8_t * d_buffer;
+    //allocating memory on the gpu for source image,target
+    cudaError_t result;
+    result = cudaMalloc((void **) &d_buffer,buffer_size);
+    if (result != cudaSuccess) 
+        printf("Error: %s\n", cudaGetErrorString(result));
+
+    return d_buffer;
+}
+
+size_t GPU_manager::get_grain_size()
+{	
+	return m_grain_size;
 }
