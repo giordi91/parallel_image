@@ -5,6 +5,8 @@
 #include <core/filter.h>
 #include <core/bitmap.h>
 #include <core/GPU_manager.h>
+#include <cstdint> // uint8_t declaration
+
 
 using std::vector;
 
@@ -87,6 +89,8 @@ public:
 
 	void evaluate_stack();
 
+	void copy_input_buffer();
+
 private:
 	//the internal filters data (pointers to the actual filters)
 	vector<Filter *>m_filters;
@@ -94,13 +98,15 @@ private:
 	Bitmap * m_bmp;
 	//the computation state of the manager
 	Computation m_comp_type;
-	//working buffers
-	//first_working_buffer
-	uint8_t * working_buffer_A;
-	//second buffer
-	uint8_t * working_buffer_B;
+	
+	//output bmp
+	Bitmap *m_out_bmp;
+
+	//a copy of the original input image
+	uint8_t * m_input_copy;
 
 
 };
 
 #endif
+

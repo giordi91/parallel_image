@@ -1,27 +1,44 @@
 #include <core/filter_manager.h>
 #include <stdexcept>      // std::invalid_argument
 #include <iostream>
+#include <cstring> // memcpy
 
 Filter_manager::Filter_manager(Bitmap * bmp):m_bmp(bmp),
-										     m_comp_type(SERIAL)
+										     m_comp_type(SERIAL),
+										     m_out_bmp(nullptr),
+										     m_input_copy(nullptr)
 {
 	m_filters.resize(0);
+
+	//allocating output bmp
+	unsigned int width = bmp->get_width();
+    unsigned int height = bmp->get_height();
+    unsigned int padded_size = bmp->get_padded_size();
+    m_out_bmp = new Bitmap(width, height, padded_size);
+
+    //lets make a copy of the original input
+    copy_input_buffer();
+
 }
 
 Filter_manager::~Filter_manager()
 {
 	if (m_bmp)
 	{
-		
 		delete m_bmp;
 	}
 	for (auto fil : m_filters)
 	{
-
 		delete fil;
 	}
 
 	m_filters.clear();
+
+	//delete the output_bmp
+	if (m_out_bmp)
+	{
+		delete m_out_bmp;
+	}
 }
 
 void Filter_manager::add_filter(Filter * fil)
@@ -85,8 +102,10 @@ Filter_manager::Computation Filter_manager::get_compute_type() const
 
 void Filter_manager::evaluate_stack()
 {
-	uint8_t *source;
-	uint8_t *target;
+	uint8_t * working_buffer;
+	uint8_t * working_buffer_A;
+	uint8_t * working_buffer_B;
+
 
 	// for (auto filter : m_filters)
 	// {
@@ -112,5 +131,13 @@ void Filter_manager::evaluate_stack()
 		}
 	}
 	
+
+}
+
+
+void Filter_manager::copy_input_buffer()
+{
+    size_t buffer_size = m_bmp->get_width()*m_bmp->get_height()*3*(size_t)sizeof(uint8_t);
+	memcpy(m_input_copy, m_bmp->getRawData(), buffer_size);
 
 }
