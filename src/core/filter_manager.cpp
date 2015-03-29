@@ -1,5 +1,6 @@
 #include <core/filter_manager.h>
 #include <stdexcept>      // std::invalid_argument
+#include <iostream>
 
 Filter_manager::Filter_manager(Bitmap * bmp):m_bmp(bmp),
 										     m_comp_type(SERIAL)
@@ -79,4 +80,37 @@ void Filter_manager::set_compute_type(const Computation type)
 Filter_manager::Computation Filter_manager::get_compute_type() const
 {
 	return m_comp_type;
+}
+
+
+void Filter_manager::evaluate_stack()
+{
+	uint8_t *source;
+	uint8_t *target;
+
+	// for (auto filter : m_filters)
+	// {
+	// 	std::cout<<"called"<<std::endl;
+	// 	filter->compute_serial(source,target);
+	// }
+	for (int i=0; i<stack_size(); ++i)
+	{
+		if(m_comp_type == SERIAL)
+		{
+			m_filters[i]->compute_serial(working_buffer_A
+				,working_buffer_B);
+		}
+		else if(m_comp_type == TBB)
+		{
+			m_filters[i]->compute_tbb(working_buffer_A
+				,working_buffer_B);
+		}
+		else if(m_comp_type == CUDA)
+		{
+			m_filters[i]->compute_cuda(working_buffer_A
+				,working_buffer_B);
+		}
+	}
+	
+
 }

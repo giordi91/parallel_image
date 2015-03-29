@@ -75,10 +75,10 @@ struct Filter_built_fixture_Test : public Test
     	bmp= new MockBmp ;
     	fm = new Filter_manager(bmp);
 
-    	fil1 =new FilterMockA;
-    	fil2 =new FilterMockB;
-    	fil3 =new FilterMockB;
-    	fil4 =new FilterMockA;
+    	fil1 =new FilterMockA();
+    	fil2 =new FilterMockB();
+    	fil3 =new FilterMockB();
+    	fil4 =new FilterMockA();
 
 		fm->add_filter(fil1);
 		fm->add_filter(fil2);
@@ -174,6 +174,55 @@ TEST_F(Filter_built_fixture_Test, set_get_computation)
 	fm->set_compute_type(Filter_manager::CUDA);
 	EXPECT_EQ(fm->get_compute_type(), Filter_manager::CUDA);
 }
+
+TEST_F(Filter_built_fixture_Test, basic_evaluate_stack)
+{
+	uint8_t *source;
+	uint8_t *target;
+
+	//weird behavior??, why if i only set an expected call 
+	//from fil1 i get 3 extra unexpected call? if i add aexepcted
+	//calls for all the other filters I am good
+
+	EXPECT_CALL(*fil1, compute_serial(_,_)).Times(1);
+	EXPECT_CALL(*fil2, compute_serial(_,_)).Times(1);
+	EXPECT_CALL(*fil3, compute_serial(_,_)).Times(1);
+	EXPECT_CALL(*fil4, compute_serial(_,_)).Times(1);
+	fm->evaluate_stack();  
+}
+
+TEST_F(Filter_built_fixture_Test, evaluate_stack_and_changed_comp_type)
+{
+	uint8_t *source;
+	uint8_t *target;
+
+	EXPECT_CALL(*fil1, compute_serial(_,_)).Times(1);
+	EXPECT_CALL(*fil2, compute_serial(_,_)).Times(1);
+	EXPECT_CALL(*fil3, compute_serial(_,_)).Times(1);
+	EXPECT_CALL(*fil4, compute_serial(_,_)).Times(1);
+
+	EXPECT_CALL(*fil1, compute_tbb(_,_)).Times(2);
+	EXPECT_CALL(*fil2, compute_tbb(_,_)).Times(2);
+	EXPECT_CALL(*fil3, compute_tbb(_,_)).Times(2);
+	EXPECT_CALL(*fil4, compute_tbb(_,_)).Times(2);
+
+	EXPECT_CALL(*fil1, compute_cuda(_,_)).Times(1);
+	EXPECT_CALL(*fil2, compute_cuda(_,_)).Times(1);
+	EXPECT_CALL(*fil3, compute_cuda(_,_)).Times(1);
+	EXPECT_CALL(*fil4, compute_cuda(_,_)).Times(1);
+	
+	fm->set_compute_type(Filter_manager::TBB);
+	fm->evaluate_stack();  
+	fm->set_compute_type(Filter_manager::SERIAL);
+	fm->evaluate_stack();  
+	fm->set_compute_type(Filter_manager::CUDA);
+	fm->evaluate_stack();  
+	fm->set_compute_type(Filter_manager::TBB);
+	fm->evaluate_stack();  
+}
+
+
+
 
 //able to allocate and manage filters X
 //access with subscription operator X

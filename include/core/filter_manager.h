@@ -4,6 +4,7 @@
 
 #include <core/filter.h>
 #include <core/bitmap.h>
+#include <core/GPU_manager.h>
 
 using std::vector;
 
@@ -72,9 +73,19 @@ public:
 	 * @thow: invalid_argument if out of range
 	 */
 	Filter * pop_filter(const size_t index);
-
+	/**
+	 * @brief set what type of computation to use
+	 * @param type: Computation, the wanted computation
+	 */
 	void set_compute_type(const Computation type);
+
+	/**
+	 * @brief returns the currenct computation type
+	 * @return Computation
+	 */
 	Computation get_compute_type() const;
+
+	void evaluate_stack();
 
 private:
 	//the internal filters data (pointers to the actual filters)
@@ -83,6 +94,12 @@ private:
 	Bitmap * m_bmp;
 	//the computation state of the manager
 	Computation m_comp_type;
+	//working buffers
+	//first_working_buffer
+	uint8_t * working_buffer_A;
+	//second buffer
+	uint8_t * working_buffer_B;
+
 
 };
 
