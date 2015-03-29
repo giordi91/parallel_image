@@ -28,13 +28,13 @@ GPU_manager::GPU_manager(size_t width, size_t height,
 
     //computing the block size
     size_t width_blocks = ((m_width%m_grain_size) != 0)?(m_width/m_grain_size) +1: (m_width/m_grain_size);
-    size_t width_height = ((m_height%m_grain_size) != 0)?(m_height/m_grain_size) +1: (m_height/m_grain_size);
+    size_t height_blocks = ((m_height%m_grain_size) != 0)?(m_height/m_grain_size) +1: (m_height/m_grain_size);
     
     //setupping the block and grids
     m_kernel_block_size =  dim3( (unsigned int)m_grain_size, 
     							  (unsigned int)m_grain_size , 1); 
     m_kernel_grid_size= dim3( (unsigned int)width_blocks, 
-    							(unsigned int)width_height, 1); 
+    							(unsigned int)height_blocks, 1); 
 
 	
     //allocate the needed buffers
@@ -101,4 +101,14 @@ uint8_t * GPU_manager::allocate_device_buffer(size_t width,
 size_t GPU_manager::get_grain_size()
 {	
 	return m_grain_size;
+}
+
+dim3 GPU_manager::get_grid_dim()
+{
+	return m_kernel_grid_size;
+}
+
+dim3 GPU_manager::get_block_dim()
+{
+	return m_kernel_block_size;
 }

@@ -78,6 +78,16 @@ public:
 	uint8_t * allocate_device_buffer(size_t width,
 									 size_t height,
 									 size_t stride);
+	/**
+	 * @brief returns the block dim3 needed to kick kernels 
+	 * @return dim 3
+	 */
+	dim3 get_block_dim();
+	/**
+	 * @brief returns the grid dim3 needed to kick kernels 
+	 * @return dim 3
+	 */
+	dim3 get_grid_dim();
 
 
 private:
