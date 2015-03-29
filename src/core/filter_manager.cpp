@@ -39,6 +39,10 @@ Filter_manager::~Filter_manager()
 	{
 		delete m_out_bmp;
 	}
+	if (m_input_copy)
+	{
+		delete m_input_copy;
+	}
 }
 
 void Filter_manager::add_filter(Filter * fil)
