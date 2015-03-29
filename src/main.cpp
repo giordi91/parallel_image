@@ -20,6 +20,9 @@
 
 using namespace std;
 
+#include "cuda_runtime.h"
+#include "device_launch_parameters.h"
+
 //TODO 
 //MAKE SURE WE ARE DOING CONSEQUNETIAL ACCESS IN MEMORY (MOSTLY GPU),
 //aka looping first hegiht then width
@@ -27,6 +30,7 @@ using namespace std;
 int main( int argc, char* argv[]) 
 {
 
+    cudaFree(0);
     // QApplication a(argc, argv);
     // // QSplashScreen * splash = new QSplashScreen();
     // // splash->setPixmap(QPixmap("../sandbox/misc/ui/grapichs/splashScreen.png"));
@@ -119,31 +123,31 @@ int main( int argc, char* argv[])
 
     
 
-    //  //BW test
-    // //time the serial functon
-    // Bw_filter bw( width, height);
+     //BW test
+    //time the serial functon
+    Bw_filter bw( width, height);
 
-    // t0 = tbb::tick_count::now();
-    // bw.compute_serial(src, target);
+    t0 = tbb::tick_count::now();
+    bw.compute_serial(src, target);
     
-    // t1 = tbb::tick_count::now();
-    // cout << (t1-t0).seconds()<<" s" << endl; 
+    t1 = tbb::tick_count::now();
+    cout << (t1-t0).seconds()<<" s" << endl; 
 
 
-    // t0 = tbb::tick_count::now();
-    // tbb::task_scheduler_init init;
-    // //testing tbb
-    // bw.compute_tbb(src, target);
-    // //terminating tbb
-    // init.terminate();
-    // t1 = tbb::tick_count::now();
-    // cout << (t1-t0).seconds()<<" s" << endl; 
+    t0 = tbb::tick_count::now();
+    tbb::task_scheduler_init init;
+    //testing tbb
+    bw.compute_tbb(src, target);
+    //terminating tbb
+    init.terminate();
+    t1 = tbb::tick_count::now();
+    cout << (t1-t0).seconds()<<" s" << endl; 
 
 
-    // t0 = tbb::tick_count::now();
-    // bw.compute_cuda(src, target);
-    // t1 = tbb::tick_count::now();
-    // cout << (t1-t0).seconds()<<" s" << endl; 
+    t0 = tbb::tick_count::now();
+    bw.compute_cuda(src, target);
+    t1 = tbb::tick_count::now();
+    cout << (t1-t0).seconds()<<" s" << endl; 
     
 
     //testing the stancil
@@ -169,26 +173,26 @@ int main( int argc, char* argv[])
     // cout << (t1-t0).seconds()<<" s" << endl; 
 
 
-    Sharpen_filter sp(width,height);
-    t0 = tbb::tick_count::now();
-    sp.compute_serial(src,target);
-    t1 = tbb::tick_count::now();
-    cout << "serial CPU sharpen"<< endl;
-    cout << (t1-t0).seconds()<<" s" << endl; 
+    // Sharpen_filter sp(width,height);
+    // t0 = tbb::tick_count::now();
+    // sp.compute_serial(src,target);
+    // t1 = tbb::tick_count::now();
+    // cout << "serial CPU sharpen"<< endl;
+    // cout << (t1-t0).seconds()<<" s" << endl; 
 
 
 
-    t0 = tbb::tick_count::now();
-    sp.compute_tbb(src,target);
-    t1 = tbb::tick_count::now();
-    cout << "serial TBB sharpen"<< endl;
-    cout << (t1-t0).seconds()<<" s" << endl; 
+    // t0 = tbb::tick_count::now();
+    // sp.compute_tbb(src,target);
+    // t1 = tbb::tick_count::now();
+    // cout << "serial TBB sharpen"<< endl;
+    // cout << (t1-t0).seconds()<<" s" << endl; 
 
-    t0 = tbb::tick_count::now();
-    sp.compute_cuda(src,target);
-    t1 = tbb::tick_count::now();
-    cout << "serial Cuda sharpen"<< endl;
-    cout << (t1-t0).seconds()<<" s" << endl; 
+    // t0 = tbb::tick_count::now();
+    // sp.compute_cuda(src,target);
+    // t1 = tbb::tick_count::now();
+    // cout << "serial Cuda sharpen"<< endl;
+    // cout << (t1-t0).seconds()<<" s" << endl; 
 
 
     // Edge_detection_filter ed(width,height,2);
