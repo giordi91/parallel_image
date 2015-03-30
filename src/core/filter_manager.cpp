@@ -2,6 +2,7 @@
 #include <stdexcept>      // std::invalid_argument
 #include <iostream>
 #include <cstring> // memcpy
+#include <tbb/task_scheduler_init.h>
 
 Filter_manager::Filter_manager(Bitmap * bmp):m_bmp(bmp),
 										     m_comp_type(SERIAL),
@@ -13,13 +14,16 @@ Filter_manager::Filter_manager(Bitmap * bmp):m_bmp(bmp),
 	m_filters.resize(0);
 
 	//allocating output bmp
-	unsigned int width = bmp->get_width();
-    unsigned int height = bmp->get_height();
-    unsigned int padded_size = bmp->get_padded_size();
+	unsigned int width = m_bmp->get_width();
+    unsigned int height = m_bmp->get_height();
+    unsigned int padded_size = m_bmp->get_padded_size();
     m_out_bmp = new Bitmap(width, height, padded_size);
 
-    //lets make a copy of the original input
+    // //lets make a copy of the original input
     copy_input_buffer();
+
+    //initializing TBB
+    tbb::task_scheduler_init init;
 
 }
 
@@ -109,12 +113,18 @@ Filter_manager::Computation Filter_manager::get_compute_type() const
 void Filter_manager::evaluate_stack()
 {
 	size_t st_size = stack_size();
+	source_buffer = m_input_copy;
+	target_buffer = m_out_bmp->getRawData();
+	std::cout<<"start of stack"<<std::endl;
 
+	std::cout<<st_size<<std::endl;
 	for (size_t i=m_stack_start; i<st_size; ++i)
 	{
+		std::cout<<i<<std::endl;
+		std::cout<<m_comp_type<<std::endl;
 		if(m_comp_type == SERIAL)
 		{
-			m_filters[i]->compute_serial(working_buffer,
+			m_filters[i]->compute_serial(source_buffer,
 										 target_buffer);
 		}
 		else if(m_comp_type == TBB)
@@ -128,15 +138,20 @@ void Filter_manager::evaluate_stack()
 									    target_buffer);
 		}
 
+		std::cout<<"after loop1"<<std::endl;
 		swap_buffers(i,st_size);
 	}
 
+	m_out_bmp->save("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessyBW.bmp");
+	std::cout<<"end of stack eval"<<std::endl;
+	// std::cout<<m_out_bmp->get_width()<<std::endl;
 }
 
 
 void Filter_manager::copy_input_buffer()
 {
     size_t buffer_size = m_bmp->get_width()*m_bmp->get_height()*3*(size_t)sizeof(uint8_t);
+	m_input_copy = new uint8_t[buffer_size];
 	memcpy(m_input_copy, m_bmp->getRawData(), buffer_size);
 }
 

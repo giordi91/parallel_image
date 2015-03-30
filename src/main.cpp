@@ -10,6 +10,7 @@
 #include <filters/gaussian_filter.h>
 #include <filters/sharpen_filter.h>
 #include <filters/edge_detection_filter.h>
+#include <core/filter_manager.h>
 
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QSplashScreen>
@@ -62,37 +63,41 @@ int main( int argc, char* argv[])
     cout<<"Initializing ..."<<endl;
     cout<<"Reading image...."<<std::endl;
     
-    Bitmap testbmp;
-    try
-    {
-		//E:/WORK_IN_PROGRESS/C/parallel_image/data
-        ///user_data/WORK_IN_PROGRESS/parallel_image/data/jessy.bmp
-		///home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessy.bmp
-        testbmp.open("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessy.bmp");
-    }
-    catch(std::runtime_error &e)
-    {
-        std::cout<<e.what()<<endl;
-        #if defined(WIN32)
-        system ("PAUSE");
-        #endif
-        return 0;
-    }
+ 
 
-    //gather the data
-    unsigned int width = testbmp.get_width();
-    unsigned int height = testbmp.get_height();
-    unsigned int padded_size = testbmp.get_padded_size();
-    Bitmap workingBmp(width, height, padded_size);
-    std::cout<<"Image Info :"<<std::endl;
-    std::cout<<"width: "<<width<<std::endl;
-    std::cout<<"height: "<<height<<std::endl;
+  //   Bitmap testbmp;
+  //   try
+  //   {
+		// //E:/WORK_IN_PROGRESS/C/parallel_image/data
+  //       ///user_data/WORK_IN_PROGRESS/parallel_image/data/jessy.bmp
+		// ///home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessy.bmp
+  //       testbmp.open("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessy.bmp");
+  //   }
+  //   catch(std::runtime_error &e)
+  //   {
+  //       std::cout<<e.what()<<endl;
+  //       #if defined(WIN32)
+  //       system ("PAUSE");
+  //       #endif
+  //       return 0;
+  //   }
 
-    //needed buffers
-    uint8_t * src = testbmp.getRawData();
-    uint8_t * target = workingBmp.getRawData();
 
-    tbb::tick_count t0,t1;
+
+    // //gather the data
+    // unsigned int width = testbmp.get_width();
+    // unsigned int height = testbmp.get_height();
+    // unsigned int padded_size = testbmp.get_padded_size();
+    // Bitmap workingBmp(width, height, padded_size);
+    // std::cout<<"Image Info :"<<std::endl;
+    // std::cout<<"width: "<<width<<std::endl;
+    // std::cout<<"height: "<<height<<std::endl;
+
+    // //needed buffers
+    // uint8_t * src = testbmp.getRawData();
+    // uint8_t * target = workingBmp.getRawData();
+
+    // tbb::tick_count t0,t1;
      
     // blur test
 
@@ -123,31 +128,31 @@ int main( int argc, char* argv[])
 
     
 
-     //BW test
-    //time the serial functon
-    Bw_filter bw( width, height);
+    //  //BW test
+    // //time the serial functon
+    // Bw_filter bw( width, height);
 
-    t0 = tbb::tick_count::now();
-    bw.compute_serial(src, target);
+    // t0 = tbb::tick_count::now();
+    // bw.compute_serial(src, target);
     
-    t1 = tbb::tick_count::now();
-    cout << (t1-t0).seconds()<<" s" << endl; 
+    // t1 = tbb::tick_count::now();
+    // cout << (t1-t0).seconds()<<" s" << endl; 
 
 
-    t0 = tbb::tick_count::now();
-    tbb::task_scheduler_init init;
-    //testing tbb
-    bw.compute_tbb(src, target);
-    //terminating tbb
-    init.terminate();
-    t1 = tbb::tick_count::now();
-    cout << (t1-t0).seconds()<<" s" << endl; 
+    // t0 = tbb::tick_count::now();
+    // tbb::task_scheduler_init init;
+    // //testing tbb
+    // bw.compute_tbb(src, target);
+    // //terminating tbb
+    // init.terminate();
+    // t1 = tbb::tick_count::now();
+    // cout << (t1-t0).seconds()<<" s" << endl; 
 
 
-    t0 = tbb::tick_count::now();
-    bw.compute_cuda(src, target);
-    t1 = tbb::tick_count::now();
-    cout << (t1-t0).seconds()<<" s" << endl; 
+    // t0 = tbb::tick_count::now();
+    // bw.compute_cuda(src, target);
+    // t1 = tbb::tick_count::now();
+    // cout << (t1-t0).seconds()<<" s" << endl; 
     
 
     //testing the stancil
@@ -215,19 +220,60 @@ int main( int argc, char* argv[])
     // cout << "Computing CUDA edge detection"<< endl;
     // cout << (t1-t0).seconds()<<" s" << endl; 
 
-
+    Bitmap * testbmp = new Bitmap;
     try
-    {   ///user_data/WORK_IN_PROGRESS/parallel_image/data/jessy.bmp
-        workingBmp.save("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessyBW.bmp");
+    {
+        //E:/WORK_IN_PROGRESS/C/parallel_image/data
+        ///user_data/WORK_IN_PROGRESS/parallel_image/data/jessy.bmp
+        ///home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessy.bmp
+        testbmp->open("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessy.bmp");
     }
     catch(std::runtime_error &e)
     {
         std::cout<<e.what()<<endl;
-		#if defined(WIN32)
+        #if defined(WIN32)
         system ("PAUSE");
-		#endif  
+        #endif
         return 0;
-    }
+    } 
+
+    std::cout<<"red image"<<std::endl;
+    //gather the data
+    unsigned int width = testbmp->get_width();
+    unsigned int height = testbmp->get_height();
+
+    std::cout<<"filters"<<std::endl;
+
+    Bw_filter * bw = new Bw_filter ( width, height);
+    Gaussian_filter * gf = new Gaussian_filter(width,height,2.0f);
+    Sharpen_filter * sp= new Sharpen_filter(width,height);
+    Edge_detection_filter * ed = new Edge_detection_filter(width,height,2);
+
+    std::cout<<"before adding filters"<<std::endl;
+    Filter_manager fm(testbmp);
+    std::cout<<"created filter manager"<<std::endl;
+    fm.add_filter(bw);
+    fm.add_filter(ed);
+    fm.add_filter(sp);
+    fm.add_filter(gf);
+    fm.set_compute_type(Filter_manager::TBB);
+    fm.evaluate_stack();
+
+    std::cout<<"before d"<<std::endl;
+
+
+  //   try
+  //   {   ///user_data/WORK_IN_PROGRESS/parallel_image/data/jessy.bmp
+  //       workingBmp.save("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessyBW.bmp");
+  //   }
+  //   catch(std::runtime_error &e)
+  //   {
+  //       std::cout<<e.what()<<endl;
+		// #if defined(WIN32)
+  //       system ("PAUSE");
+		// #endif  
+  //       return 0;
+  //   }
 
   //   #if defined(WIN32)
   //   system ("PAUSE");
