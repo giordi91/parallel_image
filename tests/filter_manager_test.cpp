@@ -177,9 +177,6 @@ TEST_F(Filter_built_fixture_Test, set_get_computation)
 
 TEST_F(Filter_built_fixture_Test, basic_evaluate_stack)
 {
-	uint8_t *source;
-	uint8_t *target;
-
 	//weird behavior??, why if i only set an expected call 
 	//from fil1 i get 3 extra unexpected call? if i add aexepcted
 	//calls for all the other filters I am good
@@ -193,8 +190,7 @@ TEST_F(Filter_built_fixture_Test, basic_evaluate_stack)
 
 TEST_F(Filter_built_fixture_Test, evaluate_stack_and_changed_comp_type)
 {
-	uint8_t *source;
-	uint8_t *target;
+
 
 	EXPECT_CALL(*fil1, compute_serial(_,_)).Times(1);
 	EXPECT_CALL(*fil2, compute_serial(_,_)).Times(1);

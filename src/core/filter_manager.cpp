@@ -6,7 +6,9 @@
 Filter_manager::Filter_manager(Bitmap * bmp):m_bmp(bmp),
 										     m_comp_type(SERIAL),
 										     m_out_bmp(nullptr),
-										     m_input_copy(nullptr)
+										     m_input_copy(nullptr),
+										     m_stack_start(0),
+										     working_buffer(nullptr)
 {
 	m_filters.resize(0);
 
@@ -106,35 +108,28 @@ Filter_manager::Computation Filter_manager::get_compute_type() const
 
 void Filter_manager::evaluate_stack()
 {
-	uint8_t * working_buffer;
-	uint8_t * working_buffer_A;
-	uint8_t * working_buffer_B;
+	size_t st_size = stack_size();
 
-
-	// for (auto filter : m_filters)
-	// {
-	// 	std::cout<<"called"<<std::endl;
-	// 	filter->compute_serial(source,target);
-	// }
-	for (int i=0; i<stack_size(); ++i)
+	for (size_t i=m_stack_start; i<st_size; ++i)
 	{
 		if(m_comp_type == SERIAL)
 		{
-			m_filters[i]->compute_serial(working_buffer_A
-				,working_buffer_B);
+			m_filters[i]->compute_serial(working_buffer,
+										 target_buffer);
 		}
 		else if(m_comp_type == TBB)
 		{
-			m_filters[i]->compute_tbb(working_buffer_A
-				,working_buffer_B);
+			m_filters[i]->compute_tbb(source_buffer,
+									  target_buffer);
 		}
 		else if(m_comp_type == CUDA)
 		{
-			m_filters[i]->compute_cuda(working_buffer_A
-				,working_buffer_B);
+			m_filters[i]->compute_cuda(source_buffer,
+									    target_buffer);
 		}
+
+		swap_buffers(i,st_size);
 	}
-	
 
 }
 
@@ -143,5 +138,18 @@ void Filter_manager::copy_input_buffer()
 {
     size_t buffer_size = m_bmp->get_width()*m_bmp->get_height()*3*(size_t)sizeof(uint8_t);
 	memcpy(m_input_copy, m_bmp->getRawData(), buffer_size);
+}
 
+
+void Filter_manager::swap_buffers(size_t current_index,
+					  				size_t final_index)
+{
+	working_buffer = target_buffer;
+	target_buffer = source_buffer;
+	source_buffer = working_buffer;
+
+	if (current_index == (final_index-2))
+	{
+		target_buffer = m_out_bmp->getRawData();
+	}
 }

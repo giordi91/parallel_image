@@ -92,19 +92,31 @@ public:
 	void copy_input_buffer();
 
 private:
+	/**
+	 * @brief swapping the buffer between one filter and the other
+	 	
+	 * @details [long description]
+	 */
+	void swap_buffers(size_t current_index,
+					  size_t final_index);
+
+private:
 	//the internal filters data (pointers to the actual filters)
 	vector<Filter *>m_filters;
 	//the pointer to the image to work on
 	Bitmap * m_bmp;
 	//the computation state of the manager
 	Computation m_comp_type;
-	
 	//output bmp
 	Bitmap *m_out_bmp;
-
 	//a copy of the original input image
 	uint8_t * m_input_copy;
+	//stack start variable
+	size_t m_stack_start;
 
+	uint8_t * working_buffer;
+	uint8_t * source_buffer;
+	uint8_t * target_buffer;
 
 };
 
