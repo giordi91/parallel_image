@@ -237,21 +237,16 @@ int main( int argc, char* argv[])
         return 0;
     } 
 
-    std::cout<<"red image"<<std::endl;
     //gather the data
     unsigned int width = testbmp->get_width();
     unsigned int height = testbmp->get_height();
-
-    std::cout<<"filters"<<std::endl;
 
     Bw_filter * bw = new Bw_filter ( width, height);
     Gaussian_filter * gf = new Gaussian_filter(width,height,2.0f);
     Sharpen_filter * sp= new Sharpen_filter(width,height);
     Edge_detection_filter * ed = new Edge_detection_filter(width,height,2);
 
-    std::cout<<"before adding filters"<<std::endl;
     Filter_manager fm(testbmp);
-    std::cout<<"created filter manager"<<std::endl;
     fm.add_filter(bw);
     fm.add_filter(ed);
     fm.add_filter(sp);
@@ -259,7 +254,6 @@ int main( int argc, char* argv[])
     fm.set_compute_type(Filter_manager::TBB);
     fm.evaluate_stack();
 
-    std::cout<<"before d"<<std::endl;
 
 
   //   try

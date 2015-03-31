@@ -93,6 +93,12 @@ struct Filter_built_fixture_Test : public Test
 
 };
 
+struct HEAVY_Filter_built_fixture_Test: : public Test 
+{
+
+
+};
+
 
 TEST_F(Filter_basic_fixture_Test, constructor)
 {
@@ -217,6 +223,10 @@ TEST_F(Filter_built_fixture_Test, evaluate_stack_and_changed_comp_type)
 	fm->evaluate_stack();  
 }
 
+TEST_F(HEAVY_Filter_built_fixture_Test, testing_heavy)
+{	
+	
+}
 
 
 

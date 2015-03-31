@@ -85,7 +85,23 @@ tests:$(UI_FORMS) $(MOCS) $(MOCS_OBJS) $(TEST_OBJS)
 	$(CUDA_LIB_PATH) $(CUDA_LIB) \
 	$(TEST_LIB_PATH) $(TEST_LIB)
 
-	./$(BUILD_PATH)/$(TEST_TARGET) 
+	./$(BUILD_PATH)/$(TEST_TARGET) --gtest_filter=-Heavy* 
+	
+tests_heavy:$(UI_FORMS) $(MOCS) $(MOCS_OBJS) $(TEST_OBJS)
+	$(CXX)  $(F_TEST_OBJS) -o $(BUILD_PATH)/$(TEST_TARGET) \
+	$(LIBS_PATH) $(LIBS) \
+	$(CUDA_LIB_PATH) $(CUDA_LIB) \
+	$(TEST_LIB_PATH) $(TEST_LIB)
+
+	./$(BUILD_PATH)/$(TEST_TARGET) --gtest_filter=Heavy* 
+
+tests_all:$(UI_FORMS) $(MOCS) $(MOCS_OBJS) $(TEST_OBJS)
+	$(CXX)  $(F_TEST_OBJS) -o $(BUILD_PATH)/$(TEST_TARGET) \
+	$(LIBS_PATH) $(LIBS) \
+	$(CUDA_LIB_PATH) $(CUDA_LIB) \
+	$(TEST_LIB_PATH) $(TEST_LIB)
+
+	./$(BUILD_PATH)/$(TEST_TARGET)
 
 
 ui_%.h: %.ui

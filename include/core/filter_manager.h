@@ -87,9 +87,32 @@ public:
 	 */
 	Computation get_compute_type() const;
 
+	/**
+	 * @brief this function computes the stack of filters
+	 * @details This function kicks out the evaluation stack
+	 * of the filters, the computation type is defined by 
+	 * the internal valirable  m_comp_type which is of type
+	 * Computation and can be set with the set_compute_type
+	 * function, by default is set to SERIAL
+	 */
 	void evaluate_stack();
 
+	/**
+	 * @brief Makes an internal copy of the image input
+	 * @details This function makes a copy of the input buffer
+	 * in order to avoid to override the input data. This is 
+	 * done because internally the stack is evaluated by swapping
+	 * pointers of target and source between each filter in order
+	 * to avoid useless memcpy and to optimize the output.
+	 */
 	void copy_input_buffer();
+
+	/**
+	 * @brief saves the result of evaluation
+	 * @param path Where we want to save the image
+	 * @throw : runtime_error if path does not exists
+	 */
+	void save_stack_output(const char* path);
 
 private:
 	/**

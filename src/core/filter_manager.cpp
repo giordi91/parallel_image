@@ -115,13 +115,9 @@ void Filter_manager::evaluate_stack()
 	size_t st_size = stack_size();
 	source_buffer = m_input_copy;
 	target_buffer = m_out_bmp->getRawData();
-	std::cout<<"start of stack"<<std::endl;
 
-	std::cout<<st_size<<std::endl;
 	for (size_t i=m_stack_start; i<st_size; ++i)
 	{
-		std::cout<<i<<std::endl;
-		std::cout<<m_comp_type<<std::endl;
 		if(m_comp_type == SERIAL)
 		{
 			m_filters[i]->compute_serial(source_buffer,
@@ -138,13 +134,10 @@ void Filter_manager::evaluate_stack()
 									    target_buffer);
 		}
 
-		std::cout<<"after loop1"<<std::endl;
 		swap_buffers(i,st_size);
 	}
 
 	m_out_bmp->save("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessyBW.bmp");
-	std::cout<<"end of stack eval"<<std::endl;
-	// std::cout<<m_out_bmp->get_width()<<std::endl;
 }
 
 
