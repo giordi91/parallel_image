@@ -18,7 +18,7 @@ void Convolution_filter::compute_tbb(const uint8_t * source,
 
 }
 
-void Convolution_filter::compute_cuda(const uint8_t * source,
+void Convolution_filter::compute_cuda( uint8_t * source,
                         uint8_t* target)
 {
 

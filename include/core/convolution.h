@@ -57,7 +57,7 @@ private:
 };
 
 
-void convolution_cuda(const uint8_t * h_source,
+void convolution_cuda( uint8_t * h_source,
                 uint8_t* h_target,
                 const size_t &width,
                 const size_t &height,

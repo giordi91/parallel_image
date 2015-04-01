@@ -240,6 +240,10 @@ int main( int argc, char* argv[])
     //gather the data
     unsigned int width = testbmp->get_width();
     unsigned int height = testbmp->get_height();
+    unsigned int padded_size = testbmp->get_padded_size();
+    Bitmap workingBmp(width, height, padded_size);
+
+
 
     Bw_filter * bw = new Bw_filter ( width, height);
     Gaussian_filter * gf = new Gaussian_filter(width,height,2.0f);
@@ -253,6 +257,7 @@ int main( int argc, char* argv[])
     fm.add_filter(gf);
     fm.set_compute_type(Filter_manager::TBB);
     fm.evaluate_stack();
+    fm.save_stack_output("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessyBW.bmp");
 
 
 

@@ -22,7 +22,7 @@ public:
 
     void compute_tbb(const uint8_t * source,
                 uint8_t* target);
-    void compute_cuda(const uint8_t * source,
+    void compute_cuda( uint8_t * source,
                 uint8_t* target);
 
 protected:

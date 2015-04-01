@@ -16,7 +16,7 @@ public:
                 					uint8_t* target)=0;
 	virtual void compute_tbb(const uint8_t * source,
                 					uint8_t* target)=0;
-	virtual void compute_cuda(const uint8_t * source,
+	virtual void compute_cuda( uint8_t * source,
                 					uint8_t* target)=0;
 	virtual ~Filter(){};
 protected:

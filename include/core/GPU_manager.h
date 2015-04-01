@@ -90,6 +90,13 @@ public:
 	dim3 get_grid_dim();
 
 
+	void copy_data_to_device(uint8_t * h_source,uint8_t * dev_target,
+							size_t stride=3);
+
+
+	void copy_data_from_device(uint8_t * dev_source,uint8_t * h_target,
+							   size_t stride=3);
+
 private:
 	//the grain size used to make square blocks
 	size_t m_grain_size;

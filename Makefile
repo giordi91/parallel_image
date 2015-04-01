@@ -45,7 +45,7 @@ vpath %.o build
 OBJS = mainwindow.o main.o bitmap.o bw_filter.o stancil.o convolution.o \
 	   convolution_filter.o gaussian_filter.o  sharpen_filter.o  \
 	   edge_detection_filter.o bw_kernel.cu.o convolution_kernel.cu.o \
-	   filter_manager.o
+	   filter_manager.o GPU_manager.o
 
 #object with added build path for linking purpose
 F_OBJS = $(addprefix $(BUILD_PATH)/, $(OBJS))

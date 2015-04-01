@@ -143,6 +143,8 @@ private:
 	uint8_t * source_buffer;
 	uint8_t * target_buffer;
 
+	GPU_manager * m_gpu_manager;
+
 };
 
 #endif

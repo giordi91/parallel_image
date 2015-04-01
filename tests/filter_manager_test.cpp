@@ -21,7 +21,7 @@ class FilterMockA : public Filter
   										  uint8_t* target));
   MOCK_METHOD2(compute_tbb, void(const uint8_t * source,
   	                                   uint8_t* target));
-  MOCK_METHOD2(compute_cuda, void(const uint8_t * source,
+  MOCK_METHOD2(compute_cuda, void( uint8_t * source,
   								        uint8_t* target));
 };
 
@@ -33,7 +33,7 @@ class FilterMockB : public Filter
   										  uint8_t* target));
   MOCK_METHOD2(compute_tbb, void(const uint8_t * source,
   	                                   uint8_t* target));
-  MOCK_METHOD2(compute_cuda, void(const uint8_t * source,
+  MOCK_METHOD2(compute_cuda, void( uint8_t * source,
   								        uint8_t* target));
 };
 
@@ -288,12 +288,54 @@ TEST_F(Heavy_Filter_computation_test_fixture, testing_TBB_filters)
 }
 
 TEST_F(Heavy_Filter_computation_test_fixture, testing_CUDA_filters)
-
 {	
     fm->set_compute_type(Filter_manager::CUDA);
     fm->evaluate_stack();
     fm->save_stack_output("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/OUT_testing_CUDA_filters.bmp");
 }
+
+
+TEST(Heavy_dummyTest, testing_CUDA_filters2)
+{	
+
+	Bitmap * testbmp;
+	Bw_filter * gf ;
+	Filter_manager * fm;
+	testbmp = new Bitmap;
+    try
+    {
+        //E:/WORK_IN_PROGRESS/C/parallel_image/data
+        ///user_data/WORK_IN_PROGRESS/parallel_image/data/jessy.bmp
+        ///home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessy.bmp
+        testbmp->open("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/test_01.bmp");
+    }
+    catch(std::runtime_error &e)
+    {
+        std::cout<<e.what()<<endl;
+        #if defined(WIN32)
+        system ("PAUSE");
+        #endif
+        return;
+    } 
+
+	//gather the data
+    unsigned int width = testbmp->get_width();
+    unsigned int height = testbmp->get_height();
+
+    gf = new Bw_filter(width,height);
+
+	fm = new Filter_manager(testbmp);
+    fm->add_filter(gf);
+
+    fm->set_compute_type(Filter_manager::CUDA);
+    fm->evaluate_stack();
+    fm->save_stack_output("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/OUT_testing_CUDA_filters2.bmp");
+
+
+	delete fm;
+    
+}
+
 
 
 

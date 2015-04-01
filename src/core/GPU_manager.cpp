@@ -112,3 +112,25 @@ dim3 GPU_manager::get_block_dim()
 {
 	return m_kernel_block_size;
 }
+
+void GPU_manager::copy_data_to_device(uint8_t * source,uint8_t * dev_target, 
+									size_t stride)
+{
+		size_t buffer_size = m_width*m_height*stride*(size_t)sizeof(uint8_t);
+		cudaError_t s = cudaMemcpy(dev_target, source, buffer_size, cudaMemcpyHostToDevice);
+		if (s != cudaSuccess) 
+					printf("Error: %s\n", cudaGetErrorString(s));
+
+}
+
+
+void GPU_manager::copy_data_from_device(uint8_t * dev_source,
+										uint8_t * h_target,
+										size_t stride)
+{
+
+		size_t buffer_size = m_width*m_height*stride*(size_t)sizeof(uint8_t);
+		cudaError_t s = cudaMemcpy(h_target, dev_source, buffer_size, cudaMemcpyDeviceToHost);
+		if (s != cudaSuccess) 
+			printf("Error: %s\n", cudaGetErrorString(s));
+}

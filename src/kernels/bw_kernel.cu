@@ -67,21 +67,9 @@ void run_bw_kernel(const uint8_t *d_source,  uint8_t *d_target,
 	const dim3 blockSize( grainSize, grainSize , 1); 
 	const dim3 gridSize( width_blocks, width_height, 1); 
 
-	//setupping clock
-	cudaEvent_t start, stop;
-	cudaEventCreate(&start);
-	cudaEventCreate(&stop);
-
-	//starting the clock
-	cudaEventRecord(start);
 	//kick the kernel
 	bw_kernel<<<gridSize, blockSize>>>(d_source, d_target, width,height);
-	//stop the clock
-	cudaEventRecord(stop);
 
-	//getting the time
-	float milliseconds = 0;
-	cudaEventElapsedTime(&milliseconds, start, stop);
 	//sincronizing device
 	cudaDeviceSynchronize();
 	

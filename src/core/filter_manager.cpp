@@ -25,6 +25,14 @@ Filter_manager::Filter_manager(Bitmap * bmp):m_bmp(bmp),
     //initializing TBB
     tbb::task_scheduler_init init;
 
+    //initialize gpu manager
+    m_gpu_manager = new GPU_manager(m_bmp->get_width(),
+    								m_bmp->get_height(),
+    								16);
+
+    m_gpu_manager->copy_data_to_device(m_input_copy, 
+    									m_gpu_manager->get_source_buffer() );
+
 }
 
 Filter_manager::~Filter_manager()
@@ -48,6 +56,11 @@ Filter_manager::~Filter_manager()
 	if (m_input_copy)
 	{
 		delete m_input_copy;
+	}
+
+	if (m_gpu_manager)
+	{
+		delete m_gpu_manager;
 	}
 }
 
@@ -136,6 +149,15 @@ void Filter_manager::evaluate_stack()
 		swap_buffers(i,st_size);
 	}
 
+
+	if (m_comp_type == CUDA)
+	{
+		std::cout<<"copying data from device"<<std::endl;
+		m_gpu_manager->copy_data_from_device( source_buffer,
+										 m_out_bmp->getRawData());
+
+	}
+
 	
 }
 
@@ -151,23 +173,32 @@ void Filter_manager::copy_input_buffer()
 void Filter_manager::swap_buffers(size_t current_index,
 					  				size_t final_index)
 {
-	if (m_comp_type == SERIAL || m_comp_type == TBB)
-	{
-		working_buffer = target_buffer;
-		target_buffer = source_buffer;
-		source_buffer = working_buffer;
-	}
-	
+	working_buffer = target_buffer;
+	target_buffer = source_buffer;
+	source_buffer = working_buffer;
+
 	if (current_index == (final_index-2))
 	{
-		target_buffer = m_out_bmp->getRawData();
+		if (m_comp_type == SERIAL || m_comp_type == TBB)
+		{
+			target_buffer = m_out_bmp->getRawData();
+		}
+
 	}
 }
 
 void Filter_manager::setup_buffers()
 {
-	source_buffer = m_input_copy;
-	target_buffer = m_out_bmp->getRawData();
+	if (m_comp_type == SERIAL || m_comp_type == TBB)
+	{
+		source_buffer = m_input_copy;
+		target_buffer = m_out_bmp->getRawData();
+	}
+	else if (m_comp_type == CUDA)
+	{
+		source_buffer = m_gpu_manager->get_source_buffer();
+		target_buffer = m_gpu_manager->get_target_buffer();
+	}
 }
 
 void Filter_manager::save_stack_output(const char* path)
