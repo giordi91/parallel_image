@@ -113,8 +113,7 @@ Filter_manager::Computation Filter_manager::get_compute_type() const
 void Filter_manager::evaluate_stack()
 {
 	size_t st_size = stack_size();
-	source_buffer = m_input_copy;
-	target_buffer = m_out_bmp->getRawData();
+	setup_buffers();
 
 	for (size_t i=m_stack_start; i<st_size; ++i)
 	{
@@ -137,7 +136,7 @@ void Filter_manager::evaluate_stack()
 		swap_buffers(i,st_size);
 	}
 
-	m_out_bmp->save("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessyBW.bmp");
+	
 }
 
 
@@ -152,12 +151,26 @@ void Filter_manager::copy_input_buffer()
 void Filter_manager::swap_buffers(size_t current_index,
 					  				size_t final_index)
 {
-	working_buffer = target_buffer;
-	target_buffer = source_buffer;
-	source_buffer = working_buffer;
-
+	if (m_comp_type == SERIAL || m_comp_type == TBB)
+	{
+		working_buffer = target_buffer;
+		target_buffer = source_buffer;
+		source_buffer = working_buffer;
+	}
+	
 	if (current_index == (final_index-2))
 	{
 		target_buffer = m_out_bmp->getRawData();
 	}
+}
+
+void Filter_manager::setup_buffers()
+{
+	source_buffer = m_input_copy;
+	target_buffer = m_out_bmp->getRawData();
+}
+
+void Filter_manager::save_stack_output(const char* path)
+{
+	m_out_bmp->save(path);
 }

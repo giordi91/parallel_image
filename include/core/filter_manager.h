@@ -123,6 +123,8 @@ private:
 	void swap_buffers(size_t current_index,
 					  size_t final_index);
 
+	void setup_buffers();
+
 private:
 	//the internal filters data (pointers to the actual filters)
 	vector<Filter *>m_filters;

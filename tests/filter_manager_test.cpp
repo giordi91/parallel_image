@@ -5,6 +5,10 @@
 #include <core/filter_manager.h>
 #include <core/filter.h>
 #include <core/bitmap.h>
+#include <filters/bw_filter.h>
+#include <filters/gaussian_filter.h>
+#include <filters/sharpen_filter.h>
+#include <filters/edge_detection_filter.h>
 using namespace testing;
 
 
@@ -93,9 +97,54 @@ struct Filter_built_fixture_Test : public Test
 
 };
 
-struct HEAVY_Filter_built_fixture_Test: : public Test 
+struct Heavy_Filter_computation_test_fixture: public Test 
 {
 
+	Bitmap * testbmp;
+	Bw_filter * bw ;
+	Gaussian_filter * gf ;
+	Sharpen_filter * sp ;
+	Edge_detection_filter * ed ;
+	Filter_manager * fm;
+	virtual void SetUp()
+    {
+		testbmp = new Bitmap;
+	    try
+	    {
+	        //E:/WORK_IN_PROGRESS/C/parallel_image/data
+	        ///user_data/WORK_IN_PROGRESS/parallel_image/data/jessy.bmp
+	        ///home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/jessy.bmp
+	        testbmp->open("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/test_01.bmp");
+	    }
+	    catch(std::runtime_error &e)
+	    {
+	        std::cout<<e.what()<<endl;
+	        #if defined(WIN32)
+	        system ("PAUSE");
+	        #endif
+	        return;
+	    } 
+
+		//gather the data
+	    unsigned int width = testbmp->get_width();
+	    unsigned int height = testbmp->get_height();
+
+	    bw = new Bw_filter ( width, height);
+	    gf = new Gaussian_filter(width,height,2.0f);
+	    sp= new Sharpen_filter(width,height);
+	    ed = new Edge_detection_filter(width,height,2);
+
+		fm = new Filter_manager(testbmp);
+	    fm->add_filter(bw);
+	    fm->add_filter(ed);
+	    fm->add_filter(sp);
+	    fm->add_filter(gf);
+	}
+
+	virtual void TearDown()
+	{
+		delete fm;
+	}
 
 };
 
@@ -223,10 +272,29 @@ TEST_F(Filter_built_fixture_Test, evaluate_stack_and_changed_comp_type)
 	fm->evaluate_stack();  
 }
 
-TEST_F(HEAVY_Filter_built_fixture_Test, testing_heavy)
+TEST_F(Heavy_Filter_computation_test_fixture, testing_serial_filters)
 {	
-	
+    // fm.set_compute_type(Filter_manager::TBB);
+    fm->evaluate_stack();
+    fm->save_stack_output("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/OUT_testing_serial_filters.bmp");
 }
+
+
+TEST_F(Heavy_Filter_computation_test_fixture, testing_TBB_filters)
+{	
+    fm->set_compute_type(Filter_manager::TBB);
+    fm->evaluate_stack();
+    fm->save_stack_output("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/OUT_testing_TBB_filters.bmp");
+}
+
+TEST_F(Heavy_Filter_computation_test_fixture, testing_CUDA_filters)
+
+{	
+    fm->set_compute_type(Filter_manager::CUDA);
+    fm->evaluate_stack();
+    fm->save_stack_output("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/OUT_testing_CUDA_filters.bmp");
+}
+
 
 
 

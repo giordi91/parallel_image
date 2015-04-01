@@ -58,7 +58,17 @@ MOCS_OBJS = moc_mainwindow.o
 #the final moc objects that need to be linked
 F_MOCS_OBJS = $(addprefix $(BUILD_PATH)/, $(MOCS_OBJS))
 
-TEST_OBJS = filter_manager_test.o filter_manager.o bitmap.o GPU_manager.o gpu_manager_test.o
+TEST_OBJS = filter_manager_test.o filter_manager.o \
+			bitmap.o \
+			GPU_manager.o gpu_manager_test.o \
+			bw_filter.o bw_kernel.cu.o \
+			edge_detection_filter.o \
+			sharpen_filter.o \
+			gaussian_filter.o \
+			convolution_filter.o convolution_kernel.cu.o convolution.o \
+			stancil.o
+
+
 # TEST_OBJS :=  $(filter-out mainwindow.o main.o,$(OBJS))
 F_TEST_OBJS = $(addprefix $(BUILD_PATH)/, $(TEST_OBJS))
 
@@ -69,8 +79,8 @@ run: clean all
 	./$(BUILD_PATH)/$(TARGET) 
 
 clean:
+	rm -f data/OUT_*.bmp
 	rm -f include/ui/ui_*.h build/moc*.cpp
-
 	rm -f $(BUILD_PATH)/*.o $(BUILD_PATH)/$(TARGET)* \
 	 						$(BUILD_PATH)/$(TEST_TARGET)* *.o
 
