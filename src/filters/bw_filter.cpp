@@ -29,8 +29,6 @@ void Bw_filter::compute_serial(	const uint8_t * source,
 	}
 }
 
-
-
 void Bw_filter::compute_tbb(const uint8_t * source,
                 			uint8_t* target)
 {
@@ -47,9 +45,7 @@ Apply_bw_tbb::Apply_bw_tbb(const uint8_t * source,
             const int &width,
             const int &height):m_source(source),m_target(target),
 								m_width(width),m_height(height)
-{
-
-}
+{}
 
 void Apply_bw_tbb::operator() (const tbb::blocked_range2d<size_t>& r)const
 {
@@ -81,35 +77,6 @@ void Bw_filter::compute_cuda( uint8_t * h_source,
                 uint8_t* h_target)
 
 {
-
-	// //calculating the size of the arrya
-	// int byte_size = m_width*m_height*3*(int)sizeof(uint8_t);
-
-	// //declaring gpu pointers
-	// uint8_t * d_source;
-	// uint8_t * d_target;
-
-	// //allocating memory on the gpu
-	// cudaMalloc((void **) &d_source,byte_size);
-	// cudaMalloc((void **) &d_target,byte_size);
-
-	// //copying memory to gpu
-	// cudaError_t s = cudaMemcpy(d_source, h_source, byte_size, cudaMemcpyHostToDevice);
-	// if (s != cudaSuccess) 
-	// 	printf("Error: %s\n", cudaGetErrorString(s));
-	//run the kernel
 	run_bw_kernel(h_source, h_target, m_width, m_height);
-	
-	
-	// //copying memory from gpu
-	// s = cudaMemcpy(h_source, d_target, byte_size, cudaMemcpyDeviceToHost);
-	// if (s != cudaSuccess) 
-	// 	printf("Error: %s\n", cudaGetErrorString(s));
-
-	//freeing the memory
-	// cudaFree(d_source);
-	// cudaFree(d_target);
-	
-
 }
 

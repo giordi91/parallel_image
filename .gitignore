@@ -13,3 +13,4 @@ Release/
 /junk/ui_build
 *.*~
 moc*.cpp
+OUT_*.bmp

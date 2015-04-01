@@ -198,48 +198,33 @@ void convolution_cuda( uint8_t * h_source,
                 const  Stancil &workStancil)
 
 {
-    //calculating the size of the arrya
-    // size_t byte_size = width*height*3*(size_t)sizeof(uint8_t);
-    size_t filter_byte_size = workStancil.get_height()*
-                      workStancil.get_width()*
-                      (size_t)sizeof(float);
+
+    //the main buffers are already allocated, we just need 
+    //to take care of the stancil allocation on the gpu
     size_t d_st_width = workStancil.get_width();
     size_t d_st_height= workStancil.get_height();
-
+    size_t filter_byte_size = d_st_height*
+                      d_st_width*
+                      (size_t)sizeof(float);
 
     //declaring gpu pointers
-    // uint8_t * d_source;
-    // uint8_t * d_target;
     float * d_stancil; 
 
-    //allocating memory on the gpu for source image,target,and stancil
-    // cudaMalloc((void **) &d_source,byte_size);
-    // cudaMalloc((void **) &d_target,byte_size);
+    //allocating memory on the gpu for stancil
     cudaMalloc((void **) &d_stancil,filter_byte_size);
 
- //    //copying memory to gpu
-    cudaError_t s;
-	// s= cudaMemcpy(d_source, h_source, byte_size, cudaMemcpyHostToDevice);
- //    if (s != cudaSuccess) 
- //        printf("Error: %s\n", cudaGetErrorString(s));
-
+    //copying memory to gpu
 	const float * h_st_source = workStancil.get_data();
-    s = cudaMemcpy(d_stancil, h_st_source, filter_byte_size, cudaMemcpyHostToDevice);
+    cudaError_t s = cudaMemcpy(d_stancil, h_st_source, filter_byte_size, cudaMemcpyHostToDevice);
     if (s != cudaSuccess) 
         printf("Error: %s\n", cudaGetErrorString(s));
 
-    //here run
+    //here run the kernel
     run_convolution_kernel(h_source,h_target,width,height,
     					d_stancil,d_st_width,d_st_height);
-    
 
-    // s = cudaMemcpy(h_target, h_target, byte_size, cudaMemcpyDeviceToHost);
-    // if (s != cudaSuccess) 
-    //     printf("Error: %s\n", cudaGetErrorString(s));
-
-    //freeing the memory
-    // cudaFree(d_source);
-    // cudaFree(d_target);
+    //the memory of the main buffers is handled externally, means
+    //we justneed to free the memory of the stancily we actually used
     cudaFree(d_stancil);
 
 
