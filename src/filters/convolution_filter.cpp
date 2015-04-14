@@ -1,5 +1,6 @@
 #include <filters/convolution_filter.h>
 #include <core/convolution.h>
+#include <core/attribute.h>
 
 void Convolution_filter::compute_serial(const uint8_t * source,
                         uint8_t* target)

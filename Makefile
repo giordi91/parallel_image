@@ -66,7 +66,8 @@ TEST_OBJS = filter_manager_test.o filter_manager.o \
 			sharpen_filter.o \
 			gaussian_filter.o \
 			convolution_filter.o convolution_kernel.cu.o convolution.o \
-			stancil.o
+			stancil.o \
+			attribute_tests.o
 
 
 # TEST_OBJS :=  $(filter-out mainwindow.o main.o,$(OBJS))
