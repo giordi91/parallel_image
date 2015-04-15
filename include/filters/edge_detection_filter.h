@@ -2,7 +2,7 @@
 #include <core/filter.h>
 #include <filters/convolution_filter.h>
 #include <cstdint>
-
+#include <core/attribute.h>
 
 #ifndef __PARALLEL_EDGE_DETECTION_FILTER_H
 #define __PARALLEL_EDGE_DETECTION_FILTER_H
@@ -33,9 +33,10 @@ public:
                 const int &height,
                 const size_t detection_type =0);
 
-    size_t m_detection_type;
 
-    void generate_filter(){};
+    AttributeTyped<size_t> m_detection_type;
+
+    void generate_filter();
 
 };
 

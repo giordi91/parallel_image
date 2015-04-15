@@ -78,8 +78,13 @@ Edge_detection_stancil::~Edge_detection_stancil()
 Edge_detection_filter::Edge_detection_filter(const int &width,
                 const int &height,
                 const size_t detection_type):Convolution_filter(width,height), 
-									m_detection_type(detection_type)
+									m_detection_type("detection_type",detection_type)
 {
- 	st = new Edge_detection_stancil(m_detection_type);
+ 	generate_filter();
  
+}
+
+void Edge_detection_filter::generate_filter()
+{
+	st = new Edge_detection_stancil(m_detection_type.get_value());
 }
