@@ -35,26 +35,8 @@ class Sharpen_filter: public Convolution_filter
 public:
     Sharpen_filter(const int &width,
                 const int &height);
+
+    void generate_filter(){};
 };
 
 #endif
-
-
-// void sharpen_serial(const uint8_t * source,
-//                         uint8_t* target,
-//                         const int &width,
-//                         const int &height);
-
-
-// void sharpen_tbb(const uint8_t * source,
-//                         uint8_t* target,
-//                         const int &width,
-//                         const int &height
-//                         );
-
-
-// void sharpen_cuda(const uint8_t * source,
-//                         uint8_t* target,
-//                         const int &width,
-//                         const int &height
-//                         );

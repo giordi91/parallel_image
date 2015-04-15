@@ -81,31 +81,5 @@ Edge_detection_filter::Edge_detection_filter(const int &width,
 									m_detection_type(detection_type)
 {
  	st = new Edge_detection_stancil(m_detection_type);
- }
-
-
-// void Edge_detection_filter::compute_serial(const uint8_t * source,
-//                         uint8_t* target)
-// {
-
-// 	//make an instance of the filter
-// 	convolution_serial(source, target,m_width,m_height,m_working_stancil);
-
-// }
-// void Edge_detection_filter::compute_tbb(const uint8_t * source,
-//                         uint8_t* target)
-// {
-
-// 	//make an instance of the filter
-// 	convolution_tbb(source, target,m_width,m_height,m_working_stancil);
-
-// }
-
-// void Edge_detection_filter::compute_cuda(const uint8_t * source,
-//                         uint8_t* target)
-// {
-
-// 	//make an instance of the filter
-// 	convolution_cuda(source, target,m_width,m_height,m_working_stancil);
-
-// }
+ 
+}

@@ -34,6 +34,9 @@ public:
                 const size_t detection_type =0);
 
     size_t m_detection_type;
+
+    void generate_filter(){};
+
 };
 
 #endif

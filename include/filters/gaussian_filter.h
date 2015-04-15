@@ -47,5 +47,7 @@ public:
 
 	float m_sigma;
 
+	void generate_filter(){};
+
 };
 #endif
