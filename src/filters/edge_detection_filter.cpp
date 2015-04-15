@@ -86,5 +86,9 @@ Edge_detection_filter::Edge_detection_filter(const int &width,
 
 void Edge_detection_filter::generate_filter()
 {
+	if (st)
+	{
+		delete st;
+	}
 	st = new Edge_detection_stancil(m_detection_type.get_value());
 }

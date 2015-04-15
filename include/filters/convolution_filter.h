@@ -9,13 +9,13 @@ class Convolution_filter: public Filter
 {
 public:
     Convolution_filter(const int &width,
-                const int &height)
+                const int &height):st(nullptr)
     {
         m_width = width;
         m_height= height;
     };
 
-    ~Convolution_filter();
+    virtual ~Convolution_filter();
 
     void compute_serial( const uint8_t * source,
                 uint8_t* target);

@@ -27,3 +27,12 @@ void Convolution_filter::compute_cuda( uint8_t * source,
 	convolution_cuda(source, target,m_width,m_height,*st);
 
 }
+
+
+Convolution_filter::~Convolution_filter()
+{
+	if(st)
+	{
+		delete st;
+	}
+}

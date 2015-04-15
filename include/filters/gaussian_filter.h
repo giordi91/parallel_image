@@ -2,6 +2,7 @@
 #include <core/filter.h>
 #include <filters/convolution_filter.h>
 #include <cstdint>
+#include <core/attribute.h>
 
 
 #ifndef __PARALLEL_IMAGE_GAUSSIAN_STANCIL_H
@@ -45,9 +46,9 @@ public:
                 const int &height,
                 const float &sigma);
 
-	float m_sigma;
+	AttributeTyped<float>m_sigma;
 
-	void generate_filter(){};
+	void generate_filter();
 
 };
 #endif

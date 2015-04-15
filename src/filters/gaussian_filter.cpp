@@ -74,8 +74,16 @@ Gaussian_stancil::~Gaussian_stancil()
 Gaussian_filter::Gaussian_filter(const int &width,
                 const int &height,
                 const float &sigma):Convolution_filter(width,height), 
-									m_sigma(sigma)
+									m_sigma("sigma",sigma)
 {
+	generate_filter();
+}
 
-	st = new Gaussian_stancil(m_sigma,1);
+void Gaussian_filter::generate_filter()
+{
+	if (st)
+	{
+		delete st;
+	}
+	st = new Gaussian_stancil(m_sigma.get_value(),1);
 }
