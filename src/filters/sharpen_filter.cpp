@@ -39,7 +39,15 @@ Sharpen_stancil::~Sharpen_stancil()
 Sharpen_filter::Sharpen_filter(const int &width,
                 const int &height):Convolution_filter(width,height)
 {
-	st = new Sharpen_stancil();
+	generate_filter();
 }
 
 
+void Sharpen_filter::generate_filter()
+{
+	if(st)
+	{
+		delete st;
+	}
+	st = new Sharpen_stancil();
+}

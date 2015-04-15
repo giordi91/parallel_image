@@ -37,7 +37,7 @@ public:
                 const int &height);
 
     virtual ~Sharpen_filter(){};
-    void generate_filter(){};
+    void generate_filter();
 };
 
 #endif
