@@ -40,6 +40,7 @@ Sharpen_filter::Sharpen_filter(const int &width,
                 const int &height):Convolution_filter(width,height)
 {
 	generate_filter();
+	m_attributes.clear();
 }
 
 

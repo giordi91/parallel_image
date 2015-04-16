@@ -2,6 +2,7 @@
 #include "core/stancil.h"
 #include <cstdint>
 
+
 #ifndef __PARALLEL_IMAGE_CONVOLUTION_FILTER_H
 #define __PARALLEL_IMAGE_CONVOLUTION_FILTER_H 
 
@@ -9,11 +10,7 @@ class Convolution_filter: public Filter
 {
 public:
     Convolution_filter(const int &width,
-                const int &height):st(nullptr)
-    {
-        m_width = width;
-        m_height= height;
-    };
+                const int &height);
 
     virtual ~Convolution_filter();
 

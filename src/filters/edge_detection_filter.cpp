@@ -81,6 +81,7 @@ Edge_detection_filter::Edge_detection_filter(const int &width,
 									m_detection_type("detection_type",detection_type)
 {
  	generate_filter();
+ 	m_attributes.push_back(&m_detection_type);
  
 }
 

@@ -32,16 +32,19 @@ public:
     Edge_detection_filter(const int &width,
                 const int &height,
                 const size_t detection_type =0);
-
-
-    AttributeTyped<size_t> m_detection_type;
-
     /**
      * @brief filter creation function
      * @details this function generates a filter based
      * on the m_detection_type value
      */
     void generate_filter();
+
+public:
+	/**
+	 * the attribute defining the type of detection filter
+	 */
+    AttributeTyped<size_t> m_detection_type;
+
 
 };
 

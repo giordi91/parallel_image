@@ -39,10 +39,7 @@ class FilterMockB : public Filter
 
 
 class MockBmp: public Bitmap
-{
-	public:
-	~MockBmp(){std::cout<<"YAAGH"<<std::endl;}
-};
+{};
 
 struct Filter_basic_fixture_Test : public Test 
 {

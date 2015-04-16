@@ -2,10 +2,11 @@
 Abstract interface for the filters
 "*/
 #include <cstdint>
+#include <vector>
+#include <core/attribute.h>
 
 #ifndef __PARALLEL_IMAGE_FILTER_H
 #define __PARALLEL_IMAGE_FILTER_H 
-
 
 class Filter
 {
@@ -18,10 +19,18 @@ public:
                 					uint8_t* target)=0;
 	virtual void compute_cuda( uint8_t * source,
                 					uint8_t* target)=0;
+
+	const std::vector<Attribute*> get_attributes()const
+							{return m_attributes;};
+
+
 	virtual ~Filter(){};
 protected:
 	int m_width;
 	int m_height;
+	std::vector< Attribute*> m_attributes;
+
+
 };
 
 #endif

@@ -2,6 +2,14 @@
 #include <core/convolution.h>
 #include <core/attribute.h>
 
+Convolution_filter::Convolution_filter(const int &width,
+                						const int &height):st(nullptr)
+{
+        m_width = width;
+        m_height= height;
+        m_attributes.clear();
+}
+
 void Convolution_filter::compute_serial(const uint8_t * source,
                         uint8_t* target)
 {

@@ -77,6 +77,7 @@ Gaussian_filter::Gaussian_filter(const int &width,
 									m_sigma("sigma",sigma)
 {
 	generate_filter();
+	m_attributes.push_back(&m_sigma);
 }
 
 void Gaussian_filter::generate_filter()

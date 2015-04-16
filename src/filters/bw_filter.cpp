@@ -6,6 +6,14 @@
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
 
+Bw_filter::Bw_filter(const int &width,
+                const int &height)
+{
+        m_width = width;
+        m_height= height;
+        m_attributes.clear();
+}
+
 void Bw_filter::compute_serial(	const uint8_t * source,
                 uint8_t* target)
 {

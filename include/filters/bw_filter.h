@@ -27,11 +27,7 @@ class Bw_filter: public Filter
 {
 public:
     Bw_filter(const int &width,
-                const int &height)
-    {
-        m_width = width;
-        m_height= height;
-    };
+                const int &height);
 
     void compute_serial( const uint8_t * source,
                 uint8_t* target);

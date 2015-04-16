@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -ansi -pedantic -Wall -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -std=c++0x -DLINUX -fPIE -m64
+CXXFLAGS = -ansi -pedantic -Wall -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -std=c++11 -DLINUX -fPIE -m64
 UIC = uic
 TARGET = parallel_image
 TEST_TARGET = parallel_test

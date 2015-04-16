@@ -6,20 +6,21 @@
 
 class Attribute {
 	public:
-		virtual ~Attribute() = 0;
+		virtual ~Attribute(){};
 
 		virtual std::string type() = 0;	
 
 };
 
 template<typename T>
-class AttributeTyped {
+class AttributeTyped : public Attribute
+{
 	public:
 
 		AttributeTyped(const char *name):m_name(name){};
 		AttributeTyped(const char *name ,T value):m_name(name),m_value(value){};
 
-		std::string type()
+		virtual std::string type()
 		{
 			return typeid(T).name();
 		}
@@ -27,6 +28,9 @@ class AttributeTyped {
 		T get_value() const {return m_value;};
 		void set_value(T value){ m_value=value;};
 		std::string get_name(){return m_name;};
+
+
+		virtual ~AttributeTyped(){};
 	private:
 
 		std::string m_name;
