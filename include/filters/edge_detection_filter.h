@@ -39,6 +39,9 @@ public:
      */
     void generate_filter();
 
+    static Filter * create_filter(const int &width,
+                				  const int &height); 
+
 public:
 	/**
 	 * the attribute defining the type of detection filter

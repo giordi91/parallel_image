@@ -44,11 +44,15 @@ class Gaussian_filter: public Convolution_filter
 public:
     Gaussian_filter(const int &width,
                 const int &height,
-                const float &sigma);
+                const float &sigma=1.0f);
 
 	AttributeTyped<float>m_sigma;
 
 	void generate_filter();
+
+    static Filter * create_filter(const int &width,
+                          const int &height){ return new Gaussian_filter(width,height);}; 
+
 
 };
 #endif

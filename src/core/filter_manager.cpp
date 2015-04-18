@@ -3,7 +3,18 @@
 #include <iostream>
 #include <cstring> // memcpy
 #include <tbb/task_scheduler_init.h>
+#include <filters/bw_filter.h>
 #include <filters/edge_detection_filter.h>
+#include <filters/gaussian_filter.h>
+#include <filters/sharpen_filter.h>
+
+//static map initialization
+Filter_manager::function_map Filter_manager::m_functions= {
+	{"Bw_filter",&Bw_filter::create_filter},	
+	{"Edget_detection_filter",&Edge_detection_filter::create_filter},	
+	{"Gaussian_filter",&Gaussian_filter::create_filter},	
+	{"Sharpen_filter",&Sharpen_filter::create_filter},	
+};
 
 Filter_manager::Filter_manager(Bitmap * bmp):m_bmp(bmp),
 										     m_comp_type(SERIAL),
@@ -34,9 +45,16 @@ Filter_manager::Filter_manager(Bitmap * bmp):m_bmp(bmp),
     m_gpu_manager->copy_data_to_device(m_input_copy, 
     									m_gpu_manager->get_source_buffer() );
 
+    
+    // filterFunc edge = &Edge_detection_filter::create_filter;
+    // Filter * f  =edge(10,20);
+    // m_functions.clear();
+    // m_functions.insert(std::make_pair("Edget_detection_filter",&Edge_detection_filter::create_filter));
+    Filter * f  =m_functions["Edget_detection_filter"](10,20);
+    auto attrs =f->get_attributes();
+    std::cout<<"attrs number :"<<attrs.size()<<std::endl;
+    delete f;
 
-    Edge_detection_filter (*puppa)(void);
-    puppa = &Edge_detection_filter;
 }
 
 Filter_manager::~Filter_manager()

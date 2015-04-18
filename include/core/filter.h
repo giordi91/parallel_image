@@ -23,6 +23,9 @@ public:
 	const std::vector<Attribute*> get_attributes()const
 							{return m_attributes;};
 
+	// virtual static Filter* create_filter(const int &width,
+ //                				  	const int &height) =0;				
+
 
 	virtual ~Filter(){};
 protected:

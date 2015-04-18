@@ -6,6 +6,7 @@
 #include <core/bitmap.h>
 #include <core/GPU_manager.h>
 #include <cstdint> // uint8_t declaration
+#include <unordered_map>
 
 
 using std::vector;
@@ -114,6 +115,8 @@ public:
 	 */
 	void save_stack_output(const char* path);
 
+
+
 private:
 	/**
 	 * @brief swapping the buffer between one filter and the other
@@ -144,6 +147,11 @@ private:
 	uint8_t * target_buffer;
 
 	GPU_manager * m_gpu_manager;
+
+	typedef Filter* (*FilterFunc)(const int&, const int&);
+	typedef std::unordered_map<std::string, FilterFunc> function_map;
+
+	static function_map m_functions;
 
 };
 

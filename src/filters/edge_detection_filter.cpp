@@ -93,3 +93,9 @@ void Edge_detection_filter::generate_filter()
 	}
 	st = new Edge_detection_stancil(m_detection_type.get_value());
 }
+
+Filter * Edge_detection_filter::create_filter(const int &width,
+                								const int &height)
+{
+	return new Edge_detection_filter(width,height);
+}

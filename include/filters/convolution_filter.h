@@ -22,6 +22,10 @@ public:
     void compute_cuda( uint8_t * source,
                 uint8_t* target);
 
+    // static Filter * create_filter(const int &width,
+    //                           const int &height){ return new Convolution_filter(width,height);}; 
+
+
     /**
      * @brief create the needed filter based on the class attributes
      * @details This function needs to be reimplemented from each convolution

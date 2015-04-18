@@ -23,6 +23,8 @@ class FilterMockA : public Filter
   	                                   uint8_t* target));
   MOCK_METHOD2(compute_cuda, void( uint8_t * source,
   								        uint8_t* target));
+  // MOCK_METHOD2(create_filter, Filter *( const int &width,
+  //                                 const int &height));
 };
 
 class FilterMockB : public Filter 
@@ -35,6 +37,8 @@ class FilterMockB : public Filter
   	                                   uint8_t* target));
   MOCK_METHOD2(compute_cuda, void( uint8_t * source,
   								        uint8_t* target));
+  // MOCK_METHOD2(create_filter, Filter *( const int &width,
+  //                                 const int &height));
 };
 
 

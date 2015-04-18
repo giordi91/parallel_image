@@ -37,6 +37,9 @@ public:
     void compute_cuda( uint8_t * source,
                 uint8_t* target);
 
+    static Filter * create_filter(const int &width,
+                                  const int &height){ return new Bw_filter(width,height);}; 
+
 
 };
 
