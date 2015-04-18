@@ -11,7 +11,7 @@
 //static map initialization
 Filter_manager::function_map Filter_manager::m_functions= {
 	{"Bw_filter",&Bw_filter::create_filter},	
-	{"Edget_detection_filter",&Edge_detection_filter::create_filter},	
+	{"Edge_detection_filter",&Edge_detection_filter::create_filter},	
 	{"Gaussian_filter",&Gaussian_filter::create_filter},	
 	{"Sharpen_filter",&Sharpen_filter::create_filter},	
 };
@@ -43,18 +43,7 @@ Filter_manager::Filter_manager(Bitmap * bmp):m_bmp(bmp),
     								16);
 
     m_gpu_manager->copy_data_to_device(m_input_copy, 
-    									m_gpu_manager->get_source_buffer() );
-
-    
-    // filterFunc edge = &Edge_detection_filter::create_filter;
-    // Filter * f  =edge(10,20);
-    // m_functions.clear();
-    // m_functions.insert(std::make_pair("Edget_detection_filter",&Edge_detection_filter::create_filter));
-    Filter * f  =m_functions["Edget_detection_filter"](10,20);
-    auto attrs =f->get_attributes();
-    std::cout<<"attrs number :"<<attrs.size()<<std::endl;
-    delete f;
-
+    									m_gpu_manager->get_source_buffer() );	
 }
 
 Filter_manager::~Filter_manager()
@@ -174,7 +163,7 @@ void Filter_manager::evaluate_stack()
 
 	if (m_comp_type == CUDA)
 	{
-		std::cout<<"copying data from device"<<std::endl;
+		// std::cout<<"copying data from device"<<std::endl;
 		m_gpu_manager->copy_data_from_device( source_buffer,
 										 m_out_bmp->getRawData());
 
@@ -226,4 +215,19 @@ void Filter_manager::setup_buffers()
 void Filter_manager::save_stack_output(const char* path)
 {
 	m_out_bmp->save(path);
+}
+
+
+void Filter_manager::add_filter_by_name(const char *name)
+{
+	if (m_functions.count(name) > 0)
+	{
+		Filter * f = m_functions[name](m_bmp->get_width(),
+									m_bmp->get_height());
+		add_filter(f);
+	}
+	else
+	{
+		throw std::invalid_argument("Filter type is not part of the map");
+	}
 }

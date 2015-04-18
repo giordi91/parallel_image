@@ -33,7 +33,7 @@ public:
                 const int &height,
                 const size_t detection_type =0);
     /**
-     * @brief filter creation function
+     * @brief function triggered to update internal data
      * @details this function generates a filter based
      * on the m_detection_type value
      */

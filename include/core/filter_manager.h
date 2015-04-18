@@ -115,6 +115,18 @@ public:
 	 */
 	void save_stack_output(const char* path);
 
+	/**
+	 * @brief Add a filters using the wanted name
+	 * @details This function act as a factory, it takes as input
+	 * 			a name of the wanted filter to istantiate, and if
+	 * 			the name is in the map it makes an istances of it and
+	 * 			adds it to the internal filters array, if not throws
+	 * 
+	 * @param name the name of the filters to add
+	 * @thorw invalid_argument
+	 */
+	void add_filter_by_name(const char * name);
+
 
 
 private:

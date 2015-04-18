@@ -272,9 +272,40 @@ TEST_F(Filter_built_fixture_Test, evaluate_stack_and_changed_comp_type)
 	fm->evaluate_stack();  
 }
 
+TEST_F(Filter_built_fixture_Test, add_filter_using_name)
+{
+	fm->add_filter_by_name("Edge_detection_filter");
+	EXPECT_EQ(fm->stack_size(),5);
+	fm->add_filter_by_name("Bw_filter");
+	EXPECT_EQ(fm->stack_size(),6);
+	fm->add_filter_by_name("Sharpen_filter");
+	EXPECT_EQ(fm->stack_size(),7);
+	fm->add_filter_by_name("Bw_filter");
+	EXPECT_EQ(fm->stack_size(),8);
+	fm->add_filter_by_name("Bw_filter");
+	EXPECT_EQ(fm->stack_size(),9);
+}
+
+TEST_F(Filter_built_fixture_Test, add_filter_using_name_failure)
+{
+	
+	EXPECT_THROW(fm->add_filter_by_name("VOID_FILTER"),
+										std::invalid_argument);
+	EXPECT_EQ(fm->stack_size(),4);
+	fm->add_filter_by_name("Edge_detection_filter");
+	EXPECT_EQ(fm->stack_size(),5);
+	EXPECT_THROW(fm->add_filter_by_name("VOID_FILTER"),
+										std::invalid_argument);
+	EXPECT_EQ(fm->stack_size(),5);
+	EXPECT_THROW(fm->add_filter_by_name("VOID_FILTER"),
+										std::invalid_argument);
+	EXPECT_EQ(fm->stack_size(),5);
+}
+
+
+
 TEST_F(Heavy_Filter_computation_test_fixture, testing_serial_filters)
 {	
-    // fm.set_compute_type(Filter_manager::TBB);
     fm->evaluate_stack();
     fm->save_stack_output("/home/giordi/WORK_IN_PROGRESS/C/parallel_image/data/OUT_testing_serial_filters.bmp");
 }
@@ -301,3 +332,4 @@ TEST_F(Heavy_Filter_computation_test_fixture, testing_CUDA_filters)
 //set,query computation type X
 //able to manage cache trough external classes
 //albe to manage computation type cpu/cppu/gpu X
+//add filters by name (factory behavior)
