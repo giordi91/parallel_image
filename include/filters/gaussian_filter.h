@@ -46,13 +46,29 @@ public:
                 const int &height,
                 const float &sigma=1.0f);
 
-	AttributeTyped<float>m_sigma;
 
+	/**
+     * @brief Static fucntion for generating class instance
+     * @details This function is used by the factoty class (Filter_manager)
+     *          for generating on the fly and on request the wanted filter
+     * 
+     * @param width: the width of the image to work on
+     * @param height: the height of the image to work on
+     * 
+     * @return A pointer to a live istance of the class
+     */
+    static Filter * create_filter(const int &width,
+                          		  const int &height); 
+    /**
+     * @brief function triggered to update internal data
+     * @details this function generates a filter based
+     * on the m_detection_type value
+     */
 	virtual void update_data();
 
-    static Filter * create_filter(const int &width,
-                          const int &height){ return new Gaussian_filter(width,height);}; 
-
+public:
+	//The attribute for the sigma of the gaussian function
+	AttributeTyped<float>m_sigma;
 
 };
 #endif

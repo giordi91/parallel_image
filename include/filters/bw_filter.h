@@ -37,29 +37,25 @@ public:
     void compute_cuda( uint8_t * source,
                 uint8_t* target);
 
+    /**
+     * @brief Static fucntion for generating class instance
+     * @details This function is used by the factoty class (Filter_manager)
+     *          for generating on the fly and on request the wanted filter
+     * 
+     * @param width: the width of the image to work on
+     * @param height: the height of the image to work on
+     * 
+     * @return A pointer to a live istance of the class
+     */
     static Filter * create_filter(const int &width,
                                   const int &height){ return new Bw_filter(width,height);}; 
 
+    /**
+     * @brief Implementation of the virtual function, does nothing
+     */
     virtual void update_data(){};
 };
 
-// void bw_serial(	const uint8_t * source,
-//                 uint8_t* target,
-//                 const int &width,
-//                 const int &height);
-
-
-/**
-@brief this function performs a parallel TBB based black and white filter
-@param source: pointer to the source buffer
-@param target: pointer to the targetr buffer
-@param width: the width of the image
-@param height: the height of the image
-*/
-void bw_tbb(const uint8_t * source,
-            uint8_t* target,
-            const int &width,
-            const int &height);
 
 /**
 @brief This is the class used to kick the parallel TBB run
@@ -96,11 +92,4 @@ private:
     //internal height of the image
     const int m_height;
 };
-
-
-void bw_cuda(const uint8_t * h_source,
-                uint8_t* h_target,
-                const int &width,
-                const int &height);
-
 #endif

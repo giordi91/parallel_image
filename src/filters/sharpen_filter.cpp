@@ -52,3 +52,9 @@ void Sharpen_filter::update_data()
 	}
 	st = new Sharpen_stancil();
 }
+
+Filter * Sharpen_filter::create_filter(const int &width,
+                          			  const int &height) 
+{ 
+	return new Sharpen_filter(width,height);
+}

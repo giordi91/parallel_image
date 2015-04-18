@@ -88,3 +88,10 @@ void Gaussian_filter::update_data()
 	}
 	st = new Gaussian_stancil(m_sigma.get_value(),1);
 }
+
+
+Filter * Gaussian_filter::create_filter(const int &width,
+                          				const int &height)
+{ 
+	return new Gaussian_filter(width,height);
+} 

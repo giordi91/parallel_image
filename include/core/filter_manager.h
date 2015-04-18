@@ -137,7 +137,13 @@ private:
 	 */
 	void swap_buffers(size_t current_index,
 					  size_t final_index);
-
+	/**
+	 * @brief This function is in charge of swapping the buffers
+	 * @details The swapping buffers operation is used between 
+	 *          each filter evaluation, rather then copying the 
+	 *          data we just swap the pointers, and target becomes
+	 *          source and viceversa
+	 */
 	void setup_buffers();
 
 private:
@@ -153,16 +159,23 @@ private:
 	uint8_t * m_input_copy;
 	//stack start variable
 	size_t m_stack_start;
-
+	//Temporary buffer pointer , used for the swap
 	uint8_t * working_buffer;
+	//The source buffer pointer
 	uint8_t * source_buffer;
+	//The target buffer pointer
 	uint8_t * target_buffer;
 
+	//Pointer to the GPU manager 
 	GPU_manager * m_gpu_manager;
 
+	//Typedef for our function pointer
+	//We use this to point to the static creation classes
+	//of the filters
 	typedef Filter* (*FilterFunc)(const int&, const int&);
+	//typedef for the map holding pointers to the crate functions
 	typedef std::unordered_map<std::string, FilterFunc> function_map;
-
+	//the static map of function pointers
 	static function_map m_functions;
 
 };
