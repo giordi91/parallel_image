@@ -160,16 +160,14 @@ void Filter_manager::evaluate_stack()
 		swap_buffers(i,st_size);
 	}
 
-
+	//if data was on the GPU copy it back, not sure if this is needed,
+	//probably only needed when we want to save the image, let see
+	//when we implement the UI
 	if (m_comp_type == CUDA)
 	{
-		// std::cout<<"copying data from device"<<std::endl;
 		m_gpu_manager->copy_data_from_device( source_buffer,
 										 m_out_bmp->getRawData());
-
 	}
-
-	
 }
 
 
