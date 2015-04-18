@@ -37,7 +37,7 @@ public:
      * @details this function generates a filter based
      * on the m_detection_type value
      */
-    void generate_filter();
+    virtual void update_data();
 
     static Filter * create_filter(const int &width,
                 				  const int &height); 

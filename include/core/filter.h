@@ -23,8 +23,16 @@ public:
 	const std::vector<Attribute*> get_attributes()const
 							{return m_attributes;};
 
-	// virtual static Filter* create_filter(const int &width,
- //                				  	const int &height) =0;				
+	/**
+     * @brief create the needed filter based on the class attributes
+     * @details This function needs to be reimplemented from each convolution
+     * filter, the class will generate the filter accordingly based
+     * on the Attributes of the class, in this way the UI can connect
+     * directly to the attributes and manipulate its value and after
+     * that can call a generic generate_filter function withouth
+     * need of apssing arguments
+     */
+    virtual void update_data()=0; 			
 
 
 	virtual ~Filter(){};

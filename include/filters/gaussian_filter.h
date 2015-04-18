@@ -48,7 +48,7 @@ public:
 
 	AttributeTyped<float>m_sigma;
 
-	void generate_filter();
+	virtual void update_data();
 
     static Filter * create_filter(const int &width,
                           const int &height){ return new Gaussian_filter(width,height);}; 

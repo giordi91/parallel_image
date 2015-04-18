@@ -37,7 +37,8 @@ public:
                 const int &height);
 
     virtual ~Sharpen_filter(){};
-    void generate_filter();
+    virtual void update_data();
+
     static Filter * create_filter(const int &width,
                           const int &height){ return new Sharpen_filter(width,height);}; 
 

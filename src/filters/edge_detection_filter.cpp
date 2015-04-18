@@ -80,12 +80,12 @@ Edge_detection_filter::Edge_detection_filter(const int &width,
                 const size_t detection_type):Convolution_filter(width,height), 
 									m_detection_type("detection_type",detection_type)
 {
- 	generate_filter();
+ 	update_data();
  	m_attributes.push_back(&m_detection_type);
  
 }
 
-void Edge_detection_filter::generate_filter()
+void Edge_detection_filter::update_data()
 {
 	if (st)
 	{

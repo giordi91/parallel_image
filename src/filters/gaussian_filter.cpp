@@ -76,11 +76,11 @@ Gaussian_filter::Gaussian_filter(const int &width,
                 const float &sigma):Convolution_filter(width,height), 
 									m_sigma("sigma",sigma)
 {
-	generate_filter();
+	update_data();
 	m_attributes.push_back(&m_sigma);
 }
 
-void Gaussian_filter::generate_filter()
+void Gaussian_filter::update_data()
 {
 	if (st)
 	{

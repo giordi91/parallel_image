@@ -39,12 +39,12 @@ Sharpen_stancil::~Sharpen_stancil()
 Sharpen_filter::Sharpen_filter(const int &width,
                 const int &height):Convolution_filter(width,height)
 {
-	generate_filter();
+	update_data();
 	m_attributes.clear();
 }
 
 
-void Sharpen_filter::generate_filter()
+void Sharpen_filter::update_data()
 {
 	if(st)
 	{

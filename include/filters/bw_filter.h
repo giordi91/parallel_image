@@ -40,7 +40,7 @@ public:
     static Filter * create_filter(const int &width,
                                   const int &height){ return new Bw_filter(width,height);}; 
 
-
+    virtual void update_data(){};
 };
 
 // void bw_serial(	const uint8_t * source,
