@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cstring> // memcpy
 #include <tbb/task_scheduler_init.h>
+#include <filters/edge_detection_filter.h>
 
 Filter_manager::Filter_manager(Bitmap * bmp):m_bmp(bmp),
 										     m_comp_type(SERIAL),
@@ -33,6 +34,9 @@ Filter_manager::Filter_manager(Bitmap * bmp):m_bmp(bmp),
     m_gpu_manager->copy_data_to_device(m_input_copy, 
     									m_gpu_manager->get_source_buffer() );
 
+
+    Edge_detection_filter (*puppa)(void);
+    puppa = &Edge_detection_filter;
 }
 
 Filter_manager::~Filter_manager()
