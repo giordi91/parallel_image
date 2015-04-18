@@ -32,31 +32,31 @@ int main( int argc, char* argv[])
 {
 
     cudaFree(0);
-    // QApplication a(argc, argv);
-    // // QSplashScreen * splash = new QSplashScreen();
-    // // splash->setPixmap(QPixmap("../sandbox/misc/ui/grapichs/splashScreen.png"));
-    // // splash->showMessage(QString("Initializing quantum mechanics awesomness ... ")
-    // //                     ,Qt::AlignLeft ,Qt::white);
-
-    // // splash->show();
-    // // Application a(argc, argv);
+    QApplication a(argc, argv);
     // QSplashScreen * splash = new QSplashScreen();
-    // splash->setPixmap(QPixmap("misc/ui/splashScreen.png"));
+    // splash->setPixmap(QPixmap("../sandbox/misc/ui/grapichs/splashScreen.png"));
     // splash->showMessage(QString("Initializing quantum mechanics awesomness ... ")
     //                     ,Qt::AlignLeft ,Qt::white);
 
     // splash->show();
+    // Application a(argc, argv);
+    QSplashScreen * splash = new QSplashScreen();
+    splash->setPixmap(QPixmap("misc/ui/splashScreen.png"));
+    splash->showMessage(QString("Initializing quantum mechanics awesomness ... ")
+                        ,Qt::AlignLeft ,Qt::white);
 
-    // MainWindow w;
-    // // QTimer::singleShot(250, splash,SLOT(close()));
-    // // QTimer::singleShot(250, &w,SLOT(show()));
+    splash->show();
 
-
-    // // MainWindow w;
+    MainWindow w;
     // QTimer::singleShot(250, splash,SLOT(close()));
     // QTimer::singleShot(250, &w,SLOT(show()));
 
-    // return a.exec();
+
+    // MainWindow w;
+    QTimer::singleShot(250, splash,SLOT(close()));
+    QTimer::singleShot(250, &w,SLOT(show()));
+
+    return a.exec();
 
 
 
