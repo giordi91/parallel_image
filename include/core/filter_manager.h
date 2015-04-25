@@ -1,6 +1,7 @@
 #include <cstddef> 
 #include <cstdint> 
 #include <vector>
+#include <string>
 
 #include <core/filter.h>
 #include <core/bitmap.h>
@@ -10,6 +11,7 @@
 
 
 using std::vector;
+using std::string;
 
 #ifndef __PARALLEL_IMAGE_FILTER_MANAGER_H__
 #define __PARALLEL_IMAGE_FILTER_MANAGER_H__
@@ -128,6 +130,9 @@ public:
 	void add_filter_by_name(const char * name);
 
 
+	static vector<string> get_available_filters_name();
+
+
 
 private:
 	/**
@@ -177,6 +182,7 @@ private:
 	typedef std::unordered_map<std::string, FilterFunc> function_map;
 	//the static map of function pointers
 	static function_map m_functions;
+
 
 };
 

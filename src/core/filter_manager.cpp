@@ -229,3 +229,14 @@ void Filter_manager::add_filter_by_name(const char *name)
 		throw std::invalid_argument("Filter type is not part of the map");
 	}
 }
+
+
+vector<string> Filter_manager::get_available_filters_name()
+{
+	vector<string> vec;
+	for (auto iter : m_functions)
+	{
+		vec.push_back(iter.first);
+	}
+	return vec;
+}

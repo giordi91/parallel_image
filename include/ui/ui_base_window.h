@@ -22,6 +22,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QVBoxLayout>
@@ -44,14 +45,15 @@ public:
     QGroupBox *StackGB;
     QGroupBox *groupBox;
     QHBoxLayout *horizontalLayout;
-    QGroupBox *groupBox_2;
+    QGroupBox *compGB;
     QHBoxLayout *horizontalLayout_2;
-    QLabel *label;
-    QComboBox *comboBox;
-    QGroupBox *groupBox_3;
+    QLabel *compL;
+    QComboBox *compCB;
+    QGroupBox *filterGB;
     QHBoxLayout *horizontalLayout_3;
-    QLabel *label_2;
-    QComboBox *comboBox_2;
+    QLabel *filterL;
+    QComboBox *filterCB;
+    QPushButton *filterPB;
     QMenuBar *menuBar;
     QMenu *menuOpen;
     QStatusBar *statusBar;
@@ -118,45 +120,57 @@ public:
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         horizontalLayout->setContentsMargins(2, 2, 2, 2);
-        groupBox_2 = new QGroupBox(groupBox);
-        groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
-        horizontalLayout_2 = new QHBoxLayout(groupBox_2);
+        compGB = new QGroupBox(groupBox);
+        compGB->setObjectName(QStringLiteral("compGB"));
+        horizontalLayout_2 = new QHBoxLayout(compGB);
         horizontalLayout_2->setSpacing(2);
         horizontalLayout_2->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         horizontalLayout_2->setContentsMargins(2, 2, 2, 2);
-        label = new QLabel(groupBox_2);
-        label->setObjectName(QStringLiteral("label"));
+        compL = new QLabel(compGB);
+        compL->setObjectName(QStringLiteral("compL"));
 
-        horizontalLayout_2->addWidget(label);
+        horizontalLayout_2->addWidget(compL);
 
-        comboBox = new QComboBox(groupBox_2);
-        comboBox->setObjectName(QStringLiteral("comboBox"));
+        compCB = new QComboBox(compGB);
+        compCB->setObjectName(QStringLiteral("compCB"));
 
-        horizontalLayout_2->addWidget(comboBox);
+        horizontalLayout_2->addWidget(compCB);
 
 
-        horizontalLayout->addWidget(groupBox_2);
+        horizontalLayout->addWidget(compGB);
 
-        groupBox_3 = new QGroupBox(groupBox);
-        groupBox_3->setObjectName(QStringLiteral("groupBox_3"));
-        horizontalLayout_3 = new QHBoxLayout(groupBox_3);
-        horizontalLayout_3->setSpacing(2);
+        filterGB = new QGroupBox(groupBox);
+        filterGB->setObjectName(QStringLiteral("filterGB"));
+        horizontalLayout_3 = new QHBoxLayout(filterGB);
+        horizontalLayout_3->setSpacing(5);
         horizontalLayout_3->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
         horizontalLayout_3->setContentsMargins(2, 2, 2, 2);
-        label_2 = new QLabel(groupBox_3);
-        label_2->setObjectName(QStringLiteral("label_2"));
+        filterL = new QLabel(filterGB);
+        filterL->setObjectName(QStringLiteral("filterL"));
 
-        horizontalLayout_3->addWidget(label_2);
+        horizontalLayout_3->addWidget(filterL);
 
-        comboBox_2 = new QComboBox(groupBox_3);
-        comboBox_2->setObjectName(QStringLiteral("comboBox_2"));
+        filterCB = new QComboBox(filterGB);
+        filterCB->setObjectName(QStringLiteral("filterCB"));
+        filterCB->setStyleSheet(QStringLiteral(""));
 
-        horizontalLayout_3->addWidget(comboBox_2);
+        horizontalLayout_3->addWidget(filterCB);
+
+        filterPB = new QPushButton(filterGB);
+        filterPB->setObjectName(QStringLiteral("filterPB"));
+        QSizePolicy sizePolicy3(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(filterPB->sizePolicy().hasHeightForWidth());
+        filterPB->setSizePolicy(sizePolicy3);
+        filterPB->setMinimumSize(QSize(0, 0));
+
+        horizontalLayout_3->addWidget(filterPB);
 
 
-        horizontalLayout->addWidget(groupBox_3);
+        horizontalLayout->addWidget(filterGB);
 
 
         gridLayout->addWidget(groupBox, 0, 0, 1, 1);
@@ -189,23 +203,17 @@ public:
         ImageGB->setTitle(QApplication::translate("MainWindow", "Image", 0));
         StackGB->setTitle(QApplication::translate("MainWindow", "Stack", 0));
         groupBox->setTitle(QString());
-        groupBox_2->setTitle(QString());
-        label->setText(QApplication::translate("MainWindow", "Computation:", 0));
-        comboBox->clear();
-        comboBox->insertItems(0, QStringList()
+        compGB->setTitle(QString());
+        compL->setText(QApplication::translate("MainWindow", "Computation:", 0));
+        compCB->clear();
+        compCB->insertItems(0, QStringList()
          << QApplication::translate("MainWindow", "Serial", 0)
          << QApplication::translate("MainWindow", "TBB", 0)
          << QApplication::translate("MainWindow", "CUDA", 0)
         );
-        groupBox_3->setTitle(QString());
-        label_2->setText(QApplication::translate("MainWindow", "Filters:", 0));
-        comboBox_2->clear();
-        comboBox_2->insertItems(0, QStringList()
-         << QApplication::translate("MainWindow", "Black&White", 0)
-         << QApplication::translate("MainWindow", "Edge detection", 0)
-         << QApplication::translate("MainWindow", "Gaussian blur", 0)
-         << QApplication::translate("MainWindow", "Sharpen", 0)
-        );
+        filterGB->setTitle(QString());
+        filterL->setText(QApplication::translate("MainWindow", "Filters:", 0));
+        filterPB->setText(QApplication::translate("MainWindow", "ADD", 0));
         menuOpen->setTitle(QApplication::translate("MainWindow", "File", 0));
     } // retranslateUi
 
