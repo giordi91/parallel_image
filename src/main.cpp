@@ -56,12 +56,10 @@ int main( int argc, char* argv[])
     QTimer::singleShot(250, splash,SLOT(close()));
     QTimer::singleShot(250, &w,SLOT(show()));
 
+
+
     return a.exec();
 
-
-
-    cout<<"Initializing ..."<<endl;
-    cout<<"Reading image...."<<std::endl;
     
  
 
