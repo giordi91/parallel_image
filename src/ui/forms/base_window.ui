@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>714</width>
-    <height>545</height>
+    <width>851</width>
+    <height>619</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,6 +30,11 @@
        <property name="title">
         <string>Image</string>
        </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="TextureWidget" name="tex_w" native="true"/>
+        </item>
+       </layout>
       </widget>
       <widget class="QGroupBox" name="StackGB">
        <property name="sizePolicy">
@@ -57,7 +62,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>714</width>
+     <width>851</width>
      <height>31</height>
     </rect>
    </property>
@@ -83,6 +88,14 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>TextureWidget</class>
+   <extends>QWidget</extends>
+   <header>ui/texturewidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

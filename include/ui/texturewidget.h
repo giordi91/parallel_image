@@ -102,7 +102,7 @@ private:
     //class for loading bitmaps
     Bitmap * m_texture;
     //the position buffer of our picture
-    float  positionData[9];
+    // float  positionData[9];
     //static index buffer used for the image
     static const GLubyte   indexData[6];
     //static texture coordinate for the image

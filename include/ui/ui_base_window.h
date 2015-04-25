@@ -21,7 +21,9 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include "ui/texturewidget.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -34,6 +36,8 @@ public:
     QHBoxLayout *horizontalLayout;
     QSplitter *splitter;
     QGroupBox *ImageGB;
+    QVBoxLayout *verticalLayout;
+    TextureWidget *tex_w;
     QGroupBox *StackGB;
     QMenuBar *menuBar;
     QMenu *menuOpen;
@@ -43,7 +47,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(714, 545);
+        MainWindow->resize(851, 619);
         actionOpen = new QAction(MainWindow);
         actionOpen->setObjectName(QStringLiteral("actionOpen"));
         actionSave = new QAction(MainWindow);
@@ -64,6 +68,15 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(ImageGB->sizePolicy().hasHeightForWidth());
         ImageGB->setSizePolicy(sizePolicy);
+        verticalLayout = new QVBoxLayout(ImageGB);
+        verticalLayout->setSpacing(6);
+        verticalLayout->setContentsMargins(11, 11, 11, 11);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        tex_w = new TextureWidget(ImageGB);
+        tex_w->setObjectName(QStringLiteral("tex_w"));
+
+        verticalLayout->addWidget(tex_w);
+
         splitter->addWidget(ImageGB);
         StackGB = new QGroupBox(splitter);
         StackGB->setObjectName(QStringLiteral("StackGB"));
@@ -80,7 +93,7 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 714, 31));
+        menuBar->setGeometry(QRect(0, 0, 851, 31));
         menuOpen = new QMenu(menuBar);
         menuOpen->setObjectName(QStringLiteral("menuOpen"));
         MainWindow->setMenuBar(menuBar);

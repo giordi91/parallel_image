@@ -1,7 +1,7 @@
 #include <ui/mainwindow.h>
 #include <QtCore/QFile>
-MainWindow::MainWindow(QMainWindow *parent)
-    : QMainWindow(parent) 
+MainWindow::MainWindow(QMainWindow *par)
+    : QMainWindow(par) 
 {
     ui.setupUi(this);
     QFile File("src/ui/resources/cuda.stylesheet");

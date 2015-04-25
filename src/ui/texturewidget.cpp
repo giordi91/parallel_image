@@ -15,8 +15,8 @@ GLfloat const TextureWidget::texcoord[8] = {
 GLubyte const TextureWidget::indexData[6] = {0,1,2,0,2,3};
 
 
-TextureWidget::TextureWidget(QWidget *parent) :
-                        QOpenGLWidget(parent),
+TextureWidget::TextureWidget(QWidget *par) :
+                        QOpenGLWidget(par),
                         m_glsl_program(nullptr),
                         m_texture(nullptr),
                         m_texture_buffer(nullptr),
@@ -27,12 +27,12 @@ TextureWidget::TextureWidget(QWidget *parent) :
 
 {
     //setting wanted opengl version
-    QSurfaceFormat format;
-    format.setDepthBufferSize(24);
-    format.setVersion(4, 3);
-    format.setSwapInterval(0);
+    QSurfaceFormat qformat;
+    qformat.setDepthBufferSize(24);
+    qformat.setVersion(4, 3);
+    qformat.setSwapInterval(0);
 
-    setFormat(format);
+    setFormat(qformat);
 
     //setting up the frame count
     m_frameCount = 0;
@@ -88,7 +88,7 @@ void TextureWidget::open_bmp_from_disk(const char * path)
     m_texture_buffer->generateMipMaps();
 
     //creating the correct positional buffer data
-    create_vertex_data(w,h);
+    create_vertex_data((int)w,(int)h);
     //fitting the image on screen
     fit_to_screen();
 }
@@ -132,15 +132,15 @@ void TextureWidget::create_vertex_data(const int &width,
     m_vao1->bind();
     //creating and setupping the vertex buffer
     float positionData[12] = {0.0f, 0.0f, 0.0f,
-                               0.0f, height, 0.0f,
-                               width, height, 0.0f,
-                            width, 0, 0.0f};
+                               0.0f, (float)height, 0.0f,
+                               (float)width, (float)height, 0.0f,
+                            (float)width, 0, 0.0f};
 
     m_positionBuffer= (QOpenGLBuffer(QOpenGLBuffer::VertexBuffer));
     m_positionBuffer.create();
     m_positionBuffer.setUsagePattern( QOpenGLBuffer::StaticDraw );
     m_positionBuffer.bind();
-    m_positionBuffer.allocate(positionData, 12 * sizeof(float));
+    m_positionBuffer.allocate(positionData, 12 * (int)sizeof(float));
     glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 0, (GLubyte *)NULL );
 
 }
@@ -186,7 +186,7 @@ void TextureWidget::computeFps()
     if(m_timeInterval > 1000)
     {
         //  calculate the number of frames per second
-        m_fps = m_frameCount / (m_timeInterval / 1000.0f);
+        m_fps = m_frameCount / (int)((float)m_timeInterval / 1000.0f);
         //  Set time
         m_pastTime = m_currentTime;
 
@@ -222,14 +222,14 @@ void TextureWidget::initializeGL()
     m_indexBuffer.create();
     m_indexBuffer.setUsagePattern( QOpenGLBuffer::StaticDraw );
     m_indexBuffer.bind();
-    m_indexBuffer.allocate(indexData, 6 * sizeof(GLubyte));
+    m_indexBuffer.allocate(indexData, 6 * (int)sizeof(GLubyte));
 
     //crating and allocating the text coordinates
     m_texture_coord= (QOpenGLBuffer(QOpenGLBuffer::VertexBuffer));
     m_texture_coord.create();
     m_texture_coord.setUsagePattern( QOpenGLBuffer::StaticDraw );
     m_texture_coord.bind();
-    m_texture_coord.allocate(texcoord, 8 * sizeof(GLfloat));
+    m_texture_coord.allocate(texcoord, 8 * (int)sizeof(GLfloat));
     glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, 0, (GLubyte *)NULL );
 
 }
@@ -238,8 +238,8 @@ void TextureWidget::resizeGL(int w, int h)
 {
     //setting new size for the viewport and
     //re-calculating the ortho matrix for proj
-    glViewport(0,0,float(w),float(h));
-    m_ortho = glm::ortho<GLfloat>( 0.0, w, h, 0.0, 1.0, -1.0 );
+    glViewport(0,0,GLsizei(w),GLsizei(h));
+    m_ortho = glm::ortho<GLfloat>( 0.0f, (GLfloat)w, (GLfloat)h, 0.0f, 1.0f, -1.0f );
 }
 
 void TextureWidget::paintGL()
@@ -278,7 +278,7 @@ void TextureWidget::paintGL()
     float w,h;
     w = (float)m_texture->get_width();
     h = (float)m_texture->get_height();
-    create_vertex_data(w,h);
+    create_vertex_data((int)w,(int)h);
 
 }
 
@@ -304,19 +304,19 @@ void TextureWidget::opengl_version_log()
 
 
 ////////////////////// MOUSE EVENTS SETUP ////////////
-void TextureWidget::mouseMoveEvent(QMouseEvent  *event)
+void TextureWidget::mouseMoveEvent(QMouseEvent  *e)
 {
 
     //extracting the mouse positon
     int posX, posY;
-    posX = event->pos().x();
-    posY = event->pos().y();
+    posX = e->pos().x();
+    posY = e->pos().y();
 
     //computing the delta vector respect
     //previous position
     int deltaX = posX- last_x;
     int deltaY = posY- last_y;
-    if(event->buttons() == Qt::MidButton)
+    if(e->buttons() == Qt::MidButton)
     {
         //setting the new pan value
         m_offset+=  vec2(deltaX,deltaY);
@@ -324,7 +324,7 @@ void TextureWidget::mouseMoveEvent(QMouseEvent  *event)
         update();
 
     }
-    else if (event->buttons() == Qt::RightButton)
+    else if (e->buttons() == Qt::RightButton)
     {
         //delcaring delta vec and computing its length
         vec2 delta(deltaX,deltaY);
@@ -347,12 +347,12 @@ void TextureWidget::mouseMoveEvent(QMouseEvent  *event)
     last_x =posX;
     last_y =posY;
 }
-void TextureWidget::mousePressEvent(QMouseEvent  *event)
+void TextureWidget::mousePressEvent(QMouseEvent  *e)
 {
     //storing the previos pose in case
     //the user starts to drag
-    last_x = event->pos().x();
-    last_y = event->pos().y();
+    last_x = e->pos().x();
+    last_y = e->pos().y();
 }
 
 /////////////// DESTRUCTOR ////////////////
