@@ -12,5 +12,8 @@ MainWindow::MainWindow(QMainWindow *par)
 	ui.splitter->setStretchFactor(0, 1);
 	ui.splitter->setStretchFactor(1, 0);
 
+	connect(ui.actionOpen, SIGNAL(triggered()), ui.tex_w, SLOT(open()));
+    ui.tex_w->hide();
+
     qApp->setStyleSheet(StyleSheet);
 }

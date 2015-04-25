@@ -335,9 +335,11 @@ void TextureWidget::mouseMoveEvent(QMouseEvent  *e)
         if (glm::dot(vec2(1.0f,0),delta)>0)
         {
             m_scale+=(len/1000.0f);
+            m_offset+=  vec2(-deltaX,-deltaY);            
         }else
         {
             m_scale-=(len/1000.0f);
+            m_offset-=  vec2(deltaX,deltaY);            
         }
 
         //forcing paint
