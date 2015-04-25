@@ -17,3 +17,10 @@ MainWindow::MainWindow(QMainWindow *par)
 
     qApp->setStyleSheet(StyleSheet);
 }
+
+
+void MainWindow::closeEvent(QCloseEvent* e)
+{
+	ui.tex_w->show();
+	e->accept();
+}

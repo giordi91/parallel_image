@@ -10,6 +10,7 @@ class MainWindow : public QMainWindow
 
 public:
 	explicit MainWindow(QMainWindow *parent = 0);
+	void closeEvent(QCloseEvent* e);
 
 private:
 	 Ui_MainWindow ui;
