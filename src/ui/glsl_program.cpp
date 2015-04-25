@@ -1,4 +1,4 @@
-#include "glsl_program.h"
+#include <ui/glsl_program.h>
 
 GLSL_program::GLSL_program():f(nullptr)
 {

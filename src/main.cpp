@@ -15,14 +15,12 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QSplashScreen>
 #include <QtCore/QTimer>
-#include <QtWidgets/QPushButton>
 
 #include <ui/mainwindow.h>
 
 using namespace std;
 
 #include "cuda_runtime.h"
-#include "device_launch_parameters.h"
 
 //TODO 
 //MAKE SURE WE ARE DOING CONSEQUNETIAL ACCESS IN MEMORY (MOSTLY GPU),
@@ -30,33 +28,21 @@ using namespace std;
 
 int main( int argc, char* argv[]) 
 {
-
+    //forcing cuda to initialize
     cudaFree(0);
-    QApplication a(argc, argv);
-    // QSplashScreen * splash = new QSplashScreen();
-    // splash->setPixmap(QPixmap("../sandbox/misc/ui/grapichs/splashScreen.png"));
-    // splash->showMessage(QString("Initializing quantum mechanics awesomness ... ")
-    //                     ,Qt::AlignLeft ,Qt::white);
 
-    // splash->show();
-    // Application a(argc, argv);
+    //initialzing my application
+    QApplication a(argc, argv);
+    //starting up splash screent
     QSplashScreen * splash = new QSplashScreen();
     splash->setPixmap(QPixmap("misc/ui/splashScreen.png"));
     splash->showMessage(QString("Initializing quantum mechanics awesomness ... ")
                         ,Qt::AlignLeft ,Qt::white);
-
     splash->show();
 
     MainWindow w;
-    // QTimer::singleShot(250, splash,SLOT(close()));
-    // QTimer::singleShot(250, &w,SLOT(show()));
-
-
-    // MainWindow w;
     QTimer::singleShot(250, splash,SLOT(close()));
     QTimer::singleShot(250, &w,SLOT(show()));
-
-
 
     return a.exec();
 

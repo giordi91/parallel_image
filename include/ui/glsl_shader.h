@@ -1,6 +1,6 @@
 #ifndef GLSL_SHADER_H
 #define GLSL_SHADER_H
-#include <QOpenGLFunctions>
+#include <QtGui/QOpenGLFunctions>
 #include <string>
 
 using std::string;

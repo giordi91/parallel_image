@@ -2,7 +2,7 @@
 #include <exception>
 #include <fstream>
 
-#include "glsl_shader.h"
+#include <ui/glsl_shader.h>
 
 GLSL_shader::GLSL_shader(GLenum shader_type,
                          const char *path):

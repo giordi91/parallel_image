@@ -4,17 +4,17 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 
-#include <QOpenGLWidget>
-#include <QOpenGLVertexArrayObject>
-#include <QOpenGLBuffer>
-#include <QOpenGLTexture>
-#include <QCloseEvent>
-#include <QTime>
-#include <QTimer>
-#include <QShortcut>
+#include <QtWidgets/QOpenGLWidget>
+#include <QtGui/QOpenGLVertexArrayObject>
+#include <QtGui/QOpenGLBuffer>
+#include <QtGui/QOpenGLTexture>
+#include <QtGui/QCloseEvent>
+#include <QtCore/QTime>
+#include <QtCore/QTimer>
+#include <QtWidgets/QShortcut>
 
-#include <glsl_program.h>
-#include <bitmap.h>
+#include <ui/glsl_program.h>
+#include <core/bitmap.h>
 
 using glm::vec2;
 using glm::mat4x4;

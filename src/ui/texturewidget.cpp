@@ -1,7 +1,7 @@
 #include <iostream>
-#include <QSurfaceFormat>
-#include "texturewidget.h"
-#include <QFileDialog>
+#include <QtGui/QSurfaceFormat>
+#include <ui/texturewidget.h>
+#include <QtWidgets/QFileDialog>
 
 //static const texture map declaration
 GLfloat const TextureWidget::texcoord[8] = {

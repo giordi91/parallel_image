@@ -1,7 +1,7 @@
 #ifndef GLSL_PROGRAM_H
 #define GLSL_PROGRAM_H
-#include <QOpenGLFunctions>
-#include <glsl_shader.h>
+#include <QtGui/QOpenGLFunctions>
+#include <ui/glsl_shader.h>
 #include <vector>
 #include <glm/glm.hpp>
 using std::vector;
