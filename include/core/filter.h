@@ -3,6 +3,7 @@ Abstract interface for the filters
 "*/
 #include <cstdint>
 #include <vector>
+#include <string>
 #include <core/attribute.h>
 
 #ifndef __PARALLEL_IMAGE_FILTER_H
@@ -64,7 +65,13 @@ public:
      * that can call a generic generate_filter function withouth
      * need of apssing arguments
      */
-    virtual void update_data()=0; 			
+    virtual void update_data()=0; 	
+
+    /**
+     * @brief Retunrs a string with the type of the filter
+     * @return string
+     */
+    virtual std::string get_type()=0;		
 
     /**
      * @brief The destructor

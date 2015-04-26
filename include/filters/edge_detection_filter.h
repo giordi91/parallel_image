@@ -52,6 +52,11 @@ public:
      */
     virtual void update_data();
 
+    /**
+     * @brief Retunrs a string with the type of the filter
+     * @return string
+     */
+    virtual std::string get_type();   
 public:
 	/**
 	 * the attribute defining the type of detection filter

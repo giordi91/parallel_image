@@ -44,3 +44,9 @@ Convolution_filter::~Convolution_filter()
 		delete st;
 	}
 }
+
+
+std::string Convolution_filter::get_type()
+{
+	return std::string("Convolution_filter");	
+}

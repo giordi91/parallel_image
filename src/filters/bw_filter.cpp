@@ -88,3 +88,7 @@ void Bw_filter::compute_cuda( uint8_t * h_source,
 	run_bw_kernel(h_source, h_target, m_width, m_height);
 }
 
+std::string Bw_filter::get_type()
+{
+	return std::string("Bw_filter");	
+}

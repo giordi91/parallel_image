@@ -240,3 +240,9 @@ vector<string> Filter_manager::get_available_filters_name()
 	}
 	return vec;
 }
+
+
+vector<Filter *> Filter_manager::get_filters_data()const
+{
+	return m_filters;
+}

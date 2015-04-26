@@ -54,6 +54,12 @@ public:
      * @brief Implementation of the virtual function, does nothing
      */
     virtual void update_data(){};
+
+    /**
+     * @brief Retunrs a string with the type of the filter
+     * @return string
+     */
+    virtual std::string get_type();   
 };
 
 

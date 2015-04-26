@@ -30,7 +30,8 @@ public:
 	 * @brief This is the destructor of the class
 	 */
 	virtual ~Gaussian_stancil();
-	
+
+
 private:
 	//internal sigma
 	float m_sigma;
@@ -65,6 +66,12 @@ public:
      * on the m_detection_type value
      */
 	virtual void update_data();
+
+    /**
+     * @brief Retunrs a string with the type of the filter
+     * @return string
+     */
+    virtual std::string get_type();  
 
 public:
 	//The attribute for the sigma of the gaussian function

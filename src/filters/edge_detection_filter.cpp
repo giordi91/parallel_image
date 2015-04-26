@@ -99,3 +99,8 @@ Filter * Edge_detection_filter::create_filter(const int &width,
 {
 	return new Edge_detection_filter(width,height);
 }
+
+std::string Edge_detection_filter::get_type()
+{
+	return std::string("Edge_detection_filter");	
+}

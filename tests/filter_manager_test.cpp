@@ -24,6 +24,8 @@ class FilterMockA : public Filter
   MOCK_METHOD2(compute_cuda, void( uint8_t * source,
   								        uint8_t* target));
   MOCK_METHOD0(update_data, void());
+  MOCK_METHOD0(get_type, std::string ());
+
 };
 
 class FilterMockB : public Filter 
@@ -37,6 +39,9 @@ class FilterMockB : public Filter
   MOCK_METHOD2(compute_cuda, void( uint8_t * source,
   								        uint8_t* target));
   MOCK_METHOD0(update_data, void ());
+
+  MOCK_METHOD0(get_type, std::string ());
+  
 
 };
 

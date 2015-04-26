@@ -74,6 +74,13 @@ public:
      */
     virtual void update_data(){};
 
+
+    /**
+     * @brief Retunrs a string with the type of the filter
+     * @return string
+     */
+    virtual std::string get_type();  
+
 protected:
     //A pointer to the stancil
 	Stancil * st;

@@ -15,6 +15,7 @@ class MainWindow : public QMainWindow
 
 public:
 	explicit MainWindow(QMainWindow *parent = 0);
+	~MainWindow();
 	void closeEvent(QCloseEvent* e);
 
 private:

@@ -101,7 +101,14 @@ void MainWindow::clear_widgets_stack()
 {
 	for (auto w : m_filter_widgets)
 	{
+		ui.stack_VL->removeWidget(w);
 		delete(w);
 	}
 	m_filter_widgets.clear();
+}
+
+MainWindow::~MainWindow()
+{
+	//making sure to clear the widget stack
+	clear_widgets_stack();
 }

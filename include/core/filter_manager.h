@@ -129,10 +129,13 @@ public:
 	 */
 	void add_filter_by_name(const char * name);
 
-
+	/**
+	 * @brief Get a list of supported filters
+	 * @return vector of strings
+	 */
 	static vector<string> get_available_filters_name();
 
-
+	vector<Filter *> get_filters_data()const ;
 
 private:
 	/**

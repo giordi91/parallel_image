@@ -58,3 +58,9 @@ Filter * Sharpen_filter::create_filter(const int &width,
 { 
 	return new Sharpen_filter(width,height);
 }
+
+
+std::string Sharpen_filter::get_type()
+{
+	return std::string("Sharpen_filter");	
+}

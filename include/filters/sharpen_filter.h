@@ -51,6 +51,14 @@ public:
      * on the m_detection_type value
      */
     virtual void update_data();
+
+    /**
+     * @brief Retunrs a string with the type of the filter
+     * @return string
+     */
+    virtual std::string get_type();
+
+    
     /**
      * @brief Static fucntion for generating class instance
      * @details This function is used by the factoty class (Filter_manager)

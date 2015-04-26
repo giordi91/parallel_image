@@ -5,5 +5,4 @@ FilterWidget::FilterWidget(QWidget *par)
     : QWidget(par)
 {
 	ui.setupUi(this);
-
 }

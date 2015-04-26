@@ -95,3 +95,9 @@ Filter * Gaussian_filter::create_filter(const int &width,
 { 
 	return new Gaussian_filter(width,height);
 } 
+
+
+std::string Gaussian_filter::get_type()
+{
+	return std::string("Gaussian_filter");	
+}

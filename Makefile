@@ -69,8 +69,7 @@ TEST_OBJS = filter_manager_test.o filter_manager.o \
 			convolution_filter.o convolution_kernel.cu.o convolution.o \
 			stancil.o \
 			attribute_tests.o \
-			ui_tests.o mainwindow.o texturewidget.o moc_texturewidget.o \
-			glsl_program.o glsl_shader.o moc_mainwindow.o
+
 
 
 # TEST_OBJS :=  $(filter-out mainwindow.o main.o,$(OBJS))
