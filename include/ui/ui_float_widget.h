@@ -27,7 +27,7 @@ class Ui_float_widget
 public:
     QHBoxLayout *horizontalLayout;
     QLabel *attributeL;
-    QSlider *valusSL;
+    QSlider *valueSL;
     QDoubleSpinBox *valueDSB;
 
     void setupUi(QWidget *float_widget)
@@ -50,14 +50,16 @@ public:
 
         horizontalLayout->addWidget(attributeL);
 
-        valusSL = new QSlider(float_widget);
-        valusSL->setObjectName(QStringLiteral("valusSL"));
-        valusSL->setOrientation(Qt::Horizontal);
+        valueSL = new QSlider(float_widget);
+        valueSL->setObjectName(QStringLiteral("valueSL"));
+        valueSL->setValue(1);
+        valueSL->setOrientation(Qt::Horizontal);
 
-        horizontalLayout->addWidget(valusSL);
+        horizontalLayout->addWidget(valueSL);
 
         valueDSB = new QDoubleSpinBox(float_widget);
         valueDSB->setObjectName(QStringLiteral("valueDSB"));
+        valueDSB->setValue(1);
 
         horizontalLayout->addWidget(valueDSB);
 

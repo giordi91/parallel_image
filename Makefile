@@ -43,7 +43,8 @@ vpath %.o build
 
 
 #list of object to build
-OBJS = mainwindow.o texturewidget.o filter_widget.o glsl_program.o glsl_shader.o main.o bitmap.o bw_filter.o stancil.o convolution.o \
+OBJS = mainwindow.o texturewidget.o filter_widget.o int_widget.o float_widget.o \
+	 glsl_program.o glsl_shader.o main.o bitmap.o bw_filter.o stancil.o convolution.o \
 	   convolution_filter.o gaussian_filter.o  sharpen_filter.o  \
 	   edge_detection_filter.o bw_kernel.cu.o convolution_kernel.cu.o \
 	   filter_manager.o GPU_manager.o

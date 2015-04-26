@@ -43,14 +43,21 @@
     </widget>
    </item>
    <item>
-    <widget class="QSlider" name="valusSL">
+    <widget class="QSlider" name="valueSL">
+     <property name="value">
+      <number>1</number>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QDoubleSpinBox" name="valueDSB"/>
+    <widget class="QDoubleSpinBox" name="valueDSB">
+     <property name="value">
+      <double>1.000000000000000</double>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
