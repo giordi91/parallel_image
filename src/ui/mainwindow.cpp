@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <ui/filter_widget.h>
 
 using std::vector;
 using std::string;
@@ -77,8 +78,30 @@ void MainWindow::open()
 
 }
 
-void update_stack_widgets()
+void MainWindow::update_stack_widgets()
 {
 
 	std::cout<<"updating stack widgets"<<std::endl;
+	std::cout<<"stack size "<<m_fm->stack_size()<<std::endl;
+
+	clear_widgets_stack();
+	size_t s_size = m_fm->stack_size();
+	QWidget * w;
+	m_filter_widgets.resize(s_size);
+	for(size_t i=0; i<s_size; ++i)
+	{
+		w = new FilterWidget(ui.scrollAreaWidgetContents);
+		ui.stack_VL->addWidget(w);
+		m_filter_widgets[i] = w;  
+	}
+
+}
+
+void MainWindow::clear_widgets_stack()
+{
+	for (auto w : m_filter_widgets)
+	{
+		delete(w);
+	}
+	m_filter_widgets.clear();
 }

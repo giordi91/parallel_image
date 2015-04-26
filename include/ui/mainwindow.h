@@ -2,6 +2,8 @@
 #include <QtWidgets/QMainWindow>
 #include <core/filter_manager.h>
 #include <QtCore/QString>
+#include <QtWidgets/QWidget>
+#include <vector>
 
 #ifndef __PARALLEL_IMAGE_MAINWINDOW_H__
 #define __PARALLEL_IMAGE_MAINWINDOW_H__
@@ -23,9 +25,12 @@ private:
 	 */
 	void update_stack_widgets();
 
+	void clear_widgets_stack();
+
 private:
 	 Ui_MainWindow ui;
 	 Filter_manager * m_fm;
+	 vector<QWidget *> m_filter_widgets;
 
 public slots:
 	
