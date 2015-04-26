@@ -16,11 +16,20 @@ public:
 	void closeEvent(QCloseEvent* e);
 
 private:
+	/**
+	 * @brief This function is called whenever we need
+	 * to refress the stack widgets status, we will clear 
+	 * the stack and rebuild based on the new data.
+	 */
+	void update_stack_widgets();
+
+private:
 	 Ui_MainWindow ui;
-	 Filter_manager * fm;
+	 Filter_manager * m_fm;
 
 public slots:
 	
+	void open();
 	void add_filter();
 
 };

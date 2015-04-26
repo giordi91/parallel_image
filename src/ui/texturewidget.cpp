@@ -107,6 +107,11 @@ void TextureWidget::open()
 
 }
 
+Bitmap * TextureWidget::get_image_data() const
+{
+    return m_texture;
+}
+
 ////////////////// DATA MANAGEMENT ////////////////
 void TextureWidget::clean_up_texture_data()
 {
@@ -248,7 +253,7 @@ void TextureWidget::paintGL()
     {
         return;
     }
-    computeFps();
+    // computeFps();
 
     glClear(GL_COLOR_BUFFER_BIT);
     //binding the needed buffers
@@ -335,11 +340,13 @@ void TextureWidget::mouseMoveEvent(QMouseEvent  *e)
         if (glm::dot(vec2(1.0f,0),delta)>0)
         {
             m_scale+=(len/1000.0f);
-            m_offset+=  vec2(-deltaX,-deltaY);            
+            // m_offset+=  vec2(-m_scale * m_texture->get_width()
+            //                 ,m_scale * m_texture->get_height());             
         }else
         {
             m_scale-=(len/1000.0f);
-            m_offset-=  vec2(deltaX,deltaY);            
+            // m_offset-=  vec2(m_scale * m_texture->get_width()
+            //                 ,m_scale * m_texture->get_height());            
         }
 
         //forcing paint

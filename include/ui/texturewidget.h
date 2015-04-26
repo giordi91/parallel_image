@@ -65,6 +65,10 @@ public:
      */
     void create_vertex_data(const int &width,
                             const int &height);
+    /**
+     * This function returns a pointer to the image class
+     */
+    Bitmap * get_image_data() const; 
 
 
 protected:

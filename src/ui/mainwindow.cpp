@@ -9,7 +9,7 @@ using std::vector;
 using std::string;
 
 MainWindow::MainWindow(QMainWindow *par)
-    : QMainWindow(par) 
+    : QMainWindow(par), m_fm(nullptr) 
 {
     ui.setupUi(this);
     QFile File("src/ui/resources/cuda.stylesheet");
@@ -22,7 +22,7 @@ MainWindow::MainWindow(QMainWindow *par)
 	ui.splitter->setStretchFactor(0, 1);
 	ui.splitter->setStretchFactor(1, 0);
 
-	connect(ui.actionOpen, SIGNAL(triggered()), ui.tex_w, SLOT(open()));
+	connect(ui.actionOpen, SIGNAL(triggered()), this, SLOT(open()));
 	connect(ui.filterPB, SIGNAL(clicked()), this, SLOT(add_filter()));
 
 	//lets populate the combo box with the available filters
@@ -52,6 +52,33 @@ void MainWindow::add_filter()
 {
 	QString filter_name = ui.filterCB->currentText();
     std::cout<<filter_name.toStdString()<<std::endl;
-	// std::cout<<[0]<<std::endl;
+    if (!m_fm)
+    {
+    	return;
+    }
+
+    m_fm->add_filter_by_name(filter_name.toStdString().c_str());
+    update_stack_widgets();
+
 }
 
+
+void MainWindow::open()
+{
+	//open the wanted image
+	ui.tex_w->open();
+	//initialize filter manager
+	if (m_fm)
+	{
+		delete m_fm;
+	}
+
+	m_fm = new Filter_manager(ui.tex_w->get_image_data());
+
+}
+
+void update_stack_widgets()
+{
+
+	std::cout<<"updating stack widgets"<<std::endl;
+}
