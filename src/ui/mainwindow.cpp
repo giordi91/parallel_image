@@ -83,19 +83,34 @@ void MainWindow::update_stack_widgets()
 
 	std::cout<<"updating stack widgets"<<std::endl;
 	std::cout<<"stack size "<<m_fm->stack_size()<<std::endl;
-
+	//clearing the stack
 	clear_widgets_stack();
-	size_t s_size = m_fm->stack_size();
-	QWidget * w;
-	m_filter_widgets.resize(s_size);
-	for(size_t i=0; i<s_size; ++i)
+
+	auto filter_data = m_fm->get_filters_data();
+	FilterWidget * w ;
+
+	for(auto filter_inst: filter_data)
 	{
-		w = new FilterWidget(ui.scrollAreaWidgetContents);
+		w = generate_filter_widget(filter_inst);
 		ui.stack_VL->addWidget(w);
-		m_filter_widgets[i] = w;  
+		m_filter_widgets.push_back(w);  
 	}
 
 }
+
+FilterWidget * MainWindow::generate_filter_widget(Filter * filter_instance)
+{
+	FilterWidget * w = new FilterWidget(ui.scrollAreaWidgetContents);
+	w->set_filter_name(filter_instance->get_type());
+
+	for (auto attr : filter_instance->get_attributes())
+	{
+		std::cout<<attr->type()<<" " <<attr->get_name()<<std::endl;
+	}
+
+	return w;
+}
+
 
 void MainWindow::clear_widgets_stack()
 {
@@ -112,3 +127,4 @@ MainWindow::~MainWindow()
 	//making sure to clear the widget stack
 	clear_widgets_stack();
 }
+

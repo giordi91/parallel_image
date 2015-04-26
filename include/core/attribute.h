@@ -9,6 +9,8 @@ class Attribute {
 		virtual ~Attribute(){};
 
 		virtual std::string type() = 0;	
+		virtual std::string get_name()=0;
+
 
 };
 

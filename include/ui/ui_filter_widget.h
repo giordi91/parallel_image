@@ -47,6 +47,7 @@ public:
         verticalLayout_2->setContentsMargins(-1, 20, -1, -1);
         evalCB = new QCheckBox(mainGB);
         evalCB->setObjectName(QStringLiteral("evalCB"));
+        evalCB->setChecked(true);
 
         verticalLayout_2->addWidget(evalCB);
 

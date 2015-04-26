@@ -51,11 +51,13 @@ OBJS = mainwindow.o texturewidget.o filter_widget.o glsl_program.o glsl_shader.o
 #object with added build path for linking purpose
 F_OBJS = $(addprefix $(BUILD_PATH)/, $(OBJS))
 #the ui file we need to generate
-UI_FORMS = ui_base_window.h ui_filter_widget.h
+UI_FORMS = ui_base_window.h ui_filter_widget.h ui_int_widget.h ui_float_widget.h
 #the moc files we need to extract from header
-MOCS = moc_mainwindow.cpp moc_texturewidget.cpp moc_filter_widget.cpp
+MOCS = moc_mainwindow.cpp moc_texturewidget.cpp moc_filter_widget.cpp \
+		moc_int_widget.cpp moc_float_widget.cpp
 #the moc objs we need to generate from the correspectviev moc*.cpp
-MOCS_OBJS = moc_mainwindow.o moc_texturewidget.o moc_filter_widget.o
+MOCS_OBJS = moc_mainwindow.o moc_texturewidget.o moc_filter_widget.o \
+			moc_int_widget.o moc_float_widget.o
 #the final moc objects that need to be linked
 F_MOCS_OBJS = $(addprefix $(BUILD_PATH)/, $(MOCS_OBJS))
 
