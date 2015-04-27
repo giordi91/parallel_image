@@ -71,13 +71,13 @@ void MainWindow::add_filter()
 void MainWindow::open()
 {
 	//open the wanted image
-	ui.tex_w->open();
 	//initialize filter manager
 	if (m_fm)
 	{
 		delete m_fm;
 	}
 
+	ui.tex_w->open();
 	m_fm = new Filter_manager(ui.tex_w->get_image_data());
 
 }
