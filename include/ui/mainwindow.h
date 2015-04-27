@@ -37,6 +37,7 @@ private:
 	 Ui_MainWindow ui;
 	 Filter_manager * m_fm;
 	 vector<FilterWidget *> m_filter_widgets;
+	 QSpacerItem * m_spacer;
 
 public slots:
 	

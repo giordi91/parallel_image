@@ -7,19 +7,25 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>80</height>
+    <height>91</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Widget</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QGroupBox" name="mainGB">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(103, 103, 103);</string>
+     </property>
      <property name="title">
       <string>FILTER NAME</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <layout class="QVBoxLayout" name="mainVL">
       <property name="topMargin">
        <number>20</number>
       </property>

@@ -5,12 +5,16 @@
 #include <vector>
 #include <string>
 #include <ui/filter_widget.h>
+#include <ui/int_widget.h>
+#include <ui/float_widget.h>
+#include <QtWidgets/QSpacerItem>
+
 
 using std::vector;
 using std::string;
 
 MainWindow::MainWindow(QMainWindow *par)
-    : QMainWindow(par), m_fm(nullptr) 
+    : QMainWindow(par), m_fm(nullptr), m_spacer(nullptr)
 {
     ui.setupUi(this);
     QFile File("src/ui/resources/cuda.stylesheet");
@@ -96,6 +100,9 @@ void MainWindow::update_stack_widgets()
 		m_filter_widgets.push_back(w);  
 	}
 
+	m_spacer = new QSpacerItem(40, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
+	ui.stack_VL->addSpacerItem(m_spacer);
+
 }
 
 FilterWidget * MainWindow::generate_filter_widget(Filter * filter_instance)
@@ -106,6 +113,22 @@ FilterWidget * MainWindow::generate_filter_widget(Filter * filter_instance)
 	for (auto attr : filter_instance->get_attributes())
 	{
 		std::cout<<attr->type()<<" " <<attr->get_name()<<std::endl;
+		std::string t = attr->type();
+		if ( t == "m" )
+		{
+		    IntWidget * iw = new IntWidget(w,attr);
+		    w->ui.mainVL->addWidget(iw);
+			iw->ui.attributeL->setText((attr->get_name()+ ":").c_str());
+		}
+		else if (t == "f")
+		{
+		    FloatWidget * fw = new FloatWidget(w,attr);
+			w->ui.mainVL->addWidget(fw);
+			fw->ui.attributeL->setText((attr->get_name()+ ":").c_str());
+		}
+
+
+		
 	}
 
 	return w;
@@ -120,6 +143,12 @@ void MainWindow::clear_widgets_stack()
 		delete(w);
 	}
 	m_filter_widgets.clear();
+
+	if (m_spacer)
+	{
+		ui.stack_VL->removeItem(m_spacer);
+		delete m_spacer;
+	}
 }
 
 MainWindow::~MainWindow()

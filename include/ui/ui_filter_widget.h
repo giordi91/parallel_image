@@ -26,30 +26,32 @@ class Ui_Filter_Widget
 public:
     QVBoxLayout *verticalLayout;
     QGroupBox *mainGB;
-    QVBoxLayout *verticalLayout_2;
+    QVBoxLayout *mainVL;
     QCheckBox *evalCB;
 
     void setupUi(QWidget *Filter_Widget)
     {
         if (Filter_Widget->objectName().isEmpty())
             Filter_Widget->setObjectName(QStringLiteral("Filter_Widget"));
-        Filter_Widget->resize(400, 80);
+        Filter_Widget->resize(400, 91);
+        Filter_Widget->setStyleSheet(QStringLiteral(""));
         verticalLayout = new QVBoxLayout(Filter_Widget);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         mainGB = new QGroupBox(Filter_Widget);
         mainGB->setObjectName(QStringLiteral("mainGB"));
-        verticalLayout_2 = new QVBoxLayout(mainGB);
-        verticalLayout_2->setSpacing(6);
-        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
-        verticalLayout_2->setContentsMargins(-1, 20, -1, -1);
+        mainGB->setStyleSheet(QStringLiteral("background-color: rgb(103, 103, 103);"));
+        mainVL = new QVBoxLayout(mainGB);
+        mainVL->setSpacing(6);
+        mainVL->setContentsMargins(11, 11, 11, 11);
+        mainVL->setObjectName(QStringLiteral("mainVL"));
+        mainVL->setContentsMargins(-1, 20, -1, -1);
         evalCB = new QCheckBox(mainGB);
         evalCB->setObjectName(QStringLiteral("evalCB"));
         evalCB->setChecked(true);
 
-        verticalLayout_2->addWidget(evalCB);
+        mainVL->addWidget(evalCB);
 
 
         verticalLayout->addWidget(mainGB);

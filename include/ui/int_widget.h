@@ -16,8 +16,8 @@ public:
 	explicit IntWidget(QWidget *parent = 0, Attribute * attr=nullptr);
 
 
-private:
 	Ui_int_widget ui;
+private:
 	AttributeTyped<int> * m_attribute;
 public slots:
 

@@ -15,8 +15,8 @@ class FloatWidget : public QWidget
 public:
 	explicit FloatWidget(QWidget *parent = 0, Attribute * attr=nullptr);
 
-private:
 	Ui_float_widget ui;
+private:
 	AttributeTyped<float> * m_attribute;
 signals:
 

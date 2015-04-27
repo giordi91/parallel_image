@@ -175,7 +175,7 @@ public:
         StackGB->setObjectName(QStringLiteral("StackGB"));
         sizePolicy.setHeightForWidth(StackGB->sizePolicy().hasHeightForWidth());
         StackGB->setSizePolicy(sizePolicy);
-        StackGB->setMinimumSize(QSize(200, 0));
+        StackGB->setMinimumSize(QSize(300, 0));
         verticalLayout_2 = new QVBoxLayout(StackGB);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
@@ -183,6 +183,11 @@ public:
         verticalLayout_2->setContentsMargins(-1, 20, -1, -1);
         stackSCL = new QScrollArea(StackGB);
         stackSCL->setObjectName(QStringLiteral("stackSCL"));
+        QSizePolicy sizePolicy4(QSizePolicy::Minimum, QSizePolicy::Preferred);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(0);
+        sizePolicy4.setHeightForWidth(stackSCL->sizePolicy().hasHeightForWidth());
+        stackSCL->setSizePolicy(sizePolicy4);
         stackSCL->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));

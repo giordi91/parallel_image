@@ -17,8 +17,8 @@ public:
 
 	void set_filter_name(std::string name);
 
-private:
 	Ui_Filter_Widget ui;
+private:
 public slots:
 	
 };
