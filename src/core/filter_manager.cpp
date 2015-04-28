@@ -182,6 +182,7 @@ void Filter_manager::copy_input_buffer()
 void Filter_manager::swap_buffers(size_t current_index,
 					  				size_t final_index)
 {
+
 	working_buffer = target_buffer;
 	target_buffer = source_buffer;
 	source_buffer = working_buffer;
@@ -198,6 +199,7 @@ void Filter_manager::swap_buffers(size_t current_index,
 
 void Filter_manager::setup_buffers()
 {
+	copy_input_buffer();
 	if (m_comp_type == SERIAL || m_comp_type == TBB)
 	{
 		source_buffer = m_input_copy;
@@ -205,6 +207,8 @@ void Filter_manager::setup_buffers()
 	}
 	else if (m_comp_type == CUDA)
 	{
+	    m_gpu_manager->copy_data_to_device(m_input_copy, 
+									m_gpu_manager->get_source_buffer() );	
 		source_buffer = m_gpu_manager->get_source_buffer();
 		target_buffer = m_gpu_manager->get_target_buffer();
 	}

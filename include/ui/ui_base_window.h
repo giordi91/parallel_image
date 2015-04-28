@@ -13,7 +13,6 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
@@ -59,7 +58,6 @@ public:
     QScrollArea *stackSCL;
     QWidget *scrollAreaWidgetContents;
     QVBoxLayout *stack_VL;
-    QCheckBox *test;
     QMenuBar *menuBar;
     QMenu *menuOpen;
     QStatusBar *statusBar;
@@ -198,11 +196,6 @@ public:
         stack_VL->setContentsMargins(11, 11, 11, 11);
         stack_VL->setObjectName(QStringLiteral("stack_VL"));
         stack_VL->setContentsMargins(4, 4, 4, -1);
-        test = new QCheckBox(scrollAreaWidgetContents);
-        test->setObjectName(QStringLiteral("test"));
-
-        stack_VL->addWidget(test);
-
         stackSCL->setWidget(scrollAreaWidgetContents);
 
         verticalLayout_2->addWidget(stackSCL);
@@ -249,7 +242,6 @@ public:
         filterPB->setText(QApplication::translate("MainWindow", "ADD", 0));
         ImageGB->setTitle(QApplication::translate("MainWindow", "Image", 0));
         StackGB->setTitle(QApplication::translate("MainWindow", "Stack", 0));
-        test->setText(QApplication::translate("MainWindow", "CheckBox", 0));
         menuOpen->setTitle(QApplication::translate("MainWindow", "File", 0));
     } // retranslateUi
 

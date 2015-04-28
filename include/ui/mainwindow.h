@@ -20,6 +20,7 @@ public:
 	~MainWindow();
 	void closeEvent(QCloseEvent* e);
 
+	void update_image();
 private:
 	/**
 	 * @brief This function is called whenever we need
@@ -32,7 +33,6 @@ private:
 
 	FilterWidget * generate_filter_widget(Filter * filter_instance);
 
-	void update_image();
 
 private:
 	 Ui_MainWindow ui;

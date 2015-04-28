@@ -22,9 +22,6 @@ MainWindow::MainWindow(QMainWindow *par)
     QString StyleSheet = QLatin1String(File.readAll());
     qApp->setStyleSheet(StyleSheet);
     
-    // ui.test->setStyleSheet("image: url(src/ui/resources/checkbox.png)");
-    // ui.test->setStyleSheet("");
-	// ui.ImageGB->setStyleSheet("color: rgb(182, 0, 0);");
 	ui.splitter->setStretchFactor(0, 1);
 	ui.splitter->setStretchFactor(1, 0);
 
@@ -118,7 +115,7 @@ FilterWidget * MainWindow::generate_filter_widget(Filter * filter_instance)
 		std::string t = attr->type();
 		if ( t == "m" )
 		{
-		    IntWidget * iw = new IntWidget(w,attr);
+		    IntWidget * iw = new IntWidget(w,attr,this);
 		    w->ui.mainVL->addWidget(iw);
 			iw->ui.attributeL->setText((attr->get_name()+ ":").c_str());
 		}
