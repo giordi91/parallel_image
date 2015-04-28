@@ -174,7 +174,11 @@ void Filter_manager::evaluate_stack()
 void Filter_manager::copy_input_buffer()
 {
     size_t buffer_size = m_bmp->get_width()*m_bmp->get_height()*3*(size_t)sizeof(uint8_t);
-	m_input_copy = new uint8_t[buffer_size];
+    if (!m_input_copy)
+    {
+		m_input_copy = new uint8_t[buffer_size];
+    }
+
 	memcpy(m_input_copy, m_bmp->getRawData(), buffer_size);
 }
 
@@ -199,6 +203,7 @@ void Filter_manager::swap_buffers(size_t current_index,
 
 void Filter_manager::setup_buffers()
 {
+	//copying a fresh copy of the input
 	copy_input_buffer();
 	if (m_comp_type == SERIAL || m_comp_type == TBB)
 	{
@@ -207,8 +212,10 @@ void Filter_manager::setup_buffers()
 	}
 	else if (m_comp_type == CUDA)
 	{
+	    //if cuda let s do a fresh copy on the gpu aswell
 	    m_gpu_manager->copy_data_to_device(m_input_copy, 
 									m_gpu_manager->get_source_buffer() );	
+		//setup the buffers for the gpu
 		source_buffer = m_gpu_manager->get_source_buffer();
 		target_buffer = m_gpu_manager->get_target_buffer();
 	}

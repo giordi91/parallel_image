@@ -115,13 +115,13 @@ FilterWidget * MainWindow::generate_filter_widget(Filter * filter_instance)
 		std::string t = attr->type();
 		if ( t == "m" )
 		{
-		    IntWidget * iw = new IntWidget(w,attr,this);
+		    IntWidget * iw = new IntWidget(w,attr,this,filter_instance);
 		    w->ui.mainVL->addWidget(iw);
 			iw->ui.attributeL->setText((attr->get_name()+ ":").c_str());
 		}
 		else if (t == "f")
 		{
-		    FloatWidget * fw = new FloatWidget(w,attr);
+		    FloatWidget * fw = new FloatWidget(w,attr,this,filter_instance);
 			w->ui.mainVL->addWidget(fw);
 			fw->ui.attributeL->setText((attr->get_name()+ ":").c_str());
 		}
