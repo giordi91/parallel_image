@@ -162,7 +162,7 @@ QComboBox::drop-down
 
 QComboBox::down-arrow
 {
-     image: url(:/down_arrow.png);
+     image: url(src/ui/resources/down_arrow.png);
 }
 
 
@@ -462,11 +462,7 @@ QRadioButton::indicator:hover, QCheckBox::indicator:hover
     border: 1px solid #00E600;
 }
 
-QCheckBox::indicator:checked
-{
-    image:url(:/images/checkbox.png);
-}
-
+QCheckBox::indicator:checked{image: url(src/ui/resources/checkboxG.png);}
 QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
 {
     border: 1px solid #444;

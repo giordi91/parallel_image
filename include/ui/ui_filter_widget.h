@@ -41,7 +41,7 @@ public:
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         mainGB = new QGroupBox(Filter_Widget);
         mainGB->setObjectName(QStringLiteral("mainGB"));
-        mainGB->setStyleSheet(QStringLiteral("background-color: rgb(103, 103, 103);"));
+        mainGB->setStyleSheet(QStringLiteral(""));
         mainVL = new QVBoxLayout(mainGB);
         mainVL->setSpacing(6);
         mainVL->setContentsMargins(11, 11, 11, 11);
@@ -49,6 +49,7 @@ public:
         mainVL->setContentsMargins(-1, 20, -1, -1);
         evalCB = new QCheckBox(mainGB);
         evalCB->setObjectName(QStringLiteral("evalCB"));
+        evalCB->setStyleSheet(QStringLiteral(""));
         evalCB->setChecked(true);
 
         mainVL->addWidget(evalCB);

@@ -22,13 +22,15 @@ MainWindow::MainWindow(QMainWindow *par)
     QString StyleSheet = QLatin1String(File.readAll());
     qApp->setStyleSheet(StyleSheet);
     
-    // this->setStyleSheet("background-image: url(src/ui/resources/background.jpg)");
-	ui.ImageGB->setStyleSheet("background-image: url(src/ui/resources/background.jpg);");
+    // ui.test->setStyleSheet("image: url(src/ui/resources/checkbox.png)");
+    // ui.test->setStyleSheet("");
+	// ui.ImageGB->setStyleSheet("color: rgb(182, 0, 0);");
 	ui.splitter->setStretchFactor(0, 1);
 	ui.splitter->setStretchFactor(1, 0);
 
 	connect(ui.actionOpen, SIGNAL(triggered()), this, SLOT(open()));
 	connect(ui.filterPB, SIGNAL(clicked()), this, SLOT(add_filter()));
+	connect(ui.compCB, SIGNAL(currentIndexChanged(int)), this, SLOT(set_computation(int)));
 
 	//lets populate the combo box with the available filters
 	vector<string> vec = Filter_manager::get_available_filters_name();
@@ -64,6 +66,7 @@ void MainWindow::add_filter()
 
     m_fm->add_filter_by_name(filter_name.toStdString().c_str());
     update_stack_widgets();
+    update_image();
 }
 
 
@@ -112,7 +115,7 @@ FilterWidget * MainWindow::generate_filter_widget(Filter * filter_instance)
 	for (auto attr : filter_instance->get_attributes())
 	{
 		// std::cout<<attr->type()<<" " <<attr->get_name()<<std::endl;
-		// std::string t = attr->type();
+		std::string t = attr->type();
 		if ( t == "m" )
 		{
 		    IntWidget * iw = new IntWidget(w,attr);
@@ -150,9 +153,36 @@ void MainWindow::clear_widgets_stack()
 	}
 }
 
+void MainWindow::update_image()
+{
+    m_fm->evaluate_stack();
+    ui.tex_w->upload_cpu_buffer(m_fm->get_output_buffer());
+
+}
+
 MainWindow::~MainWindow()
 {
 	//making sure to clear the widget stack
 	clear_widgets_stack();
 }
 
+void MainWindow::set_computation(int comp_type)
+{
+	if (m_fm)
+	{
+		switch(comp_type)
+		{
+			case 0:
+				m_fm->set_compute_type(Filter_manager::SERIAL);
+				break;
+			case 1:
+				m_fm->set_compute_type(Filter_manager::TBB);
+				break;			
+			case 2:
+				m_fm->set_compute_type(Filter_manager::CUDA);
+				break;
+		}
+		
+
+	}
+}

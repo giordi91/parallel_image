@@ -93,7 +93,7 @@ void TextureWidget::open_bmp_from_disk(const char * path)
     fit_to_screen();
 }
 
-void TextureWidget::upload_cpu_buffer(uint8_t * buffer, int width, int height)
+void TextureWidget::upload_cpu_buffer(uint8_t * buffer)
 {
     
     float w = (float)m_texture->get_width();

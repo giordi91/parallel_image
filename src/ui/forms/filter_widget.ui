@@ -20,7 +20,7 @@
    <item>
     <widget class="QGroupBox" name="mainGB">
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(103, 103, 103);</string>
+      <string notr="true"/>
      </property>
      <property name="title">
       <string>FILTER NAME</string>
@@ -31,6 +31,9 @@
       </property>
       <item>
        <widget class="QCheckBox" name="evalCB">
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
         <property name="text">
          <string>evaluate</string>
         </property>

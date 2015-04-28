@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
@@ -38,8 +39,8 @@ public:
     QAction *actionSave;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout_3;
-    QGroupBox *groupBox;
-    QHBoxLayout *horizontalLayout;
+    QWidget *widget;
+    QHBoxLayout *horizontalLayout_4;
     QGroupBox *compGB;
     QHBoxLayout *horizontalLayout_2;
     QLabel *compL;
@@ -58,6 +59,7 @@ public:
     QScrollArea *stackSCL;
     QWidget *scrollAreaWidgetContents;
     QVBoxLayout *stack_VL;
+    QCheckBox *test;
     QMenuBar *menuBar;
     QMenu *menuOpen;
     QStatusBar *statusBar;
@@ -77,26 +79,20 @@ public:
         verticalLayout_3->setSpacing(6);
         verticalLayout_3->setContentsMargins(11, 11, 11, 11);
         verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
-        groupBox = new QGroupBox(centralWidget);
-        groupBox->setObjectName(QStringLiteral("groupBox"));
-        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(groupBox->sizePolicy().hasHeightForWidth());
-        groupBox->setSizePolicy(sizePolicy);
-        groupBox->setMinimumSize(QSize(0, 50));
-        horizontalLayout = new QHBoxLayout(groupBox);
-        horizontalLayout->setSpacing(2);
-        horizontalLayout->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        horizontalLayout->setContentsMargins(2, 2, 2, 2);
-        compGB = new QGroupBox(groupBox);
+        widget = new QWidget(centralWidget);
+        widget->setObjectName(QStringLiteral("widget"));
+        horizontalLayout_4 = new QHBoxLayout(widget);
+        horizontalLayout_4->setSpacing(1);
+        horizontalLayout_4->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        horizontalLayout_4->setContentsMargins(1, 1, 1, 1);
+        compGB = new QGroupBox(widget);
         compGB->setObjectName(QStringLiteral("compGB"));
         horizontalLayout_2 = new QHBoxLayout(compGB);
-        horizontalLayout_2->setSpacing(2);
+        horizontalLayout_2->setSpacing(5);
         horizontalLayout_2->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        horizontalLayout_2->setContentsMargins(2, 2, 2, 2);
+        horizontalLayout_2->setContentsMargins(5, 5, 5, 5);
         compL = new QLabel(compGB);
         compL->setObjectName(QStringLiteral("compL"));
 
@@ -108,15 +104,15 @@ public:
         horizontalLayout_2->addWidget(compCB);
 
 
-        horizontalLayout->addWidget(compGB);
+        horizontalLayout_4->addWidget(compGB);
 
-        filterGB = new QGroupBox(groupBox);
+        filterGB = new QGroupBox(widget);
         filterGB->setObjectName(QStringLiteral("filterGB"));
         horizontalLayout_3 = new QHBoxLayout(filterGB);
         horizontalLayout_3->setSpacing(5);
         horizontalLayout_3->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        horizontalLayout_3->setContentsMargins(2, 2, 2, 2);
+        horizontalLayout_3->setContentsMargins(5, 5, 5, 5);
         filterL = new QLabel(filterGB);
         filterL->setObjectName(QStringLiteral("filterL"));
 
@@ -130,36 +126,36 @@ public:
 
         filterPB = new QPushButton(filterGB);
         filterPB->setObjectName(QStringLiteral("filterPB"));
-        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(filterPB->sizePolicy().hasHeightForWidth());
-        filterPB->setSizePolicy(sizePolicy1);
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(filterPB->sizePolicy().hasHeightForWidth());
+        filterPB->setSizePolicy(sizePolicy);
         filterPB->setMinimumSize(QSize(0, 0));
 
         horizontalLayout_3->addWidget(filterPB);
 
 
-        horizontalLayout->addWidget(filterGB);
+        horizontalLayout_4->addWidget(filterGB);
 
 
-        verticalLayout_3->addWidget(groupBox);
+        verticalLayout_3->addWidget(widget);
 
         splitter = new QSplitter(centralWidget);
         splitter->setObjectName(QStringLiteral("splitter"));
-        QSizePolicy sizePolicy2(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(splitter->sizePolicy().hasHeightForWidth());
-        splitter->setSizePolicy(sizePolicy2);
+        QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(splitter->sizePolicy().hasHeightForWidth());
+        splitter->setSizePolicy(sizePolicy1);
         splitter->setOrientation(Qt::Horizontal);
         ImageGB = new QGroupBox(splitter);
         ImageGB->setObjectName(QStringLiteral("ImageGB"));
-        QSizePolicy sizePolicy3(QSizePolicy::Expanding, QSizePolicy::Preferred);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(ImageGB->sizePolicy().hasHeightForWidth());
-        ImageGB->setSizePolicy(sizePolicy3);
+        QSizePolicy sizePolicy2(QSizePolicy::Expanding, QSizePolicy::Preferred);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(ImageGB->sizePolicy().hasHeightForWidth());
+        ImageGB->setSizePolicy(sizePolicy2);
         verticalLayout = new QVBoxLayout(ImageGB);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
@@ -167,14 +163,19 @@ public:
         verticalLayout->setContentsMargins(-1, 20, -1, -1);
         tex_w = new TextureWidget(ImageGB);
         tex_w->setObjectName(QStringLiteral("tex_w"));
+        filterGB->raise();
+        compGB->raise();
 
         verticalLayout->addWidget(tex_w);
 
         splitter->addWidget(ImageGB);
         StackGB = new QGroupBox(splitter);
         StackGB->setObjectName(QStringLiteral("StackGB"));
-        sizePolicy.setHeightForWidth(StackGB->sizePolicy().hasHeightForWidth());
-        StackGB->setSizePolicy(sizePolicy);
+        QSizePolicy sizePolicy3(QSizePolicy::Preferred, QSizePolicy::Minimum);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(StackGB->sizePolicy().hasHeightForWidth());
+        StackGB->setSizePolicy(sizePolicy3);
         StackGB->setMinimumSize(QSize(300, 0));
         verticalLayout_2 = new QVBoxLayout(StackGB);
         verticalLayout_2->setSpacing(6);
@@ -191,12 +192,17 @@ public:
         stackSCL->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 645, 410));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 645, 424));
         stack_VL = new QVBoxLayout(scrollAreaWidgetContents);
         stack_VL->setSpacing(6);
         stack_VL->setContentsMargins(11, 11, 11, 11);
         stack_VL->setObjectName(QStringLiteral("stack_VL"));
         stack_VL->setContentsMargins(4, 4, 4, -1);
+        test = new QCheckBox(scrollAreaWidgetContents);
+        test->setObjectName(QStringLiteral("test"));
+
+        stack_VL->addWidget(test);
+
         stackSCL->setWidget(scrollAreaWidgetContents);
 
         verticalLayout_2->addWidget(stackSCL);
@@ -230,7 +236,6 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
         actionOpen->setText(QApplication::translate("MainWindow", "Open", 0));
         actionSave->setText(QApplication::translate("MainWindow", "Save", 0));
-        groupBox->setTitle(QString());
         compGB->setTitle(QString());
         compL->setText(QApplication::translate("MainWindow", "Computation:", 0));
         compCB->clear();
@@ -244,6 +249,7 @@ public:
         filterPB->setText(QApplication::translate("MainWindow", "ADD", 0));
         ImageGB->setTitle(QApplication::translate("MainWindow", "Image", 0));
         StackGB->setTitle(QApplication::translate("MainWindow", "Stack", 0));
+        test->setText(QApplication::translate("MainWindow", "CheckBox", 0));
         menuOpen->setTitle(QApplication::translate("MainWindow", "File", 0));
     } // retranslateUi
 

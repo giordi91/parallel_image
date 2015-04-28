@@ -32,6 +32,7 @@ private:
 
 	FilterWidget * generate_filter_widget(Filter * filter_instance);
 
+	void update_image();
 
 private:
 	 Ui_MainWindow ui;
@@ -39,11 +40,11 @@ private:
 	 vector<FilterWidget *> m_filter_widgets;
 	 QSpacerItem * m_spacer;
 
-public slots:
+private slots:
 	
 	void open();
 	void add_filter();
-
+	void set_computation(int compt_type);
 };
 
 #endif
