@@ -93,6 +93,24 @@ void TextureWidget::open_bmp_from_disk(const char * path)
     fit_to_screen();
 }
 
+void TextureWidget::upload_cpu_buffer(uint8_t * buffer, int width, int height)
+{
+    
+    float w = (float)m_texture->get_width();
+    float h = (float)m_texture->get_height();
+    //manually setting up the texture parameters
+    m_texture_buffer->bind();
+   
+    glTexImage2D(GL_TEXTURE_2D,
+                 0, GL_RGB,
+                 w, h, 0,
+                 GL_RGB, GL_UNSIGNED_BYTE,
+                 buffer);
+    m_texture_buffer->generateMipMaps();
+    update();
+}
+
+
 void TextureWidget::open()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
@@ -103,6 +121,7 @@ void TextureWidget::open()
     }
     //TODO CHECK FOR EXCEPTION THROW
     open_bmp_from_disk( fileName.toLocal8Bit().constData());
+
 
 
 }

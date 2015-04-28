@@ -137,6 +137,8 @@ public:
 
 	vector<Filter *> get_filters_data()const ;
 
+	uint8_t * get_output_buffer();
+
 private:
 	/**
 	 * @brief swapping the buffer between one filter and the other

@@ -246,3 +246,9 @@ vector<Filter *> Filter_manager::get_filters_data()const
 {
 	return m_filters;
 }
+
+
+uint8_t * Filter_manager::get_output_buffer()
+{
+	return m_out_bmp->getRawData();
+}

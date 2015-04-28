@@ -71,6 +71,10 @@ public:
     Bitmap * get_image_data() const; 
 
 
+    void upload_cpu_buffer(uint8_t * buffer, int width, int height);
+
+
+
 protected:
     /**
      * @brief Mouse event for manipulating the texture,

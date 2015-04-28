@@ -64,7 +64,6 @@ void MainWindow::add_filter()
 
     m_fm->add_filter_by_name(filter_name.toStdString().c_str());
     update_stack_widgets();
-
 }
 
 
@@ -79,14 +78,14 @@ void MainWindow::open()
 
 	ui.tex_w->open();
 	m_fm = new Filter_manager(ui.tex_w->get_image_data());
-
+	update_stack_widgets();
 }
 
 void MainWindow::update_stack_widgets()
 {
 
-	std::cout<<"updating stack widgets"<<std::endl;
-	std::cout<<"stack size "<<m_fm->stack_size()<<std::endl;
+	// std::cout<<"updating stack widgets"<<std::endl;
+	// std::cout<<"stack size "<<m_fm->stack_size()<<std::endl;
 	//clearing the stack
 	clear_widgets_stack();
 
@@ -112,8 +111,8 @@ FilterWidget * MainWindow::generate_filter_widget(Filter * filter_instance)
 
 	for (auto attr : filter_instance->get_attributes())
 	{
-		std::cout<<attr->type()<<" " <<attr->get_name()<<std::endl;
-		std::string t = attr->type();
+		// std::cout<<attr->type()<<" " <<attr->get_name()<<std::endl;
+		// std::string t = attr->type();
 		if ( t == "m" )
 		{
 		    IntWidget * iw = new IntWidget(w,attr);
